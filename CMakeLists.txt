@@ -7,15 +7,25 @@ project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
 
 SET (PROJECT_ROOT ".")
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
-include_directories(${PROJECT_SRC})
+
+find_package(LibUSB)
+
+include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR})
 
 ###
 # libroukavici
 ###
+
 add_library(${PROJ_NAME} SHARED
 ${PROJECT_SRC}/exported.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
 )
+
+if (WIN32)
+    target_compile_definitions(${PROJ_NAME} WIN_EXPORT=1)
+endif (WIN32)
+
+target_link_libraries(${PROJ_NAME} ${LIBUSB_LIBRARY})
 
 set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 0)
 
