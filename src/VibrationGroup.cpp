@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "VibrationGroup.hh"
+#include "DeviceManager.hh"
 
 VibrationGroup::VibrationGroup(const std::string& name) : name(name)
 {
@@ -9,12 +10,7 @@ VibrationGroup::~VibrationGroup()
 {
 }
 
-/// Adds a motor to the current group
-/**
- * 0: Success
- * 1: Motor already in the group
- */
-int VibrationGroup::Add(int motor)
+int VibrationGroup::Add(char motor)
 {
   if (std::find(motors.begin(), motors.end(), motor) != motors.end())
     return 1;
@@ -22,16 +18,19 @@ int VibrationGroup::Add(int motor)
   return 0;
 }
 
-/// Removes a motor from the current group
-/**
- * 0: Success
- * 1: Motor not in the group
- */
-int VibrationGroup::Rm(int motor)
+int VibrationGroup::Rm(char motor)
 {
   auto mtr = std::find(motors.begin(), motors.end(), motor);
   if (mtr == motors.end())
     return 1;
   motors.erase(mtr);
   return 0;
+}
+#include <iostream>
+void VibrationGroup::Vibrate(char intensity, const DeviceManager* dm) const
+{
+  for (auto motor = motors.begin() ; motor != motors.end() ; motor++)
+    {
+      dm->Vibrate(*motor, intensity);
+    }
 }

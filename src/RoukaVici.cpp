@@ -5,7 +5,7 @@
 
 RoukaVici::RoukaVici() : dm(new TextManager())
 {
-  int err = dm->FindRPi();
+  dm->FindDevice();
 }
 
 RoukaVici::~RoukaVici()
@@ -17,20 +17,29 @@ RoukaVici::~RoukaVici()
   delete dm;
 }
 
-/// Lets the developer write any string to the device.
-/**
- * Used for debugging purposes
- */
-void RoukaVici::Write(const std::string& msg)
+int RoukaVici::Status()
 {
-  dm->WriteToRPi(msg);
+  if (!dm->HasDevice())
+    return 1;
+  return 0;
 }
 
-/// Create a new vibration group
-/**
- * 0: Success
- * 1: Group already exists
- */
+int RoukaVici::FindDevice()
+{
+  dm->FindDevice();
+  return dm->HasDevice() ? 0 : 1;
+}
+
+void RoukaVici::Write(const std::string& msg) const
+{
+  dm->Write(msg);
+}
+
+void RoukaVici::Vibrate(char motor, char intensity) const
+{
+  dm->Vibrate(motor, intensity);
+}
+
 int RoukaVici::NewGroup(const std::string& name)
 {
   if (groups.find(name) != groups.end())
@@ -39,13 +48,7 @@ int RoukaVici::NewGroup(const std::string& name)
   return 0;
 }
 
-/// Add motor to group
-/**
- * 0: Success
- * 1: Motor already in group
- * 2: No such group
- */
-int RoukaVici::AddToGroup(const std::string& name, int motor)
+int RoukaVici::AddToGroup(const std::string& name, char motor)
 {
   auto grp = groups.find(name);
   if (grp == groups.end())
@@ -53,16 +56,18 @@ int RoukaVici::AddToGroup(const std::string& name, int motor)
   return grp->second->Add(motor);
 }
 
-/// Remove motor from group
-/**
- * 0: Success
- * 1: Motor not in group
- * 2: No such group
- */
-int RoukaVici::RmFromGroup(const std::string& name, int motor)
+int RoukaVici::RmFromGroup(const std::string& name, char motor)
 {
   auto grp = groups.find(name);
   if (grp == groups.end())
     return 2;
   return grp->second->Rm(motor);
+}
+
+void RoukaVici::VibrateGroup(const std::string& name, char intensity) const
+{
+  auto grp = groups.find(name);
+  if (grp == groups.end())
+    return;
+  grp->second->Vibrate(intensity, dm);
 }

@@ -13,6 +13,8 @@ public:
   TextManager();
   ~TextManager();
 
-  virtual int FindRPi();
-  virtual void WriteToRPi(const std::string& msg);
+  virtual int FindDevice();
+  virtual bool HasDevice() const;
+  virtual void Write(const std::string& msg) const;
+  virtual void Vibrate(char motor, char intensity) const;
 };

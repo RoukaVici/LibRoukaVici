@@ -14,11 +14,14 @@ public:
   /**
    * Returns 0 on success, see child classes for error codes
    */
-  virtual int FindRPi() = 0;
+  virtual int FindDevice() = 0;
+
+  /// Indicates whether the manager has found the device
+  virtual bool HasDevice() const = 0;
 
   /// Writes a string to the device directly
-  /**
-   * Mostly used for debugging
-   */
-  virtual void WriteToRPi(const std::string& msg) = 0;
+  virtual void Write(const std::string& msg) const = 0;
+
+  // Vibrate given motor with given intensity
+  virtual void Vibrate(char motor, char intensity) const = 0;
 };

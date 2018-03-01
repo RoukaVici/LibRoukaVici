@@ -16,7 +16,23 @@ EXPORTED class RoukaVici
   /**
    * Used for debugging purposes
    */
-  void Write(const std::string& msg);
+  void Write(const std::string& msg) const;
+
+  /// Simple vibration
+  void Vibrate(char motor, char intensity) const;
+
+  /// Returns values indicating current status
+  /**
+   * 0: No errors
+   * 1: Device not found
+   */
+  int Status();
+
+  /// Orders the device manager to find a device
+  /**
+   * Returns 0 if found, 1 otherwise
+   */
+  int FindDevice();
 
   /// Create a new vibration group
   /**
@@ -30,14 +46,17 @@ EXPORTED class RoukaVici
    * 1: Motor already in group
    * 2: No such group
    */
-  int AddToGroup(const std::string& name, int motor);
+  int AddToGroup(const std::string& name, char motor);
   /// Remove motor from group
   /**
    * 0: Success
    * 1: Motor not in group
    * 2: No such group
    */
-  int RmFromGroup(const std::string& name, int motor);
+  int RmFromGroup(const std::string& name, char motor);
+
+  /// Vibrates the given group at the given intensity
+  void VibrateGroup(const std::string& name, char intensity) const;
 
 private:
   DeviceManager                 *dm;

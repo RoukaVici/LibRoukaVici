@@ -1,11 +1,46 @@
 #include <dlfcn.h>
+#include <unistd.h>
 #include <iostream>
+
+void testVibrate(void* handle)
+{
+  // std::cout << "## TEST 1" << std::endl;
+  void (*vibrate)(char, char);
+  *(void**)(&vibrate) = dlsym(handle, "Vibrate");
+  // std::cout << "Turning on motor 0" << std::endl;
+  vibrate(0, 255);
+  sleep(1);
+  // std::cout << "Turning off motor 0" << std::endl;
+  vibrate(0, 0);
+  sleep(1);
+}
+
+void  testGroups(void* handle)
+{
+  // std::cout << "## TEST 2" << std::endl;
+  void (*newGroup)(const char* const);
+  void (*addToGroup)(const char* const, char);
+  void (*vibrateGroup)(const char* const, char);
+  *(void**)(&newGroup) = dlsym(handle, "NewGroup");
+  *(void**)(&addToGroup) = dlsym(handle, "AddToGroup");
+  *(void**)(&vibrateGroup) = dlsym(handle, "VibrateGroup");
+
+  // Create a group which has motors 0 and 1, then make them vibrate for a second
+  newGroup("mygroup");
+  addToGroup("mygroup", 0);
+  addToGroup("mygroup", 1);
+  // std::cout << "Turning on motors 0 & 1" << std::endl;
+  vibrateGroup("mygroup", 255);
+  sleep(1);
+  // std::cout << "Turning off motors 0 & 1" << std::endl;
+  vibrateGroup("mygroup", 0);
+  sleep(1);
+}
 
 int main(int argc, char **argv)
 {
   void (*initrvici)();
   void (*stoprvici)();
-  void (*writeToRpi)(const char* const);
   void* handle = dlopen("libroukavici.so", RTLD_LAZY);
   if (!handle)
     {
@@ -14,9 +49,9 @@ int main(int argc, char **argv)
     }
   *(void**)(&initrvici) = dlsym(handle, "InitRVici");
   *(void**)(&stoprvici) = dlsym(handle, "StopRVici");
-  *(void**)(&writeToRpi) = dlsym(handle, "Write");
   initrvici();
-  writeToRpi("Hello world");
+  testVibrate(handle);
+  testGroups(handle);
   stoprvici();
   return 0;
 }
