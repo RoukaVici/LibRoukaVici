@@ -7,6 +7,11 @@
 class DeviceManager;
 class VibrationGroup;
 
+/// This class contains all the exposed public API methods
+/**
+ * In a C++ project, it can be created directly, without using the exposed C functions,
+ * and without losing any of the API methods.
+ */
 EXPORTED class RoukaVici
 {
  public:
