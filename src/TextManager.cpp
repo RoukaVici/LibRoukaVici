@@ -3,17 +3,15 @@
 
 TextManager::TextManager()
 {
-  
 }
 
 TextManager::~TextManager()
 {
-  
 }
 
 int TextManager::FindRPi()
 {
-  return 0;
+  return 0; // Always succeed
 }
 
 void TextManager::WriteToRPi(const std::string& msg)

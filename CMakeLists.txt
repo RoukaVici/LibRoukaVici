@@ -9,8 +9,8 @@ project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
 SET (PROJECT_ROOT ".")
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
 
-# # LibSUB is necessary to communicate with the rasp
-# find_package(LibUSB)
+ # # LibSUB is necessary to communicate with the device through USB
+ # find_package(LibUSB)
 
 include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR})
 
@@ -20,9 +20,10 @@ include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR})
 add_library(${PROJ_NAME} SHARED
 ${PROJECT_SRC}/exported.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
-# ${PROJECT_SRC}/LibUsb.cpp
+# ${PROJECT_SRC}/USBManager.cpp
 # ${PROJECT_SRC}/TCPManager.cpp
 ${PROJECT_SRC}/TextManager.cpp
+${PROJECT_SRC}/VibrationGroup.cpp
 )
 
 if (WIN32)

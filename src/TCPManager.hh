@@ -2,7 +2,7 @@
 
 #include "DeviceManager.hh"
 
-// This class attempts a TCP connection
+/// Lets us interface with the device through a TCP connection
 class TCPManager : public DeviceManager
 {
 public:

@@ -1,7 +1,7 @@
 #include <iostream>
-#include "LibUsb.hh"
+#include "USBManager.hh"
 #include "mylibusb.h"
-LibUsb::LibUsb() : rpi(NULL), context(NULL)
+USBManager::USBManager() : rpi(NULL), context(NULL)
 {
   // Initialize libusb
   int err = 0;
@@ -13,7 +13,7 @@ LibUsb::LibUsb() : rpi(NULL), context(NULL)
     }
 }
 
-LibUsb::~LibUsb()
+USBManager::~USBManager()
 {
   if (rpi != NULL)
     {
@@ -24,16 +24,7 @@ LibUsb::~LibUsb()
     libusb_exit(context);
 }
 
-/// FindRPi finds the raspberry pi and stores it
-/**
- * Return codes:
- * 0: Success
- * 1: Lib never initialized properly
- * 2: Couldn't get device list
- * 3: RPi not found
- * 4: Error opening raspberry pi
- */
-int LibUsb::FindRPi()
+int USBManager::FindRPi()
 {
   int errCode = 0;
   if (context == NULL)
@@ -72,7 +63,7 @@ int LibUsb::FindRPi()
   return errCode;
 }
 
-bool LibUsb::isRPi(libusb_device* device)
+bool USBManager::isRPi(libusb_device* device)
 {
   libusb_device_descriptor desc = {0};
 
@@ -82,7 +73,7 @@ bool LibUsb::isRPi(libusb_device* device)
   return false;
 }
 
-void LibUsb::WriteToRPi(const std::string& msg)
+void USBManager::WriteToRPi(const std::string& msg)
 {
   std::cout << "MSG: "<< msg << std::endl;
 }
