@@ -33,7 +33,7 @@ TCPManager::~TCPManager()
  * 2: Could not resolve host
  * 3: Could not connect to host
  */
-int TCPManager::FindRPi()
+int TCPManager::FindDevice()
 {
   int ret;
   struct sockaddr_in server;
@@ -68,7 +68,18 @@ int TCPManager::FindRPi()
   return 0;
 }
 
-void TCPManager::WriteToRPi(const std::string& msg)
+void TCPManager::Write(const std::string& msg) const
 {
   send(sd, msg.c_str(), msg.length(), 0);
+}
+
+void TCPManager::Vibrate(char motor, char intensity) const
+{
+  char msg[2] = {motor, intensity};
+  send(sd, msg, 2, 0);
+}
+
+bool TCPManager::HasDevice() const
+{
+  return sd >= 0;
 }

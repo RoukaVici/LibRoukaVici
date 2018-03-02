@@ -13,17 +13,19 @@ public:
   USBManager();
   ~USBManager();
 
-  /// FindRPi finds the raspberry pi and stores it
+  /// Finds the device to connect to
   /**
    * Return codes:
    * 0: Success
    * 1: Lib never initialized properly
    * 2: Couldn't get device list
-   * 3: RPi not found
-   * 4: Error opening raspberry pi
+   * 3: Device not found
+   * 4: Error opening device
    */
-  virtual int FindRPi();
-  virtual void WriteToRPi(const std::string& msg);
+  virtual int FindDevice();
+  virtual void Write(const std::string& msg) const;
+  virtual void Vibrate(char motor, char intensity) const;
+  virtual bool HasDevice() const;
 private:
   bool isRPi(libusb_device* device);
 

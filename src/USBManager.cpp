@@ -1,6 +1,7 @@
 #include <iostream>
 #include "USBManager.hh"
 #include "mylibusb.h"
+
 USBManager::USBManager() : rpi(NULL), context(NULL)
 {
   // Initialize libusb
@@ -24,7 +25,7 @@ USBManager::~USBManager()
     libusb_exit(context);
 }
 
-int USBManager::FindRPi()
+int USBManager::FindDevice()
 {
   int errCode = 0;
   if (context == NULL)
@@ -73,7 +74,17 @@ bool USBManager::isRPi(libusb_device* device)
   return false;
 }
 
-void USBManager::WriteToRPi(const std::string& msg)
+bool USBManager::HasDevice() const
 {
-  std::cout << "MSG: "<< msg << std::endl;
+  return rpi != NULL;
+}
+
+void USBManager::Vibrate(char motor, char intensity) const
+{
+  // TODO: Send data
+}
+
+void USBManager::Write(const std::string& msg) const
+{
+  // TODO: Send data
 }
