@@ -10,6 +10,8 @@
 class DeviceManager
 {
 public:
+  virtual ~DeviceManager() {}
+
   /// Finds the device
   /**
    * Returns 0 on success, see child classes for error codes

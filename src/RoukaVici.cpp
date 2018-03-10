@@ -1,9 +1,17 @@
 #include <iostream>
 #include "RoukaVici.hh"
-#include "TextManager.hh"
 #include "VibrationGroup.hh"
+#include "ManagerFactory.hh"
+#include "DeviceManager.hh"
 
-RoukaVici::RoukaVici() : dm(new TextManager())
+// Returns a RoukaVici singleton
+RoukaVici* RoukaVici::get()
+{
+  static RoukaVici *rv;
+  return rv ?: (rv = new RoukaVici());
+}
+
+RoukaVici::RoukaVici() : mf(new ManagerFactory()), dm(mf->get("TextManager"))
 {
   dm->FindDevice();
 }

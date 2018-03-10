@@ -3,6 +3,7 @@
 
 TextManager::TextManager()
 {
+  std::cout.setf( std::ios_base::unitbuf );
 }
 
 TextManager::~TextManager()
@@ -27,4 +28,9 @@ bool TextManager::HasDevice() const
 void TextManager::Vibrate(char motor, char intensity) const
 {
   std::cout << motor << intensity;
+}
+
+DeviceManager* TextManager::create()
+{
+  return new TextManager();
 }

@@ -23,9 +23,14 @@ public:
    * 4: Error opening device
    */
   virtual int FindDevice();
-  virtual void Write(const std::string& msg) const;
-  virtual void Vibrate(char motor, char intensity) const;
+  /// Returns true if the device was found
   virtual bool HasDevice() const;
+
+  /// Write raw string to the device
+  virtual void Write(const std::string& msg) const;
+  /// Send vibration to a given motor with a given intensity
+  virtual void Vibrate(char motor, char intensity) const;
+
 private:
   bool isRPi(libusb_device* device);
 

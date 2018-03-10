@@ -35,7 +35,6 @@ TCPManager::~TCPManager()
  */
 int TCPManager::FindDevice()
 {
-  int ret;
   struct sockaddr_in server;
   struct in_addr ipv4addr;
   struct hostent *hp;

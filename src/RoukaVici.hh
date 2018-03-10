@@ -4,6 +4,7 @@
 #include <map>
 #include "exported.hh"
 
+class ManagerFactory;
 class DeviceManager;
 class VibrationGroup;
 
@@ -14,8 +15,13 @@ class VibrationGroup;
  */
 EXPORTED class RoukaVici
 {
- public:
+  // Roukavici can only be instantiated through its get() singleton method
+private:
   RoukaVici();
+
+public:
+  // Singleton creator
+  static RoukaVici* get();
   ~RoukaVici();
   /// Lets the developer write any string to the device.
   /**
@@ -64,6 +70,7 @@ EXPORTED class RoukaVici
   void VibrateGroup(const std::string& name, char intensity) const;
 
 private:
+  ManagerFactory                *mf;
   DeviceManager                 *dm;
   std::map<std::string, VibrationGroup*>  groups;
 };

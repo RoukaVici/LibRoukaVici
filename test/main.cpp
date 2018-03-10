@@ -7,11 +7,17 @@ void testVibrate(void* handle)
   // std::cout << "## TEST 1" << std::endl;
   void (*vibrate)(char, char);
   *(void**)(&vibrate) = dlsym(handle, "Vibrate");
-  // std::cout << "Turning on motor 0" << std::endl;
+  std::cerr << "Turning on motor 0" << std::endl;
   vibrate(0, 255);
-  sleep(1);
-  // std::cout << "Turning off motor 0" << std::endl;
+  sleep(2);
+  std::cerr << "Turning off motor 0" << std::endl;
   vibrate(0, 0);
+  sleep(2);
+  std::cerr << "Turning on motor 1" << std::endl;
+  vibrate(1, 255);
+  sleep(2);
+  std::cerr << "Turning off motor 1" << std::endl;
+  vibrate(1, 0);
   sleep(1);
 }
 
@@ -29,19 +35,20 @@ void  testGroups(void* handle)
   newGroup("mygroup");
   addToGroup("mygroup", 0);
   addToGroup("mygroup", 1);
-  // std::cout << "Turning on motors 0 & 1" << std::endl;
+  std::cerr << "Turning on motors 0+1" << std::endl;
   vibrateGroup("mygroup", 255);
-  sleep(1);
-  // std::cout << "Turning off motors 0 & 1" << std::endl;
+  sleep(2);
+  std::cerr << "Turning off motors 0+1" << std::endl;
   vibrateGroup("mygroup", 0);
   sleep(1);
 }
 
-int main(int argc, char **argv)
+int main()
 {
   void (*initrvici)();
   void (*stoprvici)();
   void* handle = dlopen("libroukavici.so", RTLD_LAZY);
+
   if (!handle)
     {
       std::cerr << "dlopen(): " << dlerror() << std::endl;

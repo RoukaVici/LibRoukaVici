@@ -5,20 +5,12 @@ RoukaVici *rv;
 
 extern "C"
 {
-  /// InitRVici initializes the library
-  /**
-   * Automatically starts trying to find the device
-   * Return codes:
-   * 0: Success
-   * 1: Lib initialized, but could not find device
-   */
   EXPORTED int InitRVici()
   {
-    rv = new RoukaVici();
+    rv = RoukaVici::get();
     return rv->Status();
   }
 
-  /// Manually search for the device
   EXPORTED int FindDevice()
   {
     return rv->FindDevice();
@@ -29,13 +21,11 @@ extern "C"
     return rv->Status();
   }
 
-  /// StopRVici frees all data used up by the library
   EXPORTED void StopRVici()
   {
     delete rv;
   }
 
-  /// Write to the device directly
   EXPORTED void Write(const char * const msg)
   {
     std::string cppmsg(msg);
@@ -47,11 +37,6 @@ extern "C"
     rv->Vibrate(motor, intensity);
   }
 
-  /// Create a new vibration group
-  /**
-   * 0: Success
-   * 1: Group already exists
-   */
   EXPORTED int NewGroup(const char * const name)
   {
     std::string cppname(name);

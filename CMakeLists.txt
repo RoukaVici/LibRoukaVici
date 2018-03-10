@@ -8,23 +8,49 @@ project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
 
 SET (PROJECT_ROOT ".")
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
+SET (PROJECT_EXPORTED "${PROJECT_SRC}/exported")
 
- # LibSUB is necessary to communicate with the device through USB
- find_package(LibUSB)
+# Platform-specific compile flags
+if (UNIX)
+  # G++
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+else()
+  # MSVC
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHc-")
+endif()
 
-include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR})
-
-###
-# libroukavici
-###
-add_library(${PROJ_NAME} SHARED
-${PROJECT_SRC}/exported.cpp
+# Setting sources, more files will be added depending on options
+set(LIBSRCS
+${PROJECT_EXPORTED}/RoukaViciAPI.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
-${PROJECT_SRC}/USBManager.cpp
+${PROJECT_SRC}/ManagerFactory.cpp
 ${PROJECT_SRC}/TCPManager.cpp
 ${PROJECT_SRC}/TextManager.cpp
 ${PROJECT_SRC}/VibrationGroup.cpp
 )
+
+# Options
+## Setting the name of the libusb parameter
+set (LUSBOPT "LIBUSB")
+## Define it
+option(${LUSBOPT} "Compile with LibUSB support" ON)
+## Conditions if true
+if (${LUSBOPT})
+  ## Find the right package
+  find_package(LibUSB)
+  ## Add the proper source file
+  set(LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/USBManager.cpp)
+  ## Set the proper preprocessor defs
+  add_definitions(-DLIBUSB_COMPILE)
+endif (${LUSBOPT})
+
+include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_SRC}/exported)
+
+
+###
+# libroukavici
+###
+add_library(${PROJ_NAME} SHARED ${LIBSRCS})
 
 if (WIN32)
     target_compile_definitions(${PROJ_NAME} WIN_EXPORT=1)

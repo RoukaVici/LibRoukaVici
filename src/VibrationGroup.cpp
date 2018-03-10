@@ -26,7 +26,7 @@ int VibrationGroup::Rm(char motor)
   motors.erase(mtr);
   return 0;
 }
-#include <iostream>
+
 void VibrationGroup::Vibrate(char intensity, const DeviceManager* dm) const
 {
   for (auto motor = motors.begin() ; motor != motors.end() ; motor++)
