@@ -30,7 +30,7 @@ ${PROJECT_SRC}/VibrationGroup.cpp
 )
 
 # Options
-## Setting the name of the libusb parameter
+## Setting the name of the libusb option
 set (LUSBOPT "LIBUSB")
 ## Define it
 option(${LUSBOPT} "Compile with LibUSB support" ON)
@@ -44,8 +44,16 @@ if (${LUSBOPT})
   add_definitions(-DLIBUSB_COMPILE)
 endif (${LUSBOPT})
 
-include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_SRC}/exported)
+## Setting the name of the test option
+set (TESTOPT "TEST")
+## Define it. True by default on unix, false on windows
+if (UNIX)
+  option (${TESTOPT} "Build test executable" ON)
+else()
+  option (${TESTOPT} "Build test executable" OFF)
+endif()
 
+include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_EXPORTED})
 
 ###
 # libroukavici
@@ -60,15 +68,17 @@ target_link_libraries(${PROJ_NAME} ${LIBUSB_LIBRARY})
 
 set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 0)
 
-if (UNIX)
+## If the testing option is true
+if (${TESTOPT})
    ###
    # test executable
    ###
    SET (TEST_FOLDER "${PROJECT_ROOT}/test")
    SET (TEST_BIN roukavici_test)
 
+   ## Necessary for testing
    find_package(LibDL)
    add_executable(${TEST_BIN}
    ${TEST_FOLDER}/main.cpp)
    target_link_libraries(${TEST_BIN} ${PROJ_NAME} ${LIBDL_LIBRARIES})
-endif (UNIX)
+endif (${TESTOPT})

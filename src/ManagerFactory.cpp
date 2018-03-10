@@ -19,7 +19,7 @@ ManagerFactory::~ManagerFactory()
 
 DeviceManager* ManagerFactory::get(const std::string& name)
 {
-  DMNGR_CREATOR cr = managers[name];
+  // managers is a map containing the create() functions of the proper class
   // TODO: Check if it exists first.
-  return cr();
+  return managers[name]();
 }
