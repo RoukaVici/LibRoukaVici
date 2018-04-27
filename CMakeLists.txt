@@ -10,6 +10,8 @@ SET (PROJECT_ROOT ".")
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
 SET (PROJECT_EXPORTED "${PROJECT_SRC}/exported")
 
+SET (LIB_DIR "lib")
+
 # Platform-specific compile flags
 if (UNIX)
   # G++
@@ -29,11 +31,14 @@ ${PROJECT_SRC}/TextManager.cpp
 ${PROJECT_SRC}/VibrationGroup.cpp
 )
 
+###
 # Options
+###
+## USB option is deprecated
 ## Setting the name of the libusb option
 set (LUSBOPT "LIBUSB")
 ## Define it
-option(${LUSBOPT} "Compile with LibUSB support" ON)
+option(${LUSBOPT} "Compile with LibUSB support" OFF)
 ## Conditions if true
 if (${LUSBOPT})
   ## Find the right package
@@ -53,6 +58,17 @@ else()
   option (${TESTOPT} "Build test executable" OFF)
 endif()
 
+## Setting the name of the bluetooth option
+set (BTOPT "LIBBT")
+## Define it. True by default on unix, false on windows
+option (${BTOPT} "Build test executable" ON)
+## Conditions if true
+if (${BTOPT})
+  add_subdirectory(${LIB_DIR}/bluetooth)
+  include_directories(${LIB_DIR}/bluetooth/src)
+  add_definitions(-DBT_COMPILE)
+endif (${BTOPT})
+
 include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_EXPORTED})
 
 ###
@@ -60,11 +76,17 @@ include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_EXPORTED})
 ###
 add_library(${PROJ_NAME} SHARED ${LIBSRCS})
 
+if (${LUSBOPT})
+  target_link_libraries(${PROJ_NAME} ${LIBUSB_LIBRARY})
+endif (${LUSBOPT})
+
+if (${BTOPT})
+  target_link_libraries(${PROJ_NAME} bluetoothserialport)
+endif (${BTOPT})
+
 if (WIN32)
     target_compile_definitions(${PROJ_NAME} WIN_EXPORT=1)
 endif (WIN32)
-
-target_link_libraries(${PROJ_NAME} ${LIBUSB_LIBRARY})
 
 set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 0)
 

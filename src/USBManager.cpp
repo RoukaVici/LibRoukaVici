@@ -79,6 +79,11 @@ bool USBManager::HasDevice() const
   return rpi != NULL;
 }
 
+DeviceManager* USBManager::create()
+{
+  return new USBManager();
+}
+
 void USBManager::Vibrate(char motor, char intensity) const
 {
   // TODO: Send data

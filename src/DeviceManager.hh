@@ -2,7 +2,7 @@
 
 #include <string>
 
-/// Device Manager isa device communication interface
+/// Device Manager is a device communication interface
 /**
  * Each child class is a different way of communicating
  * with the device

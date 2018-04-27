@@ -6,10 +6,22 @@
   #include "USBManager.hh"
 #endif
 
+// If the user wants to use bluetooth
+#ifdef BT_COMPILE
+  #include "BTManager.hh"
+#endif
+
 ManagerFactory::ManagerFactory()
 {
   // Here we'll add every manager, including those in options
   managers["TextManager"] = TextManager::create;
+#ifdef LIBUSB_COMPILE
+  managers["USBManager"] = USBManager::create;
+#endif
+
+#ifdef BT_COMPILE
+  managers["BTManager"] = BTManager::create;
+#endif
 }
 
 
