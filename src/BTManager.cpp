@@ -12,6 +12,7 @@ BTManager::~BTManager()
 
 int BTManager::FindDevice()
 {
+  return 0;
 }
 
 bool BTManager::HasDevice() const

@@ -6,9 +6,15 @@ SET (PROJ_NAME "roukavici")
 # Define project name & version
 project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
 
+
+# To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
+# See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
+# See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 SET (PROJECT_ROOT ".")
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
-SET (PROJECT_EXPORTED "${PROJECT_SRC}/exported")
+SET (PROJECT_EXPORTED "${PROJECT_SRC}")
 
 SET (LIB_DIR "lib")
 
@@ -107,7 +113,6 @@ if (${BTOPT})
 endif (${BTOPT})
 
 set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} VERSION 0)
-
 ## If the testing option is true
 if (${TESTOPT})
   MESSAGE( STATUS "Building test executable")
@@ -118,7 +123,6 @@ if (${TESTOPT})
    SET (TEST_BIN roukavici_test)
 
    ## Necessary for testing
-   add_executable(${TEST_BIN}
-   ${TEST_FOLDER}/main.cpp)
+   add_executable(${TEST_BIN} ${TEST_FOLDER}/main.cpp)
    target_link_libraries(${TEST_BIN} ${PROJ_NAME} ${CMAKE_DL_LIBS})
 endif (${TESTOPT})
