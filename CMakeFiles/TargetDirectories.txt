@@ -1,4 +1,0 @@
-/home/navenn_t/Programming/cpp/RoukaVici-lib/CMakeFiles/rebuild_cache.dir
-/home/navenn_t/Programming/cpp/RoukaVici-lib/CMakeFiles/edit_cache.dir
-/home/navenn_t/Programming/cpp/RoukaVici-lib/CMakeFiles/roukavici.dir
-/home/navenn_t/Programming/cpp/RoukaVici-lib/CMakeFiles/roukavici_test.dir

@@ -1,3 +1,6 @@
 [submodule "lib/bluetooth"]
 	path = lib/bluetooth
 	url = https://github.com/Agamnentzar/bluetooth-serial-port
+[submodule "lib/bluetooth-serial-port"]
+	path = lib/bluetooth-serial-port
+	url = https://github.com/RoukaVici/bluetooth-serial-port.git

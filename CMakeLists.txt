@@ -49,6 +49,7 @@ if (${LUSBOPT})
   add_definitions(-DLIBUSB_COMPILE)
 endif (${LUSBOPT})
 
+
 ## Setting the name of the test option
 set (TESTOPT "TEST")
 ## Define it. True by default on unix, false on windows
@@ -60,13 +61,18 @@ endif()
 
 ## Setting the name of the bluetooth option
 set (BTOPT "LIBBT")
-## Define it. True by default on unix, false on windows
-option (${BTOPT} "Build test executable" ON)
+## Define it. True by default
+option (${BTOPT} "Build with Bluetooth support" ON)
 ## Conditions if true
 if (${BTOPT})
-  add_subdirectory(${LIB_DIR}/bluetooth)
-  include_directories(${LIB_DIR}/bluetooth/src)
+  set (LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/BTManager.cpp)
+  set (BTLIB "bluetoothserialport")
+  set (BTDIRNAME "bluetooth-serial-port")
   add_definitions(-DBT_COMPILE)
+  include_directories(${LIB_DIR}/${BTDIRNAME}/src)
+
+  ADD_LIBRARY(${BTLIB} SHARED IMPORTED)
+  SET_TARGET_PROPERTIES(${BTLIB} PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/${LIB_DIR}/${BTDIRNAME}/build/libbluetoothserialport.so)
 endif (${BTOPT})
 
 include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_EXPORTED})
@@ -81,7 +87,7 @@ if (${LUSBOPT})
 endif (${LUSBOPT})
 
 if (${BTOPT})
-  target_link_libraries(${PROJ_NAME} bluetoothserialport)
+  target_link_libraries(${PROJ_NAME} ${BTLIB})
 endif (${BTOPT})
 
 if (WIN32)
@@ -99,8 +105,7 @@ if (${TESTOPT})
    SET (TEST_BIN roukavici_test)
 
    ## Necessary for testing
-   find_package(LibDL)
    add_executable(${TEST_BIN}
    ${TEST_FOLDER}/main.cpp)
-   target_link_libraries(${TEST_BIN} ${PROJ_NAME} ${LIBDL_LIBRARIES})
+   target_link_libraries(${TEST_BIN} ${PROJ_NAME} ${CMAKE_DL_LIBS})
 endif (${TESTOPT})

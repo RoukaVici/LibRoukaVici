@@ -1,1 +1,0 @@
-/usr/bin/c++   -Wall -Wextra   CMakeFiles/roukavici_test.dir/test/main.cpp.o  -o roukavici_test -Wl,-rpath,/home/navenn_t/Programming/cpp/RoukaVici-lib libroukavici.so.0.1 /usr/lib/libdl.so /usr/lib/libusb-1.0.so 
