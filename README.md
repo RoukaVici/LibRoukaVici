@@ -25,6 +25,6 @@ Output file: `libroukavici.dll`
 ### Build flags
 - `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
 - `-DTEST`: Boolean, decides if the test binary should be compiled. TRUE on Linux, FALSE otherwise by default.
-- `-DBBT`: Boolean, decides if the lib should be compiled with Bluetooth support. TRUE by default
+- `-DBT`: Boolean, decides if the lib should be compiled with Bluetooth support. TRUE by default
 - `-DTCP`: Bollean, decides if the lib should be compiled with TCP support. FALSE by default
 
