@@ -28,7 +28,6 @@ set(LIBSRCS
 ${PROJECT_EXPORTED}/RoukaViciAPI.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
 ${PROJECT_SRC}/ManagerFactory.cpp
-${PROJECT_SRC}/TCPManager.cpp
 ${PROJECT_SRC}/TextManager.cpp
 ${PROJECT_SRC}/VibrationGroup.cpp
 )
@@ -38,11 +37,12 @@ ${PROJECT_SRC}/VibrationGroup.cpp
 ###
 ## USB option is deprecated
 ## Setting the name of the libusb option
-set (LUSBOPT "LIBUSB")
+set (LUSBOPT "USB")
 ## Define it
 option(${LUSBOPT} "Compile with LibUSB support" OFF)
 ## Conditions if true
 if (${LUSBOPT})
+  MESSAGE( STATUS "Building with USB support!")
   ## Find the right package
   find_package(LibUSB)
   ## Add the proper source file
@@ -61,20 +61,34 @@ else()
   option (${TESTOPT} "Build test executable" OFF)
 endif()
 
+
+## Setting the name of the TCP option
+set (TCPOPT "TCP")
+## Define it. False by default
+option (${TESTOPT} "Build with TCP support" OFF)
+
+if (${TCPOPT})
+  MESSAGE( STATUS "Building with TCP Support")
+  # Set the compile flag
+  add_definitions(-DTCP_COMPILE)
+  # Add the source file
+  set(LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/TCPManager.cpp)
+endif(${TCPOPT})
+
 ## Setting the name of the bluetooth option
-set (BTOPT "LIBBT")
+set (BTOPT "BT")
 ## Define it. True by default
 option (${BTOPT} "Build with Bluetooth support" ON)
 ## Conditions if true
 if (${BTOPT})
+  MESSAGE( STATUS "Building with Bluetooth Support")
   set (LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/BTManager.cpp)
   set (BTLIB "bluetoothserialport")
   set (BTDIRNAME "bluetooth-serial-port")
   add_definitions(-DBT_COMPILE)
   include_directories(${LIB_DIR}/${BTDIRNAME}/src)
 
-  ADD_LIBRARY(${BTLIB} SHARED IMPORTED)
-  SET_TARGET_PROPERTIES(${BTLIB} PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/${LIB_DIR}/${BTDIRNAME}/build/libbluetoothserialport.so)
+  add_subdirectory(${LIB_DIR}/${BTDIRNAME}) # Add bluetoothserialport cmake
 endif (${BTOPT})
 
 include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_EXPORTED})
@@ -96,6 +110,7 @@ set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} VERSION
 
 ## If the testing option is true
 if (${TESTOPT})
+  MESSAGE( STATUS "Building test executable")
    ###
    # test executable
    ###

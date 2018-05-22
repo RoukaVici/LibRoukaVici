@@ -25,6 +25,10 @@ TCPManager::~TCPManager()
   shutdown(sd, 0);
 }
 
+DeviceManager* TCPManager::create() {
+  return new TCPManager();
+}
+
 /// Finds the Raspberry Pi
 /**
  * Return codes:

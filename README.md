@@ -12,9 +12,19 @@ It aims to function both on Linux and on Windows.
 - `Visual Studio` with `C++ Build Tools` installed
 
 ## Installation
-`mkdir build && cd build/ && cmake .. [flags]`
+### Linux
+- `mkdir build && cd build/ && cmake .. [flags]`
+- `make`
+Output file: `libroukavici.so`
+
+### Windows (Powershell)
+- `mkdir build && cd build/ && cmake .. [flags]`
+- Open Visual Studio and open the `.sln` file generated in the project's `build/` folder. Build the solution.
+Output file: `libroukavici.dll`
 
 ### Build flags
-- `-DLIBUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
+- `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
 - `-DTEST`: Boolean, decides if the test binary should be compiled. TRUE on Linux, FALSE otherwise by default.
-- `-DLIBBT`: Boolean, decides if the lib should be compiled with Bluetooth support. TRUE by default
+- `-DBBT`: Boolean, decides if the lib should be compiled with Bluetooth support. TRUE by default
+- `-DTCP`: Bollean, decides if the lib should be compiled with TCP support. FALSE by default
+

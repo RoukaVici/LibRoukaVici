@@ -9,6 +9,8 @@ public:
   TCPManager();
   ~TCPManager();
 
+  static DeviceManager* create();
+
   virtual int FindDevice();
   virtual bool HasDevice() const;
   virtual void Write(const std::string& msg) const;

@@ -3,12 +3,16 @@
 #include "TextManager.hh"
 // If the user wants to use libusb
 #ifdef LIBUSB_COMPILE
-  #include "USBManager.hh"
+# include "USBManager.hh"
 #endif
 
 // If the user wants to use bluetooth
 #ifdef BT_COMPILE
-  #include "BTManager.hh"
+# include "BTManager.hh"
+#endif
+
+#ifdef TCP_COMPILE
+# include "TCPManager.hh"
 #endif
 
 ManagerFactory::ManagerFactory()
@@ -21,6 +25,10 @@ ManagerFactory::ManagerFactory()
 
 #ifdef BT_COMPILE
   managers["BTManager"] = BTManager::create;
+#endif
+
+#ifdef TCP_COMPILE
+  managers["TCPManager"] = TCPManager::create;
 #endif
 }
 
