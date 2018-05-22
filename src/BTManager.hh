@@ -2,6 +2,8 @@
 
 #include "DeviceManager.hh"
 
+class DeviceINQ;
+class BTSerialPortBinding;
 /// Lets us interface with the device through Bluetooth
 class BTManager : public DeviceManager
 {
@@ -26,4 +28,7 @@ public:
   virtual void Vibrate(char motor, char intensity) const;
 
 private:
+  // Inquire object, handles queries to the bluetooth api
+  DeviceINQ*  inq;
+  BTSerialPortBinding* port;
 };

@@ -20,7 +20,7 @@ Output file: `libroukavici.so`
 ### Windows (Powershell)
 - `mkdir build && cd build/ && cmake .. [flags]`
 - Open Visual Studio and open the `.sln` file generated in the project's `build/` folder. Build the solution.
-Output file: `libroukavici.dll`
+Output files: `Debug/roukavici.dll` and `Debug/roukavici.lib`
 
 ### Build flags
 - `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.

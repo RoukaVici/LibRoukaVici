@@ -47,6 +47,7 @@ int main()
 {
   void (*initrvici)();
   void (*stoprvici)();
+  void (*finddevice)();
   void* handle = dlopen("libroukavici.so", RTLD_LAZY);
 
   if (!handle)
@@ -56,6 +57,7 @@ int main()
     }
   *(void**)(&initrvici) = dlsym(handle, "InitRVici");
   *(void**)(&stoprvici) = dlsym(handle, "StopRVici");
+  *(void**)(&finddevice) = dlsym(handle, "FindDevice");
   initrvici();
   testVibrate(handle);
   testGroups(handle);
