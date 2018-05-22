@@ -8,7 +8,7 @@
 RoukaVici* RoukaVici::get()
 {
   static RoukaVici *rv;
-  return rv ?: (rv = new RoukaVici());
+  return rv ? rv : (rv = new RoukaVici());
 }
 
 RoukaVici::RoukaVici() : mf(new ManagerFactory()), dm(mf->get("BTManager"))

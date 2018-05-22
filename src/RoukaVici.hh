@@ -13,7 +13,7 @@ class VibrationGroup;
  * In a C++ project, it can be created directly, without using the exposed C functions,
  * and without losing any of the API methods.
  */
-EXPORTED class RoukaVici
+class EXPORTED RoukaVici
 {
   // Roukavici can only be instantiated through its get() singleton method
 private:

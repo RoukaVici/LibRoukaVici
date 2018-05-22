@@ -18,7 +18,9 @@ if (UNIX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 else()
   # MSVC
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHc-")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /MTd /W2 /c")
+  # Set the DLLEXPORT variable to export symbols
+  add_definitions(-DWIN_EXPORT)
 endif()
 
 # Setting sources, more files will be added depending on options
