@@ -90,11 +90,7 @@ if (${BTOPT})
   target_link_libraries(${PROJ_NAME} ${BTLIB})
 endif (${BTOPT})
 
-if (WIN32)
-    target_compile_definitions(${PROJ_NAME} WIN_EXPORT=1)
-endif (WIN32)
-
-set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 0)
+set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} VERSION 0)
 
 ## If the testing option is true
 if (${TESTOPT})
