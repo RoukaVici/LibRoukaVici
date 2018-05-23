@@ -40,6 +40,9 @@ ManagerFactory::~ManagerFactory()
 DeviceManager* ManagerFactory::get(const std::string& name)
 {
   // managers is a map containing the create() functions of the proper class
-  // TODO: Check if it exists first.
+  if (managers.find(name) == managers.end())
+    {
+      return nullptr;
+    }
   return managers[name]();
 }

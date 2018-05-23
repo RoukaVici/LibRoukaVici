@@ -60,4 +60,10 @@ extern "C"
     std::string cppname(name);
     rv->VibrateGroup(cppname, intensity);
   }
+
+  EXPORTED int ChangeDeviceManager(const char* const name)
+  {
+    std::string cppname(name);
+    return rv->ChangeDeviceManager(cppname);
+  }
 }

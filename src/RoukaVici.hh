@@ -68,6 +68,9 @@ public:
   /// Vibrates the given group at the given intensity
   void VibrateGroup(const std::string& name, char intensity) const;
 
+  /// Changes device managers
+  int ChangeDeviceManager(const std::string& name);
+
 private:
   ManagerFactory                *mf;
   DeviceManager                 *dm;

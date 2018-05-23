@@ -35,6 +35,7 @@ int BTManager::FindDevice()
   std::vector<device> devices = inq->Inquire();
   for (const auto& d: devices)
     {
+      std::cout << "- Found: " << d.name << std::endl;
       if (d.name.compare("OnePlus 3") == 0)
         {
           int channelId = inq->SdpSearch(d.address);
@@ -63,7 +64,10 @@ DeviceManager* BTManager::create()
 
 void BTManager::Vibrate(char motor, char intensity) const
 {
-  // TODO: Send data
+  if (port == nullptr)
+    return ;
+  char msg[2] = {motor, intensity};
+  port->Write(msg, 2);
 }
 
 void BTManager::Write(const std::string& msg) const

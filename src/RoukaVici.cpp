@@ -64,3 +64,13 @@ void RoukaVici::VibrateGroup(const std::string& name, char intensity) const
 {
   grps->VibrateGroup(name, intensity, dm);
 }
+
+int RoukaVici::ChangeDeviceManager(const std::string& name)
+{
+  DeviceManager* temp = mf->get(name);
+  if (temp == nullptr)
+    return 1;
+  delete dm;
+  dm = temp;
+  return 0;
+}

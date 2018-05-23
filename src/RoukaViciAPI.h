@@ -51,3 +51,11 @@ int RmFromGroup(const char * const name, char motor);
 
 /// Causes a group to vibrate with the given intensity (0-255)
 void VibrateGroup(const char* const name, char intensity);
+
+/// !!EXPERIMENTAL!! Changes device managers
+/**
+ * See Managers files for more
+ * Return codes:
+ * 0: Changed
+ * 1: No such manager
+ */
