@@ -11,18 +11,17 @@ This library provides an API between the computer and the RoukaVici glove. It ai
 - `Visual Studio` with `C++ Build Tools` installed
 
 # Building
-## Linux
+## Linux & MacOS
 - `mkdir build && cd build/ && cmake .. [flags]`
 - `make`
 - Output file: `libroukavici.so`
+
+**Note**: As of this writing, MacOS cannot compile the Bluetooth library. Run cmake with `-DBT=FALSE` option if build fails.
 
 ## Windows (Powershell)
 - `mkdir build && cd build/ && cmake .. [flags]`
 - Open Visual Studio and open the `.sln` file generated in the project's `build/` folder. Build the solution.
 - Output files: `Debug/roukavici.dll` and `Debug/roukavici.lib`
-
-## MacOs
-(Not tested yet)
 
 ## Build flags
 - `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
