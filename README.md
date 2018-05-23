@@ -2,29 +2,29 @@
 This library provides an API between the computer and the RoukaVici box.
 It aims to function both on Linux and on Windows.
 
-## Dependencies
-### Linux
+# Dependencies
+## Linux
 - `cmake >= 3.9`
 - `libdl` (for tests, canbe ignored by setting off tests with -DTEST=FALSE)
 
-### Windows
+## Windows
 - `cmake >= 3.9`
 - `Visual Studio` with `C++ Build Tools` installed
 
-## Installation
-### Linux
+# Installation
+## Linux
 - `mkdir build && cd build/ && cmake .. [flags]`
 - `make`
-Output file: `libroukavici.so`
+- Output file: `libroukavici.so`
 
-### Windows (Powershell)
+## Windows (Powershell)
 - `mkdir build && cd build/ && cmake .. [flags]`
 - Open Visual Studio and open the `.sln` file generated in the project's `build/` folder. Build the solution.
-Output files: `Debug/roukavici.dll` and `Debug/roukavici.lib`
+- Output files: `Debug/roukavici.dll` and `Debug/roukavici.lib`
 
-### Build flags
+## Build flags
 - `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
 - `-DTEST`: Boolean, decides if the test binary should be compiled. TRUE on Linux, FALSE otherwise by default.
 - `-DBT`: Boolean, decides if the lib should be compiled with Bluetooth support. TRUE by default
-- `-DTCP`: Bollean, decides if the lib should be compiled with TCP support. FALSE by default
+- `-DTCP`: Boolean, decides if the lib should be compiled with TCP support. FALSE by default
 
