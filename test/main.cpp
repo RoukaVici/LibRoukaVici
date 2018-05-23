@@ -47,7 +47,8 @@ int main()
 {
   void (*initrvici)();
   void (*stoprvici)();
-  void (*finddevice)();
+  int (*changeManager)(const char* const);
+  int (*findDevice)();
   void* handle = dlopen("libroukavici.so", RTLD_LAZY);
 
   if (!handle)
@@ -57,8 +58,20 @@ int main()
     }
   *(void**)(&initrvici) = dlsym(handle, "InitRVici");
   *(void**)(&stoprvici) = dlsym(handle, "StopRVici");
-  *(void**)(&finddevice) = dlsym(handle, "FindDevice");
+  *(void**)(&changeManager) = dlsym(handle, "ChangeDeviceManager");
+  *(void**)(&findDevice) = dlsym(handle, "FindDevice");
+
+  // Init the lib
   initrvici();
+  // Put in Bluetooth mode
+  if (changeManager("BTManager") != 0)
+    {
+      return 1;
+    }
+  if (findDevice() != 0)
+    {
+      return 1;
+    }
   testVibrate(handle);
   testGroups(handle);
   stoprvici();

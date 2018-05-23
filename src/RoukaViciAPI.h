@@ -59,3 +59,4 @@ void VibrateGroup(const char* const name, char intensity);
  * 0: Changed
  * 1: No such manager
  */
+int ChangeDeviceManager(const char* const name);

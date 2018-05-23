@@ -4,6 +4,7 @@
 #include "BTManager.hh"
 #include "DeviceINQ.h"
 #include "BTSerialPortBinding.h"
+#include "BluetoothException.h"
 
 BTManager::BTManager() : inq(DeviceINQ::Create()), port(nullptr) {
 }
@@ -23,6 +24,7 @@ BTManager::~BTManager()
  * 0: OK, device found
  * 1: No device found
  * 2: Device found, could not get channel Id
+ * 3: Device found, connection failed (Wrong PIN most likely cause)
  */
 int BTManager::FindDevice()
 {
@@ -38,7 +40,7 @@ int BTManager::FindDevice()
   for (const auto& d: devices)
     {
       std::cout << "- Found: " << d.name << std::endl;
-      if (d.name.compare("OnePlus 3") == 0)
+      if (d.name.compare("RoukaVici") == 0)
         {
           int channelId = inq->SdpSearch(d.address);
           if (channelId == -1)
@@ -46,8 +48,16 @@ int BTManager::FindDevice()
               std::cerr << "Failed to get device channel ID" << std::endl;
               return 2;
             }
+          std::cout << "Channel ID: " << channelId << std::endl;
           port = BTSerialPortBinding::Create(d.address, channelId);
-          port->Connect();
+          try {
+            port->Connect();
+          }
+          catch (BluetoothException& e)
+            {
+              std::cerr << "Could not connect to the device, did you enter the right PIN?" << std::endl;
+              return 3;
+            }
           return 0;
         }
     }
