@@ -21,6 +21,7 @@ RoukaVici::~RoukaVici()
 {
   delete grps;
   delete dm;
+  delete mf;
 }
 
 int RoukaVici::Status()

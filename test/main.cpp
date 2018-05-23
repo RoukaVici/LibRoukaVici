@@ -63,6 +63,10 @@ int main()
 
   // Init the lib
   initrvici();
+  std::cout << "Testing text manager" << std::endl;
+  testVibrate(handle);
+  testGroups(handle);
+  std::cout << "Switching to BT Manager..." << std::endl;
   // Put in Bluetooth mode
   if (changeManager("BTManager") != 0)
     {
@@ -70,8 +74,10 @@ int main()
     }
   if (findDevice() != 0)
     {
+      std::cout << "BT Manager failed to connect. Stopping here" << std::endl;
       return 1;
     }
+  std::cout << "Testing BT Manager" << std::endl;
   testVibrate(handle);
   testGroups(handle);
   stoprvici();

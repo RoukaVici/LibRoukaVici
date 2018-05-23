@@ -28,7 +28,8 @@ bool TextManager::HasDevice() const
 
 int TextManager::Vibrate(char motor, char intensity) const
 {
-  std::cout << "Motor " << static_cast<int>(motor) << " vibrating at " << static_cast<int>(intensity) << std::endl;
+  std::cout << "Motor " << static_cast<int>(motor) << " vibrating at " <<
+    static_cast<int>(static_cast<unsigned char>(intensity)) << std::endl;
   return 0;
 }
 
