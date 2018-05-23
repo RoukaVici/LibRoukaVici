@@ -33,6 +33,7 @@ endif()
 set(LIBSRCS
 ${PROJECT_EXPORTED}/RoukaViciAPI.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
+${PROJECT_SRC}/GroupManager.cpp
 ${PROJECT_SRC}/ManagerFactory.cpp
 ${PROJECT_SRC}/TextManager.cpp
 ${PROJECT_SRC}/VibrationGroup.cpp

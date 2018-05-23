@@ -40,10 +40,10 @@ int BTManager::FindDevice()
           int channelId = inq->SdpSearch(d.address);
           if (channelId == -1)
             {
-              std::cerr << "Failed to get device channel ID" << std::cerr;
+              std::cerr << "Failed to get device channel ID" << std::endl;
               return 2;
             }
-          port = BTSerialPortBinding::create(d.address, channelId);
+          port = BTSerialPortBinding::Create(d.address, channelId);
           port->Connect();
           return 0;
         }
@@ -70,5 +70,5 @@ void BTManager::Write(const std::string& msg) const
 {
   if (port == nullptr)
     return ;
-  port->Write(msg.c_str(), msg.length);
+  port->Write(msg.c_str(), msg.length());
 }

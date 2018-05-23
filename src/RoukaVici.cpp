@@ -1,8 +1,8 @@
 #include <iostream>
 #include "RoukaVici.hh"
-#include "VibrationGroup.hh"
 #include "ManagerFactory.hh"
 #include "DeviceManager.hh"
+#include "GroupManager.hh"
 
 // Returns a RoukaVici singleton
 RoukaVici* RoukaVici::get()
@@ -11,17 +11,14 @@ RoukaVici* RoukaVici::get()
   return rv ? rv : (rv = new RoukaVici());
 }
 
-RoukaVici::RoukaVici() : mf(new ManagerFactory()), dm(mf->get("BTManager"))
+RoukaVici::RoukaVici() : mf(new ManagerFactory()), dm(mf->get("TextManager")), grps(new GroupManager())
 {
   dm->FindDevice();
 }
 
 RoukaVici::~RoukaVici()
 {
-  for (auto grp = groups.begin(); grp != groups.end() ; grp++)
-    {
-      delete grp->second;
-    }
+  delete grps;
   delete dm;
 }
 
@@ -50,32 +47,20 @@ void RoukaVici::Vibrate(char motor, char intensity) const
 
 int RoukaVici::NewGroup(const std::string& name)
 {
-  if (groups.find(name) != groups.end())
-    return 1;
-  groups[name] = new VibrationGroup(name);
-  return 0;
+  return grps->NewGroup(name);
 }
 
 int RoukaVici::AddToGroup(const std::string& name, char motor)
 {
-  auto grp = groups.find(name);
-  if (grp == groups.end())
-    return 2;
-  return grp->second->Add(motor);
+  return grps->AddToGroup(name, motor);
 }
 
 int RoukaVici::RmFromGroup(const std::string& name, char motor)
 {
-  auto grp = groups.find(name);
-  if (grp == groups.end())
-    return 2;
-  return grp->second->Rm(motor);
+  return grps->RmFromGroup(name, motor);
 }
 
 void RoukaVici::VibrateGroup(const std::string& name, char intensity) const
 {
-  auto grp = groups.find(name);
-  if (grp == groups.end())
-    return;
-  grp->second->Vibrate(intensity, dm);
+  grps->VibrateGroup(name, intensity, dm);
 }

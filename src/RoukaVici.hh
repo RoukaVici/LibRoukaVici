@@ -6,7 +6,7 @@
 
 class ManagerFactory;
 class DeviceManager;
-class VibrationGroup;
+class GroupManager;
 
 /// This class contains all the exposed public API methods
 /**
@@ -71,5 +71,5 @@ public:
 private:
   ManagerFactory                *mf;
   DeviceManager                 *dm;
-  std::map<std::string, VibrationGroup*>  groups;
+  GroupManager                  *grps;
 };
