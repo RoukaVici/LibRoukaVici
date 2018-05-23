@@ -21,6 +21,9 @@ This library provides an API between the computer and the RoukaVici glove. It ai
 - Open Visual Studio and open the `.sln` file generated in the project's `build/` folder. Build the solution.
 - Output files: `Debug/roukavici.dll` and `Debug/roukavici.lib`
 
+## MacOs
+(Not tested yet)
+
 ## Build flags
 - `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
 - `-DTEST`: Boolean, decides if the test binary should be compiled. TRUE on Linux, FALSE otherwise by default.
@@ -46,7 +49,7 @@ This method exposes no more or less functions than using the C++ one. The C API 
 - Change to the device manager of your choice using `RoukaVici.ChangeDeviceManager`. If you'd like to use the text (debug) mode, skip this step. More info about device managers in the next subsection.
 - You can now call `Roukavici.FindDevice` to allow the manager to find and connect to the device. This could take a while depending on which manager you're using.
 - Check that the device was found using `RoukaVici.HasDevice`, which returns a boolean.
-- You can now call the `RoukaVici.Vibrate` function. Congratulations, you can now communicate with RoukaVici.
+- You can now call the `RoukaVici.Vibrate` function. Congratulations, you can now communicate with RoukaVici. You can also set groups, every function you have access to is in the `RoukaVici` header file you're using.
 
 ## Device Managers
 The RoukaVici library uses different DeviceManagers to connect to the glove. This is useful for debugging, as the lib provides you with multiple means of communicating between yourself and the glove. The two supported ones as of this writing are:
