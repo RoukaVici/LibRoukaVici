@@ -27,7 +27,7 @@ bool TextManager::HasDevice() const
 
 void TextManager::Vibrate(char motor, char intensity) const
 {
-  std::cout << motor << intensity;
+  std::cout << "Motor " << static_cast<int>(motor) << " vibrating at " << static_cast<int>(intensity) << std::endl;;
 }
 
 DeviceManager* TextManager::create()

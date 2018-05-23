@@ -32,6 +32,8 @@ int BTManager::FindDevice()
       port = nullptr;
     }
 
+  // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
+  // Maybe replace HasDevice() with Status(), returning a manager-specific int
   std::vector<device> devices = inq->Inquire();
   for (const auto& d: devices)
     {

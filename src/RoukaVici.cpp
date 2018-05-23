@@ -11,7 +11,9 @@ RoukaVici* RoukaVici::get()
   return rv ? rv : (rv = new RoukaVici());
 }
 
-RoukaVici::RoukaVici() : mf(new ManagerFactory()), dm(mf->get("TextManager")), grps(new GroupManager())
+RoukaVici::RoukaVici() : mf(new ManagerFactory()),
+                         dm(mf->get("TextManager")),
+                         grps(new GroupManager())
 {
   dm->FindDevice();
 }
