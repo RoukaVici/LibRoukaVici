@@ -74,17 +74,22 @@ DeviceManager* BTManager::create()
   return new BTManager();
 }
 
-void BTManager::Vibrate(char motor, char intensity) const
+int BTManager::Vibrate(char motor, char intensity) const
 {
-  if (port == nullptr)
-    return ;
   char msg[2] = {motor, intensity};
-  port->Write(msg, 2);
+  return this->Write(msg);
 }
 
-void BTManager::Write(const std::string& msg) const
+int BTManager::Write(const std::string& msg) const
 {
   if (port == nullptr)
-    return ;
-  port->Write(msg.c_str(), msg.length());
+    return 1;
+  try {
+    port->Write(msg.c_str(), msg.length());
+  }
+  catch (BluetoothException& e)
+    {
+      return 2;
+    }
+  return 0;
 }

@@ -26,15 +26,15 @@ extern "C"
     delete rv;
   }
 
-  EXPORTED void Write(const char * const msg)
+  EXPORTED int Write(const char * const msg)
   {
     std::string cppmsg(msg);
-    rv->Write(cppmsg);
+    return rv->Write(cppmsg);
   }
 
-  EXPORTED void Vibrate(char motor, char intensity)
+  EXPORTED int Vibrate(char motor, char intensity)
   {
-    rv->Vibrate(motor, intensity);
+    return rv->Vibrate(motor, intensity);
   }
 
   EXPORTED int NewGroup(const char * const name)
@@ -55,10 +55,10 @@ extern "C"
     return rv->RmFromGroup(cppname, motor);
   }
 
-  EXPORTED void VibrateGroup(const char* const name, char intensity)
+  EXPORTED int VibrateGroup(const char* const name, char intensity)
   {
     std::string cppname(name);
-    rv->VibrateGroup(cppname, intensity);
+    return rv->VibrateGroup(cppname, intensity);
   }
 
   EXPORTED int ChangeDeviceManager(const char* const name)

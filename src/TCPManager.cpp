@@ -71,15 +71,19 @@ int TCPManager::FindDevice()
   return 0;
 }
 
-void TCPManager::Write(const std::string& msg) const
+int TCPManager::Write(const std::string& msg) const
 {
-  send(sd, msg.c_str(), msg.length(), 0);
+  if (!this.HasDevice())
+    return 1;
+  if (send(sd, msg.c_str(), msg.length(), 0) == -1)
+    return 2;
+  return 0;
 }
 
-void TCPManager::Vibrate(char motor, char intensity) const
+int TCPManager::Vibrate(char motor, char intensity) const
 {
   char msg[2] = {motor, intensity};
-  send(sd, msg, 2, 0);
+  return this.Write(msg);
 }
 
 bool TCPManager::HasDevice() const

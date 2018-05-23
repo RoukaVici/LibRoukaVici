@@ -27,10 +27,13 @@ int VibrationGroup::Rm(char motor)
   return 0;
 }
 
-void VibrationGroup::Vibrate(char intensity, const DeviceManager* dm) const
+int VibrationGroup::Vibrate(char intensity, const DeviceManager* dm) const
 {
   for (auto motor = motors.begin() ; motor != motors.end() ; motor++)
     {
-      dm->Vibrate(*motor, intensity);
+      int ret = dm->Vibrate(*motor, intensity);
+      if (ret != 0)
+        return ret;
     }
+  return 0;
 }

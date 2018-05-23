@@ -22,8 +22,11 @@ public:
   virtual bool HasDevice() const = 0;
 
   /// Writes a string to the device directly
-  virtual void Write(const std::string& msg) const = 0;
+  /**
+   * Same return codes as Vibrate
+   */
+  virtual int Write(const std::string& msg) const = 0;
 
   // Vibrate given motor with given intensity
-  virtual void Vibrate(char motor, char intensity) const = 0;
+  virtual int Vibrate(char motor, char intensity) const = 0;
 };

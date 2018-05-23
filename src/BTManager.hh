@@ -23,9 +23,9 @@ public:
   virtual bool HasDevice() const;
 
   /// Write raw string to the device
-  virtual void Write(const std::string& msg) const;
+  virtual int Write(const std::string& msg) const;
   /// Send vibration to a given motor with a given intensity
-  virtual void Vibrate(char motor, char intensity) const;
+  virtual int Vibrate(char motor, char intensity) const;
 
 private:
   // Inquire object, handles queries to the bluetooth api

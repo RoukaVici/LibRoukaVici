@@ -15,9 +15,10 @@ int TextManager::FindDevice()
   return 0; // Always succeed
 }
 
-void TextManager::Write(const std::string& msg) const
+int TextManager::Write(const std::string& msg) const
 {
   std::cout << msg.c_str();
+  return 0;
 }
 
 bool TextManager::HasDevice() const
@@ -25,9 +26,10 @@ bool TextManager::HasDevice() const
   return true; // No actuall device to connect to, this is always true
 }
 
-void TextManager::Vibrate(char motor, char intensity) const
+int TextManager::Vibrate(char motor, char intensity) const
 {
-  std::cout << "Motor " << static_cast<int>(motor) << " vibrating at " << static_cast<int>(intensity) << std::endl;;
+  std::cout << "Motor " << static_cast<int>(motor) << " vibrating at " << static_cast<int>(intensity) << std::endl;
+  return 0;
 }
 
 DeviceManager* TextManager::create()

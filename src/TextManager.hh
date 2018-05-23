@@ -17,6 +17,6 @@ public:
 
   virtual int FindDevice();
   virtual bool HasDevice() const;
-  virtual void Write(const std::string& msg) const;
-  virtual void Vibrate(char motor, char intensity) const;
+  virtual int Write(const std::string& msg) const;
+  virtual int Vibrate(char motor, char intensity) const;
 };

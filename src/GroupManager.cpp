@@ -36,10 +36,10 @@ int GroupManager::RmFromGroup(const std::string& name, char motor)
   return grp->second->Rm(motor);
 }
 
-void GroupManager::VibrateGroup(const std::string& name, char intensity, DeviceManager* dm) const
+int GroupManager::VibrateGroup(const std::string& name, char intensity, DeviceManager* dm) const
 {
   auto grp = groups.find(name);
   if (grp == groups.end())
-    return;
-  grp->second->Vibrate(intensity, dm);
+    return 3;
+  return grp->second->Vibrate(intensity, dm);
 }

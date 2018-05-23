@@ -1,3 +1,6 @@
+// See Roukavici.hh for return code descriptions
+// TODO: Copy over all comments when the API is finished
+
 /// InitRVici initializes the library
 /**
  * Automatically starts trying to find the device as well
@@ -23,13 +26,10 @@ int Status();
 void StopRVici();
 
 /// Write to the device directly
-/**
- * Useful mostly for debugging purposes
- */
-void Write(const char * const msg);
+int Write(const char * const msg);
 
 /// Cause a vibration in motor x  with intensity y (from 0 to 255)
-void Vibrate(char motor, char intensity);
+int Vibrate(char motor, char intensity);
 
 /// Create a new vibration group
 /**
@@ -52,11 +52,5 @@ int RmFromGroup(const char * const name, char motor);
 /// Causes a group to vibrate with the given intensity (0-255)
 void VibrateGroup(const char* const name, char intensity);
 
-/// !!EXPERIMENTAL!! Changes device managers
-/**
- * See Managers files for more
- * Return codes:
- * 0: Changed
- * 1: No such manager
- */
+/// Changes device managers
 int ChangeDeviceManager(const char* const name);

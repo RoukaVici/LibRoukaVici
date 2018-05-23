@@ -22,14 +22,24 @@ public:
   // Singleton creator
   static RoukaVici* get();
   ~RoukaVici();
+
   /// Lets the developer write any string to the device.
   /**
-   * Used for debugging purposes
+   * You shouldn't ever have to use this, it is mostly used internally by DeviceManagers.
+   * However it is useful for debugging.
+   * Same return codes as Vibrate()
    */
-  void Write(const std::string& msg) const;
+  int Write(const std::string& msg) const;
 
   /// Simple vibration
-  void Vibrate(char motor, char intensity) const;
+  /**
+   * Note that this function returning 0 does not *necessarily* indicate that the vibration will be 100% successful, as some write functions could fail behind the scenes without the library being aware of it (for example, writing over a network)
+   * Return codes:
+   * 0 - OK
+   * 1 - No device to send to
+   * 2 - Error while writing to device
+   */
+  int Vibrate(char motor, char intensity) const;
 
   /// Returns values indicating current status
   /**
@@ -66,9 +76,21 @@ public:
   int RmFromGroup(const std::string& name, char motor);
 
   /// Vibrates the given group at the given intensity
-  void VibrateGroup(const std::string& name, char intensity) const;
+  /**
+   * Will return at the first error with the proper error code, even if there are motors left in the group.
+   * 0: Success
+   * 1: No device connected
+   * 2: Write failed
+   * 3: No such group
+   */
+  int VibrateGroup(const std::string& name, char intensity) const;
 
   /// Changes device managers
+  /**
+   * Return values:
+   * 0: Success
+   * 1: No such manager (did you compile the lib with support for that manager?)
+   */
   int ChangeDeviceManager(const std::string& name);
 
 private:

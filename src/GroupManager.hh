@@ -14,7 +14,7 @@ public:
   int NewGroup(const std::string& name);
   int AddToGroup(const std::string& name, char motor);
   int RmFromGroup(const std::string& name, char motor);
-  void VibrateGroup(const std::string& name, char motor, DeviceManager* dm) const;
+  int VibrateGroup(const std::string& name, char motor, DeviceManager* dm) const;
 private:
   std::map<std::string, VibrationGroup*>  groups;
 };

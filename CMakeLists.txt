@@ -6,7 +6,6 @@ SET (PROJ_NAME "roukavici")
 # Define project name & version
 project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
 
-
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/

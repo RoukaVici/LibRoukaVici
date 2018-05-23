@@ -15,7 +15,6 @@ RoukaVici::RoukaVici() : mf(new ManagerFactory()),
                          dm(mf->get("TextManager")),
                          grps(new GroupManager())
 {
-  dm->FindDevice();
 }
 
 RoukaVici::~RoukaVici()
@@ -37,14 +36,14 @@ int RoukaVici::FindDevice()
   return dm->HasDevice() ? 0 : 1;
 }
 
-void RoukaVici::Write(const std::string& msg) const
+int RoukaVici::Write(const std::string& msg) const
 {
-  dm->Write(msg);
+  return dm->Write(msg);
 }
 
-void RoukaVici::Vibrate(char motor, char intensity) const
+int RoukaVici::Vibrate(char motor, char intensity) const
 {
-  dm->Vibrate(motor, intensity);
+  return dm->Vibrate(motor, intensity);
 }
 
 int RoukaVici::NewGroup(const std::string& name)
@@ -62,9 +61,9 @@ int RoukaVici::RmFromGroup(const std::string& name, char motor)
   return grps->RmFromGroup(name, motor);
 }
 
-void RoukaVici::VibrateGroup(const std::string& name, char intensity) const
+int RoukaVici::VibrateGroup(const std::string& name, char intensity) const
 {
-  grps->VibrateGroup(name, intensity, dm);
+  return grps->VibrateGroup(name, intensity, dm);
 }
 
 int RoukaVici::ChangeDeviceManager(const std::string& name)

@@ -33,7 +33,7 @@ public:
   /**
    * Second parameter lets the group write to the device
    */
-  void Vibrate(char intensity, const DeviceManager* dm) const;
+  int Vibrate(char intensity, const DeviceManager* dm) const;
 private:
   const std::string name;
   std::vector<char>  motors;
