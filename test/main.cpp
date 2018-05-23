@@ -49,7 +49,11 @@ int main()
   void (*stoprvici)();
   int (*changeManager)(const char* const);
   int (*findDevice)();
-  void* handle = dlopen("libroukavici.so", RTLD_LAZY);
+  #if __linux
+    void* handle = dlopen("libroukavici.so", RTLD_LAZY);
+  #elif __APPLE__
+    void* handle = dlopen("libroukavici.dylib", RTLD_LAZY);
+  #endif
 
   if (!handle)
     {
