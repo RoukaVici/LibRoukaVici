@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-SET (PROJECT_VERSION "0.1")
+SET (PROJECT_VERSION "0.1.1")
 SET (PROJ_NAME "roukavici")
 
 # Define project name & version

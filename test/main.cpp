@@ -9,13 +9,13 @@ void testVibrate(void* handle)
   *(void**)(&vibrate) = dlsym(handle, "Vibrate");
   std::cerr << "Turning on motor 0" << std::endl;
   vibrate(0, 255);
-  sleep(2);
+  sleep(1);
   std::cerr << "Turning off motor 0" << std::endl;
   vibrate(0, 0);
-  sleep(2);
+  sleep(1);
   std::cerr << "Turning on motor 1" << std::endl;
   vibrate(1, 255);
-  sleep(2);
+  sleep(1);
   std::cerr << "Turning off motor 1" << std::endl;
   vibrate(1, 0);
   sleep(1);
@@ -37,7 +37,7 @@ void  testGroups(void* handle)
   addToGroup("mygroup", 1);
   std::cerr << "Turning on motors 0+1" << std::endl;
   vibrateGroup("mygroup", 255);
-  sleep(2);
+  sleep(1);
   std::cerr << "Turning off motors 0+1" << std::endl;
   vibrateGroup("mygroup", 0);
   sleep(1);
@@ -70,6 +70,7 @@ int main()
   // Put in Bluetooth mode
   if (changeManager("BTManager") != 0)
     {
+      std::cout << "No BT Manager detected. Stopping here" << std::endl;
       return 1;
     }
   if (findDevice() != 0)
