@@ -15,7 +15,6 @@ RoukaVici::RoukaVici() : mf(new ManagerFactory()),
                          dm(mf->get("TextManager")),
                          grps(new GroupManager())
 {
-  std::cout << "DeviceManager: " << dm << std::endl;
 }
 
 RoukaVici::~RoukaVici()
@@ -28,6 +27,8 @@ RoukaVici::~RoukaVici()
 int RoukaVici::Status()
 {
   std::cout << " -- ROUKAVICI CHECKING STATUS -- " << std::endl;
+  std::cout << "this value: " << this << std::endl;
+  std::cout << "dm value value: " << dm << std::endl;
   if (!dm->HasDevice())
     return 1;
   return 0;
