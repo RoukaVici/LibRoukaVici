@@ -15,6 +15,7 @@ RoukaVici::RoukaVici() : mf(new ManagerFactory()),
                          dm(mf->get("TextManager")),
                          grps(new GroupManager())
 {
+  std::cout << "DeviceManager: " << dm << std::endl;
 }
 
 RoukaVici::~RoukaVici()

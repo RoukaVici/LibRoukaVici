@@ -3,7 +3,7 @@
 
 TextManager::TextManager()
 {
-  std::cout.setf( std::ios_base::unitbuf );
+  // std::cout.setf( std::ios_base::unitbuf );
 }
 
 TextManager::~TextManager()
