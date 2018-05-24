@@ -44,7 +44,7 @@ int BTManager::FindDevice()
   for (const auto& d: devices)
     {
 #ifdef ROUKAVERBOSE
-      std::cout << "- Found: " << d.name << "/" << d.address<< std::endl;
+      std::cout << "[LibRoukaVici]\tFound: " << d.name << "/" << d.address<< std::endl;
 #endif
       if (d.name.compare("RoukaVici") == 0)
         {

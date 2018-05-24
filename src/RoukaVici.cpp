@@ -15,6 +15,9 @@ RoukaVici::RoukaVici() : mf(new ManagerFactory()),
 
 RoukaVici::~RoukaVici()
 {
+#ifdef ROUKAVERBOSE
+  std::cout << "[LibRoukaVici][" << this << "] Closing library. Obama out." << std::endl;
+#endif
   delete grps;
   delete dm;
   delete mf;
@@ -71,9 +74,15 @@ int RoukaVici::VibrateGroup(const std::string& name, char intensity) const
 
 int RoukaVici::ChangeDeviceManager(const std::string& name)
 {
+#ifdef ROUKAVERBOSE
+  std::cout << "[LibRoukaVici][" << this << "] Changing DeviceManager" << std::endl;
+#endif
   DeviceManager* temp = mf->get(name);
   if (temp == nullptr)
     return 1;
+#ifdef ROUKAVERBOSE
+  std::cout << "[LibRoukaVici] Old dm=" << dm << "\tNew dm=" << temp << std::endl;
+#endif
   delete dm;
   dm = temp;
   return 0;
