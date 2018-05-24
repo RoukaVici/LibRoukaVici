@@ -16,9 +16,10 @@ class GroupManager;
 class EXPORTED RoukaVici {
   // Roukavici can only be instantiated through its get() singleton method
 private:
-  RoukaVici();
 
 public:
+  // Public constructor, to check
+  RoukaVici();
   // Singleton creator
   static RoukaVici* get();
   ~RoukaVici();

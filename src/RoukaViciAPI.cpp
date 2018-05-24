@@ -7,8 +7,7 @@ extern "C"
 {
   EXPORTED int InitRVici()
   {
-    if (rv == 0)
-      rv = RoukaVici::get();
+    rv = new RoukaVici();
     return rv->Status();
   }
 
