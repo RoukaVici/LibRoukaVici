@@ -26,6 +26,7 @@ RoukaVici::~RoukaVici()
 
 int RoukaVici::Status()
 {
+  std::cout << " -- ROUKAVICI CHECKING STATUS -- " << std::endl;
   if (!dm->HasDevice())
     return 1;
   return 0;
