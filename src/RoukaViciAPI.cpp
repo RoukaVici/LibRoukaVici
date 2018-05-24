@@ -1,3 +1,4 @@
+#include <iostream>
 #include "exported.hh"
 #include "RoukaVici.hh"
 
@@ -7,6 +8,9 @@ extern "C"
 {
   EXPORTED int InitRVici()
   {
+#ifdef ROUKAVERBOSE
+    std::cout <<  "[LibRoukaVici] Starting library" << std::endl;
+#endif
     rv = new RoukaVici();
     return rv->Status();
   }
@@ -27,8 +31,14 @@ extern "C"
 
   EXPORTED void StopRVici()
   {
+#ifdef ROUKAVERBOSE
+    std::cout <<  "[LibRoukaVici] Stopping library..." << std::endl;
+#endif
     if (rv != 0)
       delete rv;
+#ifdef ROUKAVERBOSE
+    std::cout <<  "[LibRoukaVici] Library stopped" << std::endl;
+#endif
   }
 
  EXPORTED int Write(const char * const msg)

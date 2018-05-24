@@ -75,16 +75,17 @@ int main()
   if (changeManager("BTManager") != 0)
     {
       std::cout << "No BT Manager detected. Stopping here" << std::endl;
-      return 1;
+      goto endtest;
     }
   if (findDevice() != 0)
     {
       std::cout << "BT Manager failed to connect. Stopping here" << std::endl;
-      return 1;
+      goto endtest;
     }
   std::cout << "Testing BT Manager" << std::endl;
   testVibrate(handle);
   testGroups(handle);
+ endtest:
   stoprvici();
   return 0;
 }
