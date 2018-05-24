@@ -34,28 +34,36 @@ int BTManager::FindDevice()
       port = nullptr;
     }
 
+#ifdef ROUKAVERBOSE
+  std::cout << "[LibRoukaVici][" << this << "] Looking for Bluetooth devices" << std::endl;
+#endif
+
   // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
   // Maybe replace HasDevice() with Status(), returning a manager-specific int
   std::vector<device> devices = inq->Inquire();
   for (const auto& d: devices)
     {
-      std::cout << "- Found: " << d.name << std::endl;
+#ifdef ROUKAVERBOSE
+      std::cout << "- Found: " << d.name << "/" << d.address<< std::endl;
+#endif
       if (d.name.compare("RoukaVici") == 0)
         {
           int channelId = inq->SdpSearch(d.address);
           if (channelId == -1)
             {
-              std::cerr << "Failed to get device channel ID" << std::endl;
+              std::cerr << "[LibRoukaVici] Failed to get device channel ID" << std::endl;
               return 2;
             }
-          std::cout << "Channel ID: " << channelId << std::endl;
+#ifdef ROUKAVERBOSE
+          std::cout << "[LibRoukaVici] Channel ID: " << channelId << std::endl;
+#endif
           port = BTSerialPortBinding::Create(d.address, channelId);
           try {
             port->Connect();
           }
           catch (BluetoothException& e)
             {
-              std::cerr << "Could not connect to the device, did you enter the right PIN?" << std::endl;
+              std::cerr << "[LibRoukaVici] Could not connect to the device, did you enter the right PIN?" << std::endl;
               return 3;
             }
           return 0;

@@ -4,17 +4,13 @@
 #include "DeviceManager.hh"
 #include "GroupManager.hh"
 
-// Returns a RoukaVici singleton
-RoukaVici* RoukaVici::get()
-{
-  static RoukaVici *rv;
-  return rv ? rv : (rv = new RoukaVici());
-}
-
 RoukaVici::RoukaVici() : mf(new ManagerFactory()),
                          dm(mf->get("TextManager")),
                          grps(new GroupManager())
 {
+#ifdef ROUKAVERBOSE
+  std::cout <<  "[LibRoukaVici][" << this << "] RoukaVici successfully initiated(dm=" << dm << ")" << std::endl;
+#endif
 }
 
 RoukaVici::~RoukaVici()
@@ -26,9 +22,9 @@ RoukaVici::~RoukaVici()
 
 int RoukaVici::Status()
 {
-  std::cout << " -- ROUKAVICI CHECKING STATUS -- " << std::endl;
-  std::cout << "this value: " << this << std::endl;
-  std::cout << "dm value value: " << dm << std::endl;
+#ifdef ROUKAVERBOSE
+  std::cout << "[LibRoukaVici][" << this << "] Checking RoukaVici status" << std::endl;
+#endif
   if (!dm->HasDevice())
     return 1;
   return 0;
@@ -36,6 +32,9 @@ int RoukaVici::Status()
 
 int RoukaVici::FindDevice()
 {
+#ifdef ROUKAVERBOSE
+  std::cout << "[LibRoukaVici][" << this << "] Finding device" << std::endl;
+#endif
   dm->FindDevice();
   return dm->HasDevice() ? 0 : 1;
 }

@@ -13,7 +13,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 SET (PROJECT_ROOT ".")
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
-SET (PROJECT_EXPORTED "${PROJECT_SRC}")
 
 SET (LIB_DIR "lib")
 
@@ -30,7 +29,7 @@ endif()
 
 # Setting sources, more files will be added depending on options
 set(LIBSRCS
-${PROJECT_EXPORTED}/RoukaViciAPI.cpp
+${PROJECT_SRC}/RoukaViciAPI.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
 ${PROJECT_SRC}/GroupManager.cpp
 ${PROJECT_SRC}/ManagerFactory.cpp
@@ -55,6 +54,7 @@ if (${LUSBOPT})
   set(LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/USBManager.cpp)
   ## Set the proper preprocessor defs
   add_definitions(-DLIBUSB_COMPILE)
+  include_directories(${LIBUSB_INCLUDE_DIR})
 endif (${LUSBOPT})
 
 
@@ -97,7 +97,17 @@ if (${BTOPT})
   add_subdirectory(${LIB_DIR}/${BTDIRNAME}) # Add bluetoothserialport cmake
 endif (${BTOPT})
 
-include_directories(${PROJECT_SRC} ${LIBUSB_INCLUDE_DIR} ${PROJECT_EXPORTED})
+## Verbose output for the lib
+set (VERBOPT "VERB")
+option (${VERBOPT} "Verbose output for the library. Library is silent otherwise" ON)
+## Options if true
+if (${VERBOPT})
+  MESSAGE( STATUS "Building in verbose mode, get used to me talking")
+  add_definitions(-DROUKAVERBOSE)
+endif(${VERBOPT})
+
+
+include_directories(${PROJECT_SRC})
 
 ###
 # libroukavici

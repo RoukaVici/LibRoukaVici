@@ -14,14 +14,9 @@ class GroupManager;
  * and without losing any of the API methods.
  */
 class EXPORTED RoukaVici {
-  // Roukavici can only be instantiated through its get() singleton method
-private:
-
 public:
   // Public constructor, to check
   RoukaVici();
-  // Singleton creator
-  static RoukaVici* get();
   ~RoukaVici();
 
   /// Lets the developer write any string to the device.
