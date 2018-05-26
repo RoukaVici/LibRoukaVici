@@ -3,18 +3,20 @@
 #include <iostream>
 
 int vibrateMotor(RoukaVici *rv, char motor) {
+  int res = 0;
   res = rv->Vibrate(0, 255); // Send vibration to motor 0, at full strength
   if (res != 0) {
     std::cerr << "Write on failed" << std::endl;
-    return 1;
+    goto finish;
   }
   usleep(1000000);
   res = rv->Vibrate(0, 0); // Stop motor 0
   if (res != 0) {
     std::cerr << "Write off failed" << std::endl;
-    return 1;
+    goto finish;
   }
-  return 0;
+ finish:
+  return res;
 }
 
 int main() {
@@ -34,7 +36,7 @@ int main() {
     goto finish;
   }
   // Vibrate all 5 fingers
-  if (vibrateMotor(0) || vibrateMotor(1) || vibrateMotor(2) || vibrateMotor(3) || vibrateMotor(4)) {
+  if (vibrateMotor(rv, 0) || vibrateMotor(rv, 1) || vibrateMotor(rv, 2) || vibrateMotor(rv, 3) || vibrateMotor(rv, 4)) {
     goto finish;
   }
 
