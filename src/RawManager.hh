@@ -2,15 +2,15 @@
 
 #include "DeviceManager.hh"
 
-/// This class prints out data sent to it in a human-readable format.
+/// This class prints out data sent to it as raw bytes
 /**
- * Used for debugging purposes
+ * Used for debugging, you can pipe the output to the glove in whatever way you want
  */
-class TextManager : public DeviceManager
+class RawManager : public DeviceManager
 {
 public:
-  TextManager();
-  ~TextManager();
+  RawManager();
+  ~RawManager();
 
   static DeviceManager* create();
 

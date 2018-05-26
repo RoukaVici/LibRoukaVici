@@ -17,9 +17,15 @@ int TextManager::FindDevice()
 
 int TextManager::Write(const std::string& msg) const
 {
-  std::cout << msg.c_str();
+  return this->Write(msg.c_str(), msg.length());
+}
+
+int TextManager::Write(const char* msg, int length) const
+{
+  std::cout << "Wrote: '" << msg << "' with length " << length << std::endl;
   return 0;
 }
+
 
 bool TextManager::HasDevice() const
 {

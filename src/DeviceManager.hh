@@ -26,6 +26,7 @@ public:
    * Same return codes as Vibrate
    */
   virtual int Write(const std::string& msg) const = 0;
+  virtual int Write(const char* msg, int length) const = 0;
 
   // Vibrate given motor with given intensity
   virtual int Vibrate(char motor, char intensity) const = 0;

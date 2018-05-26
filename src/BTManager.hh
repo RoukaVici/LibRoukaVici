@@ -24,6 +24,7 @@ public:
 
   /// Write raw string to the device
   virtual int Write(const std::string& msg) const;
+  virtual int Write(const char* msg, int length) const;
   /// Send vibration to a given motor with a given intensity
   virtual int Vibrate(char motor, char intensity) const;
 

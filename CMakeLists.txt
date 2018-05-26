@@ -34,6 +34,7 @@ ${PROJECT_SRC}/RoukaVici.cpp
 ${PROJECT_SRC}/GroupManager.cpp
 ${PROJECT_SRC}/ManagerFactory.cpp
 ${PROJECT_SRC}/TextManager.cpp
+${PROJECT_SRC}/RawManager.cpp
 ${PROJECT_SRC}/VibrationGroup.cpp
 )
 
@@ -130,9 +131,13 @@ if (${TESTOPT})
    # test executable
    ###
    SET (TEST_FOLDER "${PROJECT_ROOT}/test")
-   SET (TEST_BIN roukavici_test)
+   SET (CTEST c_test)
+   SET (CPPTEST cpp_test)
 
    ## Necessary for testing
-   add_executable(${TEST_BIN} ${TEST_FOLDER}/main.cpp)
-   target_link_libraries(${TEST_BIN} ${PROJ_NAME} ${CMAKE_DL_LIBS})
+   add_executable(${CTEST} ${TEST_FOLDER}/main.cpp)
+   add_executable(${CPPTEST} ${TEST_FOLDER}/maincpp.cpp)
+
+   target_link_libraries(${CTEST} ${PROJ_NAME} ${CMAKE_DL_LIBS})
+   target_link_libraries(${CPPTEST} ${PROJ_NAME} ${CMAKE_DL_LIBS})
 endif (${TESTOPT})

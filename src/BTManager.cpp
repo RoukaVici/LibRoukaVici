@@ -64,6 +64,8 @@ int BTManager::FindDevice()
           catch (BluetoothException& e)
             {
               std::cerr << "[LibRoukaVici] Could not connect to the device, did you enter the right PIN?" << std::endl;
+              delete port;
+              port = nullptr;
               return 3;
             }
           return 0;
@@ -85,19 +87,24 @@ DeviceManager* BTManager::create()
 int BTManager::Vibrate(char motor, char intensity) const
 {
   char msg[2] = {motor, intensity};
-  return this->Write(msg);
+  return this->Write(msg, 2);
 }
 
-int BTManager::Write(const std::string& msg) const
+int BTManager::Write(const char* msg, int length) const
 {
   if (port == nullptr)
     return 1;
   try {
-    port->Write(msg.c_str(), msg.length());
+    port->Write(msg, length);
   }
-  catch (BluetoothException& e)
-    {
+  catch (BluetoothException& e) {
       return 2;
-    }
+  }
   return 0;
+}
+
+
+int BTManager::Write(const std::string& msg) const
+{
+  return this->Write(msg.c_str(), msg.length());
 }

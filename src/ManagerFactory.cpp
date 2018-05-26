@@ -1,6 +1,7 @@
 #include "ManagerFactory.hh"
 
 #include "TextManager.hh"
+#include "RawManager.hh"
 // If the user wants to use libusb
 #ifdef LIBUSB_COMPILE
 # include "USBManager.hh"
@@ -19,6 +20,7 @@ ManagerFactory::ManagerFactory()
 {
   // Here we'll add every manager, including those in options
   managers["TextManager"] = TextManager::create;
+  managers["TextManager"] = RawManager::create;
 #ifdef LIBUSB_COMPILE
   managers["USBManager"] = USBManager::create;
 #endif
