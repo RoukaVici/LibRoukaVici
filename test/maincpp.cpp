@@ -4,7 +4,7 @@
 
 int main() {
   RoukaVici *rv = new RoukaVici();
-  rv->ChangeDeviceManager("RawManager");
+  rv->ChangeDeviceManager("BTManager");
   rv->FindDevice();
   int res = rv->Vibrate(0, 255);
   if (res) {
