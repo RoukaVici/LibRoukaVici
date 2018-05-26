@@ -50,7 +50,7 @@ int RoukaVici::Write(const std::string& msg) const
 int RoukaVici::Vibrate(char motor, char intensity) const
 {
 #ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Vibration order received" << std::endl;
+  std::cout << "[LibRoukaVici][" << this << "] Vibration order received: " << static_cast<int>(static_cast<unsigned char>(motor)) << ":" << static_cast<int>(intensity) << std::endl;
 #endif
   return dm->Vibrate(motor, intensity);
 }
