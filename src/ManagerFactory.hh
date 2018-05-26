@@ -13,6 +13,14 @@ public:
   ManagerFactory();
   ~ManagerFactory();
 
+  /// Return a pointer to the given DeviceManager
+  /**
+   * Possible DeviceManagers:
+   * - TextManager (Default)
+   * - RawManager
+   * - BTManager
+   * See each .hh file for description of each manager
+   */
   DeviceManager* get(const std::string& name);
 
 private:

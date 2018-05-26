@@ -21,13 +21,21 @@ public:
   /// Indicates whether the manager has found the device
   virtual bool HasDevice() const = 0;
 
-  /// Writes a string to the device directly
+  /// Writes a string to the device
   /**
-   * Same return codes as Vibrate
+   * 0: Write succeeded
+   * 1: Not connected to device
+   * 2: Error while writing
    */
   virtual int Write(const std::string& msg) const = 0;
   virtual int Write(const char* msg, int length) const = 0;
 
-  // Vibrate given motor with given intensity
+  /// Vibrate given motor with given intensity
+  /**
+   * 0: Write succeeded
+   * 1: Not connected to device
+   * 2: Error while writing
+   */
+
   virtual int Vibrate(char motor, char intensity) const = 0;
 };

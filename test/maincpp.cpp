@@ -1,16 +1,16 @@
-#include "RoukaVici.hh"
 #include <unistd.h>
 #include <iostream>
+#include "RoukaVici.hh"
 
 int vibrateMotor(RoukaVici *rv, char motor) {
   int res = 0;
-  res = rv->Vibrate(0, 255); // Send vibration to motor 0, at full strength
+  res = rv->Vibrate(motor, 255); // Send vibration to motor 0, at full strength
   if (res != 0) {
     std::cerr << "Write on failed" << std::endl;
     goto finish;
   }
   usleep(1000000);
-  res = rv->Vibrate(0, 0); // Stop motor 0
+  res = rv->Vibrate(motor, 0); // Stop motor 0
   if (res != 0) {
     std::cerr << "Write off failed" << std::endl;
     goto finish;

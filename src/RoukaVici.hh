@@ -21,19 +21,19 @@ public:
 
   /// Lets the developer write any string to the device.
   /**
-   * You shouldn't ever have to use this, it is mostly used internally by DeviceManagers.
-   * However it is useful for debugging.
-   * Same return codes as Vibrate()
+   * 0 - OK
+   * 1 - No device to send to
+   * 2 - Error while writing to device
+   * Note that this function returning 0 does not *necessarily* indicate that the vibration will be 100% successful, as some write functions could fail behind the scenes without the library being aware of it (for example, writing over a network)
    */
   int Write(const std::string& msg) const;
 
   /// Simple vibration
   /**
-   * Note that this function returning 0 does not *necessarily* indicate that the vibration will be 100% successful, as some write functions could fail behind the scenes without the library being aware of it (for example, writing over a network)
-   * Return codes:
    * 0 - OK
    * 1 - No device to send to
    * 2 - Error while writing to device
+   * Note that this function returning 0 does not *necessarily* indicate that the vibration will be 100% successful, as some write functions could fail behind the scenes without the library being aware of it (for example, writing over a network)
    */
   int Vibrate(char motor, char intensity) const;
 

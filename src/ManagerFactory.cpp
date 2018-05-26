@@ -21,6 +21,7 @@ ManagerFactory::ManagerFactory()
   // Here we'll add every manager, including those in options
   managers["TextManager"] = TextManager::create;
   managers["RawManager"] = RawManager::create;
+  // If the user asked to compile with an option, we add this option to the factory
 #ifdef LIBUSB_COMPILE
   managers["USBManager"] = USBManager::create;
 #endif
@@ -41,10 +42,11 @@ ManagerFactory::~ManagerFactory()
 
 DeviceManager* ManagerFactory::get(const std::string& name)
 {
-  // managers is a map containing the create() functions of the proper class
+  // Managers is a map containing the create() functions of the proper class
   if (managers.find(name) == managers.end())
     {
       return nullptr;
     }
+  // The functor exists, we return its value, which should be a pointer to the proper class
   return managers[name]();
 }
