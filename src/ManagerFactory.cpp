@@ -20,7 +20,7 @@ ManagerFactory::ManagerFactory()
 {
   // Here we'll add every manager, including those in options
   managers["TextManager"] = TextManager::create;
-  managers["TextManager"] = RawManager::create;
+  managers["RawManager"] = RawManager::create;
 #ifdef LIBUSB_COMPILE
   managers["USBManager"] = USBManager::create;
 #endif

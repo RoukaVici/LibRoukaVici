@@ -46,7 +46,8 @@ public:
 
   /// Orders the device manager to find a device
   /**
-   * Returns 0 if found, 1 otherwise
+   * 0: Device found
+   * Other return values depend on the DeviceManager used, refer to their headers
    */
   int FindDevice();
 
