@@ -3,18 +3,34 @@
 #include <iostream>
 
 int main() {
-  RoukaVici *rv = new RoukaVici();
-  rv->ChangeDeviceManager("BTManager");
-  rv->FindDevice();
-  int res = rv->Vibrate(0, 255);
-  if (res) {
+  int res;
+  RoukaVici *rv = new RoukaVici();  // Initialize the library
+  // Library is now in text mode, it will print vibrations to the standard output in human-readable format
+
+  res = rv->ChangeDeviceManager("BTManager"); // Change to Bluetooth mode.
+  if (res != 0) {
+    std::cerr << "Could not change device manager, error code: " << res << std::endl;
+    goto finish;
+  }
+  res = rv->FindDevice(); // Attempt to find the glove
+  if (res != 0) {
+    // Print error message. We're using BTManager so the error code will be explained in BTManager.hh
+    std::cerr << "Could not find Bluetooth device, error code: " << res << std::endl;
+    goto finish;
+  }
+
+  res = rv->Vibrate(0, 255); // Send vibration to motor 0, at full strength
+  if (res != 0) {
     std::cerr << "Write on failed" << std::endl;
+    goto finish;
   }
   usleep(1000000);
-  res = rv->Vibrate(0, 0);
-  if (res) {
+  res = rv->Vibrate(0, 0); // Stop motor 0
+  if (res != 0) {
     std::cerr << "Write off failed" << std::endl;
+    goto finish;
   }
+ finish:
   delete rv;
-  return 0;
+  return res;
 }
