@@ -2,6 +2,21 @@
 #include <unistd.h>
 #include <iostream>
 
+int vibrateMotor(RoukaVici *rv, char motor) {
+  res = rv->Vibrate(0, 255); // Send vibration to motor 0, at full strength
+  if (res != 0) {
+    std::cerr << "Write on failed" << std::endl;
+    return 1;
+  }
+  usleep(1000000);
+  res = rv->Vibrate(0, 0); // Stop motor 0
+  if (res != 0) {
+    std::cerr << "Write off failed" << std::endl;
+    return 1;
+  }
+  return 0;
+}
+
 int main() {
   int res;
   RoukaVici *rv = new RoukaVici();  // Initialize the library
@@ -18,18 +33,11 @@ int main() {
     std::cerr << "Could not find Bluetooth device, error code: " << res << std::endl;
     goto finish;
   }
+  // Vibrate all 5 fingers
+  if (vibrateMotor(0) || vibrateMotor(1) || vibrateMotor(2) || vibrateMotor(3) || vibrateMotor(4)) {
+    goto finish;
+  }
 
-  res = rv->Vibrate(0, 255); // Send vibration to motor 0, at full strength
-  if (res != 0) {
-    std::cerr << "Write on failed" << std::endl;
-    goto finish;
-  }
-  usleep(1000000);
-  res = rv->Vibrate(0, 0); // Stop motor 0
-  if (res != 0) {
-    std::cerr << "Write off failed" << std::endl;
-    goto finish;
-  }
  finish:
   delete rv;
   return res;
