@@ -2,36 +2,59 @@
 This library provides an API between the computer and the RoukaVici glove. It aims to function both on Linux and on Windows.
 
 # Dependencies
-## Linux
+## Linux & MacOS
 - `cmake >= 3.9`
-- `libdl` (for tests, canbe ignored by setting off tests with -DTEST=FALSE)
+- `libdl` (Optional, for tests. Can be ignored by setting off tests with -DTEST=FALSE)
 
 ## Windows
 - `cmake >= 3.9`
-- `Visual Studio` with `C++ Build Tools` installed
+- `Visual Studio` with `C++ Build Tools` installed (in other words, you need to have MSVC++ installed)
 
 # Building
 ## Linux & MacOS
 - `mkdir build && cd build/ && cmake .. [flags]`
 - `make`
-- Output file: `libroukavici.so`
+- Output files: `build/libroukavici.so` and `build/lib/bluetooth-serial-port/bluetoothserialport.so`
 
 **Note**: As of this writing, MacOS cannot compile the Bluetooth library. Run cmake with `-DBT=FALSE` option if build fails.
 
 ## Windows (Powershell)
 - `mkdir build && cd build/ && cmake .. [flags]`
-- Open Visual Studio and open the `.sln` file generated in the project's `build/` folder. Build the solution.
-- Output files: `Debug/roukavici.dll` and `Debug/roukavici.lib`
+- `cmake --build .`
+- Output files: `build/Debug/roukavici.dll`, `build/Debug/roukavici.lib` and `build/Debug/lib/bluetooth-serial-port/bluetoothserialport.dll`.
 
 ## Build flags
-- `-DUSB`: Boolean, decides if the lib is compiled with USB support. FALSE by default.
-- `-DTEST`: Boolean, decides if the test binary should be compiled. TRUE on Linux, FALSE otherwise by default.
-- `-DBT`: Boolean, decides if the lib should be compiled with Bluetooth support. TRUE by default
-- `-DTCP`: Boolean, decides if the lib should be compiled with TCP support. FALSE by default
+- `-DUSB`: Decides if the lib is compiled with USB support. FALSE by default.
+- `-DTEST`: Decides if the test binaries should be compiled. TRUE on Linux, FALSE otherwise by default.
+- `-DBT`: Decides if the lib should be compiled with Bluetooth support. TRUE by default
+- `-DTCP`: Decides if the lib should be compiled with TCP support. FALSE by default
+- `-DVERB`: Decides if the lib should be compiled in verbose mode. If set to FALSE, the library will print no log messages to the standard output, only displaying errors on the error output. TRUE by default.
 
 # How to use
 ## C++
-Link to the dynamic library and use the header `RoukaVici.hh`. From there, you can call all of the `RoukaVici` class' methods contained in the header.
+Link to the dynamic library and use the header `RoukaVici.hh`. From there, you can call all of the `RoukaVici` class' methods contained in the header:
+```cpp
+#include "RoukaVici.hh"
+#include <unistd.h>
+#include <iostream>
+
+int main() {
+  RoukaVici *rv = new RoukaVici();
+  rv->ChangeDeviceManager("BTManager");
+  rv->FindDevice();
+  int res = rv->Vibrate(0, 255);
+  if (res) {
+    std::cerr << "Write on failed" << std::endl;
+  }
+  usleep(1000000);
+  res = rv->Vibrate(0, 0);
+  if (res) {
+    std::cerr << "Write off failed" << std::endl;
+  }
+  delete rv;
+  return 0;
+}
+```
 
 ## Other Languages
 If your language can import C functions through a dynamic library, then you can use RoukaVici through its C API.
@@ -55,6 +78,7 @@ The RoukaVici library uses different DeviceManagers to connect to the glove. Thi
 
 - TextManager (default): Doesn't connect to the glove at all. This manager is on when the library is initialized. If you send vibrations through the TextManager, it prints the motor number and the intensity in the console. Very useful for debugging.
 - BTManager: Connects to the glove through Bluetooth, using a cross-platform library (`lib/bluetooth-serial-port`).
+- RawManager: Prints out the motor number and intensity as raw bytes when a vibration order is sent. There's very few reasons anyone would use this, but you can use it to send data directly to the glove through whatever mean you want.
 
 You can change to any device manager at any time by calling `RoukaVici.ChangeDeviceManager` with the name of the device as parameter. Keep in mind that if this fails, you may not have built the library with support for that device (see Build Flags).
 
