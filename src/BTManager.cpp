@@ -18,6 +18,8 @@ BTManager::~BTManager()
   delete inq;
 }
 
+
+
 /// Search for bluetooth devices, if we find the glove connect to it
 /**
  * Return codes:
@@ -40,7 +42,7 @@ int BTManager::FindDevice()
 
   // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
   // Maybe replace HasDevice() with Status(), returning a manager-specific int
-  std::vector<device> devices = inq->Inquire();
+  std::vector<device> devices = inq->Inquire(3);
   for (const auto& d: devices)
     {
 #ifdef ROUKAVERBOSE
