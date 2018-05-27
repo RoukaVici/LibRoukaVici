@@ -50,7 +50,8 @@ int BTManager::FindDevice()
 #endif
       if (d.name.compare("RoukaVici") == 0)
         {
-          int channelId = inq->SdpSearch(d.address);
+          // int channelId = inq->SdpSearch(d.address);
+          int channelId = 1; // This somehow works better??
           if (channelId == -1)
             {
               std::cerr << "[LibRoukaVici] Failed to get device channel ID" << std::endl;
