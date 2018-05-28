@@ -125,12 +125,13 @@ endif (${BTOPT})
 
 set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} VERSION 0)
 ## If the testing option is true
+SET (TEST_FOLDER "${PROJECT_ROOT}/test")
+
 if (${TESTOPT})
   MESSAGE( STATUS "Building test executables")
    ###
    # test executable
    ###
-   SET (TEST_FOLDER "${PROJECT_ROOT}/test")
    SET (CTEST c_test)
    SET (CPPTEST cpp_test)
 
