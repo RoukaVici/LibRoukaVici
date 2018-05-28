@@ -7,7 +7,6 @@
 
 RoukaVici::RoukaVici()
 {
-  Debug::RegisterCallback(Debug::defaultLog);
   mf = new ManagerFactory();
   dm = mf->get("TextManager");
   grps = new GroupManager();

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "exported.hh"
 #include "RoukaVici.hh"
+#include "DebugCallback.h"
 
 RoukaVici *rv = 0;
 
