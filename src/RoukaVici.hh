@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include "exported.hh"
+#include "DebugCallback.h"
 
 class ManagerFactory;
 class DeviceManager;
@@ -89,6 +90,9 @@ public:
    * 1: No such manager (did you compile the lib with support for that manager?)
    */
   int ChangeDeviceManager(const std::string& name);
+
+  /// Lets you register a debug callback to get debug messages
+  void RegisterDebugCallback(DebugCallback callback);
 
 private:
   ManagerFactory                *mf;
