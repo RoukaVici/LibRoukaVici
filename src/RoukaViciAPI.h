@@ -1,6 +1,8 @@
 // See Roukavici.hh for return code descriptions
 // TODO: Copy over all comments when the API is finished
 
+#include "DebugCallback.h"
+
 /// InitRVici initializes the library
 /**
  * Automatically starts trying to find the device as well
@@ -54,3 +56,5 @@ void VibrateGroup(const char* const name, char intensity);
 
 /// Changes device managers
 int ChangeDeviceManager(const char* const name);
+
+int  RegisterDebugCallback(DebugCallback cb);

@@ -29,6 +29,7 @@ endif()
 
 # Setting sources, more files will be added depending on options
 set(LIBSRCS
+${PROJECT_SRC}/Debug.cpp
 ${PROJECT_SRC}/RoukaViciAPI.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
 ${PROJECT_SRC}/GroupManager.cpp

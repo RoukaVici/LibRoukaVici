@@ -1,3 +1,5 @@
+#include <sstream>
+#include "Debug.hh"
 #include "ManagerFactory.hh"
 
 #include "TextManager.hh"
@@ -18,21 +20,27 @@
 
 ManagerFactory::ManagerFactory()
 {
+  std::stringstream ss;
+  ss << "[LibRoukaVici] Initializing with modules:";
   // Here we'll add every manager, including those in options
   managers["TextManager"] = TextManager::create;
   managers["RawManager"] = RawManager::create;
   // If the user asked to compile with an option, we add this option to the factory
 #ifdef LIBUSB_COMPILE
   managers["USBManager"] = USBManager::create;
+  ss << " USBManager";
 #endif
 
 #ifdef BT_COMPILE
   managers["BTManager"] = BTManager::create;
+  ss << " BTManager";
 #endif
 
 #ifdef TCP_COMPILE
   managers["TCPManager"] = TCPManager::create;
+  ss << " TCPManager";
 #endif
+  Debug::Log(ss.str());
 }
 
 
