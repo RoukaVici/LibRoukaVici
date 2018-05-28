@@ -1,6 +1,7 @@
 #include <iostream>
 #include "exported.hh"
 #include "RoukaVici.hh"
+#include "DebugCallback.h"
 
 RoukaVici *rv = 0;
 
@@ -97,5 +98,13 @@ extern "C"
       return -1;
     std::string cppname(name);
     return rv->ChangeDeviceManager(cppname);
+  }
+
+  EXPORTED int RegisterDebugCallback(DebugCallback cb)
+  {
+    if (rv == 0)
+      return -1;
+    rv->RegisterDebugCallback(cb);
+    return 0;
   }
 }

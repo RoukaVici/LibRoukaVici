@@ -29,6 +29,7 @@ endif()
 
 # Setting sources, more files will be added depending on options
 set(LIBSRCS
+${PROJECT_SRC}/Debug.cpp
 ${PROJECT_SRC}/RoukaViciAPI.cpp
 ${PROJECT_SRC}/RoukaVici.cpp
 ${PROJECT_SRC}/GroupManager.cpp
@@ -63,9 +64,9 @@ endif (${LUSBOPT})
 set (TESTOPT "TEST")
 ## Define it. True by default on unix, false on windows
 if (UNIX)
-  option (${TESTOPT} "Build test executable" ON)
+  option (${TESTOPT} "Build test executables" ON)
 else()
-  option (${TESTOPT} "Build test executable" OFF)
+  option (${TESTOPT} "Build test executables" OFF)
 endif()
 
 
@@ -125,12 +126,13 @@ endif (${BTOPT})
 
 set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} VERSION 0)
 ## If the testing option is true
+SET (TEST_FOLDER "${PROJECT_ROOT}/test")
+
 if (${TESTOPT})
-  MESSAGE( STATUS "Building test executable")
+  MESSAGE( STATUS "Building test executables")
    ###
    # test executable
    ###
-   SET (TEST_FOLDER "${PROJECT_ROOT}/test")
    SET (CTEST c_test)
    SET (CPPTEST cpp_test)
 
@@ -141,3 +143,11 @@ if (${TESTOPT})
    target_link_libraries(${CTEST} ${PROJ_NAME} ${CMAKE_DL_LIBS})
    target_link_libraries(${CPPTEST} ${PROJ_NAME} ${CMAKE_DL_LIBS})
 endif (${TESTOPT})
+
+###
+# Interactive commands
+###
+SET (INTERACT interactive)
+
+add_executable(${INTERACT} ${TEST_FOLDER}/interactive.cpp)
+target_link_libraries(${INTERACT} ${PROJ_NAME} ${CMAKE_DL_LIBS})

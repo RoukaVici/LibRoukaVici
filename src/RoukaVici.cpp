@@ -1,23 +1,25 @@
-#include <iostream>
+#include <sstream>
 #include "RoukaVici.hh"
 #include "ManagerFactory.hh"
 #include "DeviceManager.hh"
 #include "GroupManager.hh"
+#include "Debug.hh"
 
-RoukaVici::RoukaVici() : mf(new ManagerFactory()),
-                         dm(mf->get("TextManager")),
-                         grps(new GroupManager())
+RoukaVici::RoukaVici()
 {
-#ifdef ROUKAVERBOSE
-  std::cout <<  "[LibRoukaVici][" << this << "] RoukaVici successfully initiated(dm=" << dm << ")" << std::endl;
-#endif
+  mf = new ManagerFactory();
+  dm = mf->get("TextManager");
+  grps = new GroupManager();
+  std::stringstream ss;
+  ss <<  "[LibRoukaVici][" << this << "] RoukaVici successfully initiated(dm=" << dm << ")";
+  Debug::Log(ss.str());
 }
 
 RoukaVici::~RoukaVici()
 {
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Closing library. Obama out." << std::endl;
-#endif
+  std::stringstream ss;
+  ss << "[LibRoukaVici][" << this << "] Closing library. Obama out.";
+  Debug::Log(ss.str());
   delete grps;
   delete dm;
   delete mf;
@@ -25,9 +27,9 @@ RoukaVici::~RoukaVici()
 
 int RoukaVici::Status()
 {
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Checking RoukaVici status" << std::endl;
-#endif
+  std::stringstream ss;
+  ss << "[LibRoukaVici][" << this << "] Checking RoukaVici status";
+  Debug::Log(ss.str());
   if (!dm->HasDevice())
     return 1;
   return 0;
@@ -35,9 +37,9 @@ int RoukaVici::Status()
 
 int RoukaVici::FindDevice()
 {
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Finding device" << std::endl;
-#endif
+  std::stringstream ss;
+  ss << "[LibRoukaVici][" << this << "] Finding device";
+  Debug::Log(ss.str());
   dm->FindDevice();
   return dm->HasDevice() ? 0 : 1;
 }
@@ -49,9 +51,9 @@ int RoukaVici::Write(const std::string& msg) const
 
 int RoukaVici::Vibrate(char motor, char intensity) const
 {
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Vibration order received: " << static_cast<int>(motor) << ":" << static_cast<int>(static_cast<unsigned char>(intensity)) << std::endl;
-#endif
+  std::stringstream ss;
+  ss << "[LibRoukaVici][" << this << "] Vibration order received: " << static_cast<int>(motor) << ":" << static_cast<int>(static_cast<unsigned char>(intensity));
+  Debug::Log(ss.str());
   return dm->Vibrate(motor, intensity);
 }
 
@@ -77,16 +79,25 @@ int RoukaVici::VibrateGroup(const std::string& name, char intensity) const
 
 int RoukaVici::ChangeDeviceManager(const std::string& name)
 {
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Changing DeviceManager" << std::endl;
-#endif
+  {
+    std::stringstream ss;
+    ss << "[LibRoukaVici][" << this << "] Changing DeviceManager";
+    Debug::Log(ss.str());
+  }
   DeviceManager* temp = mf->get(name);
   if (temp == nullptr)
     return 1;
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici] Old dm=" << dm << "\tNew dm=" << temp << std::endl;
-#endif
+  {
+    std::stringstream ss;
+    ss << "[LibRoukaVici] Old dm=" << dm << "\tNew dm=" << temp;
+    Debug::Log(ss.str());
+  }
   delete dm;
   dm = temp;
   return 0;
+}
+
+void RoukaVici::RegisterDebugCallback(DebugCallback callback)
+{
+  Debug::RegisterCallback(callback);
 }

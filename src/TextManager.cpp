@@ -1,5 +1,7 @@
 #include <iostream>
 #include "TextManager.hh"
+#include "Debug.hh"
+#include <sstream>
 
 TextManager::TextManager()
 {
@@ -22,7 +24,10 @@ int TextManager::Write(const std::string& msg) const
 
 int TextManager::Write(const char* msg, int length) const
 {
-  std::cout << "Wrote: '" << msg << "' with length " << length << std::endl;
+
+  std::stringstream ss;
+  ss << "Wrote: '" << msg << "' with length " << length;
+  Debug::Log(ss.str());
   return 0;
 }
 
@@ -34,8 +39,10 @@ bool TextManager::HasDevice() const
 
 int TextManager::Vibrate(char motor, char intensity) const
 {
-  std::cout << "[LibRoukaVici] Motor " << static_cast<int>(motor) << " vibrating at " <<
-    static_cast<int>(static_cast<unsigned char>(intensity)) << std::endl;
+  std::stringstream ss;
+  ss << "[LibRoukaVici] Motor " << static_cast<int>(motor) << " vibrating at " <<
+    static_cast<int>(static_cast<unsigned char>(intensity));
+  Debug::Log(ss.str(), true);
   return 0;
 }
 
