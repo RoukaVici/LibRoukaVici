@@ -1,7 +1,7 @@
 #include <iostream>
 #include "exported.hh"
 #include "RoukaVici.hh"
-#include "DebugCallback.h"
+#include "Debug.hh"
 
 RoukaVici *rv = 0;
 
@@ -92,19 +92,30 @@ extern "C"
     return rv->VibrateGroup(cppname, intensity);
   }
 
-  EXPORTED int ChangeDeviceManager(const char* const name)
+  EXPORTED int ChangeDeviceManager(const int idx)
   {
     if (rv == 0)
       return -1;
-    std::string cppname(name);
-    return rv->ChangeDeviceManager(cppname);
+    std::string name;
+    switch (idx) {
+      case 0:
+        name = "TextManager";
+        break;
+      case 1:
+        name = "RawManager";
+        break;
+      case 2:
+        name = "BTManager";
+        break;
+      default:
+        return -2;
+    }
+    return rv->ChangeDeviceManager(name);
   }
 
   EXPORTED int RegisterDebugCallback(DebugCallback cb)
   {
-    if (rv == 0)
-      return -1;
-    rv->RegisterDebugCallback(cb);
+    Debug::RegisterCallback(cb);
     return 0;
   }
 }

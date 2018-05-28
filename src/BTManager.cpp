@@ -1,6 +1,9 @@
 #include <vector>
 #include <iostream>
 
+#include <sstream>
+#include "Debug.hh"
+
 #include "BTManager.hh"
 #include "DeviceINQ.h"
 #include "BTSerialPortBinding.h"
@@ -36,18 +39,18 @@ int BTManager::FindDevice()
       port = nullptr;
     }
 
-#ifdef ROUKAVERBOSE
-  std::cout << "[LibRoukaVici][" << this << "] Looking for Bluetooth devices" << std::endl;
-#endif
+  std::stringstream ss;
+  ss << "[LibRoukaVici][" << this << "] Looking for Bluetooth devices" << std::endl;
+  Debug::Log(ss.str());
 
   // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
   // Maybe replace HasDevice() with Status(), returning a manager-specific int
   std::vector<device> devices = inq->Inquire(3);
   for (const auto& d: devices)
     {
-#ifdef ROUKAVERBOSE
-      std::cout << "[LibRoukaVici]\tFound: " << d.name << "/" << d.address<< std::endl;
-#endif
+      std::stringstream ss;
+      ss << "[LibRoukaVici]\tFound: " << d.name << "/" << d.address<< std::endl;
+      Debug::Log(ss.str());
       if (d.name.compare("RoukaVici") == 0)
         {
           // int channelId = inq->SdpSearch(d.address);
@@ -57,16 +60,18 @@ int BTManager::FindDevice()
               std::cerr << "[LibRoukaVici] Failed to get device channel ID" << std::endl;
               return 2;
             }
-#ifdef ROUKAVERBOSE
-          std::cout << "[LibRoukaVici] Channel ID: " << channelId << std::endl;
-#endif
+          std::stringstream ss;
+          ss << "[LibRoukaVici] Channel ID: " << channelId << std::endl;
+          Debug::Log(ss.str());
           port = BTSerialPortBinding::Create(d.address, channelId);
           try {
             port->Connect();
           }
           catch (BluetoothException& e)
             {
-              std::cerr << "[LibRoukaVici] Could not connect to the device, did you enter the right PIN?" << std::endl;
+              std::stringstream ss;
+              ss << "[LibRoukaVici] Channel ID: " << channelId << std::endl;
+              Debug::Log(ss.str(), true);
               delete port;
               port = nullptr;
               return 3;

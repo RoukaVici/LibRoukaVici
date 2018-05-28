@@ -55,6 +55,6 @@ int RmFromGroup(const char * const name, char motor);
 void VibrateGroup(const char* const name, char intensity);
 
 /// Changes device managers
-int ChangeDeviceManager(const char* const name);
+int ChangeDeviceManager(const int idx);
 
 int  RegisterDebugCallback(DebugCallback cb);
