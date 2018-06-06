@@ -46,7 +46,7 @@ extern "C"
   {
     if (rv == 0)
       return -1;
-    std::string cppmsg(msg);
+    const std::string cppmsg(msg);
     return rv->Write(cppmsg);
   }
 
@@ -63,7 +63,7 @@ extern "C"
     if (rv == 0)
       return -1;
 
-    std::string cppname(name);
+    const std::string cppname(name);
     return rv->NewGroup(cppname);
   }
 
@@ -72,7 +72,7 @@ extern "C"
     if (rv == 0)
       return -1;
 
-    std::string cppname(name);
+    const std::string cppname(name);
     return rv->AddToGroup(cppname, motor);
   }
 
@@ -80,7 +80,7 @@ extern "C"
   {
     if (rv == 0)
       return -1;
-    std::string cppname(name);
+    const std::string cppname(name);
     return rv->RmFromGroup(cppname, motor);
   }
 
@@ -88,7 +88,7 @@ extern "C"
   {
     if (rv == 0)
       return -1;
-    std::string cppname(name);
+    const std::string cppname(name);
     return rv->VibrateGroup(cppname, intensity);
   }
 
@@ -113,9 +113,31 @@ extern "C"
     return rv->ChangeDeviceManager(name);
   }
 
-  EXPORTED int RegisterDebugCallback(DebugCallback cb)
+  EXPORTED void SetLogMode(const int mode)
   {
-    Debug::RegisterCallback(cb);
-    return 0;
+    RoukaVici::SetLogMode(mode);
   }
+
+  EXPORTED int GetLogMode()
+  {
+    return RoukaVici::GetLogMode();
+  }
+
+  EXPORTED void SetLogFile(const char* const name)
+  {
+    const std::string cppname(name);
+    RoukaVici::SetLogFile(cppname);
+  }
+
+
+  EXPORTED void RegisterDebugCallback(DebugCallback cb)
+  {
+    RoukaVici::RegisterDebugCallback(cb);
+  }
+#ifdef _WIN32
+  EXPORTED void RegisterUnityDebugCallback(UnityDebugCallback cb)
+  {
+    RoukaVici::RegisterUnityDebugCallback(cb);
+  }
+#endif
 }

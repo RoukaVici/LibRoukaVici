@@ -91,9 +91,38 @@ public:
    */
   int ChangeDeviceManager(const std::string& name);
 
-  /// Lets you register a debug callback to get debug messages
-  void RegisterDebugCallback(DebugCallback callback);
+  /// Changes the logging method
+  /**
+   * Logging methods:
+   * 0: Write to std::cout
+   * 1: Write to file
+   * 2: Use DebugCallback
+   * 3: Use UnityDebugCallback (Windows only!)
+   */
+  static void SetLogMode(const int mode);
+  /// Get the current logging method
+  static int  GetLogMode();
 
+  /// Sets the logging file path.
+  /**
+   * Default value: ./RoukaViciLog.txt
+   */
+  static void SetLogFile(const std::string& path);
+
+  /// Lets you register a debug callback which will receive a C function
+  /**
+   * callback: void (*function)(const char * message);
+   */
+  static void RegisterDebugCallback(DebugCallback callback);
+
+#ifdef _WIN32
+  /// Lets you register a debug callback with an Unity function
+  /**
+   * callback: void (*function)(const char * message);
+   */
+  static void RegisterUnityDebugCallback(UnityDebugCallback callback);
+#endif
+  
 private:
   ManagerFactory                *mf;
   DeviceManager                 *dm;

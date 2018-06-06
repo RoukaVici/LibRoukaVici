@@ -74,6 +74,7 @@ This method exposes no more or less functions than using the C++ one. The C API 
 
 # How does it work?
 ## Flow
+- Before initialization, *you can call RoukaVici methods related to logging*, so that you can get accurate logging during initialization. More information in the "Logging" section.
 - Initialize the library, either by creating a new `RoukaVici` object (in C++) or by calling `RoukaVici.InitRVici` (if you're using the C API).
 - Change to the device manager of your choice using `RoukaVici.ChangeDeviceManager`. If you'd like to use the text (debug) mode, skip this step. More info about device managers in the next subsection.
 - You can now call `Roukavici.FindDevice` to allow the manager to find and connect to the device. This could take a while depending on which manager you're using.
@@ -88,3 +89,27 @@ The RoukaVici library uses different DeviceManagers to connect to the glove. Thi
 - RawManager: Prints out the motor number and intensity as raw bytes when a vibration order is sent. There's very few reasons anyone would use this, but you can use it to send data directly to the glove through whatever mean you want.
 
 You can change to any device manager at any time by calling `RoukaVici.ChangeDeviceManager` with the name of the device as parameter. Keep in mind that if this fails, you may not have built the library with support for that device (see Build Flags).
+
+## Logging
+RoukaVici has multiple modes of logging available. You can change these by calling `RoukaVici.SetLogMode** with an int parameter equal to the log method you want:
+- 0: Standard output
+- 1: File
+- 2: Callback
+- 3: Unity callback (WINDOWS ONLY)
+
+**Note**: RoukaVici will be silent if it is compiled without the VERBOSE flag, see compilation flags section!
+
+### Standard Output (0, default)
+By default, RoukaVici will output its messages to the standard output.
+
+### File (1)
+You can ask RoukaVici to log to file instead. By default, RoukaVici will log to the current directory in a file called `RoukaViciLog.txt`. You can change this by calling `RoukaVici.SetLogFile`.
+
+### Callback (2)
+If you enable this, RoukaVici will log its messages to a callback function of your choice. You pass the function to RoukaVici by using the `RoukaVici.SetDebugCallback` function. The function should be of the form:
+```C
+void function(const char* message);
+```
+
+### Unity Callback (3)
+Unity declares its functions differently, so if you're in Unity, you'll have to use this mode. It's exactly the same as `2`, but you need to call `RoukaVici.SetUnityDebugCallback` instead.

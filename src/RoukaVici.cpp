@@ -97,7 +97,29 @@ int RoukaVici::ChangeDeviceManager(const std::string& name)
   return 0;
 }
 
+int RoukaVici::GetLogMode()
+{
+  return Debug::GetLogMode();
+}
+
+void RoukaVici::SetLogMode(const int mode)
+{
+  Debug::SetLogMode(mode);
+}
+
+void RoukaVici::SetLogFile(const std::string& name)
+{
+  Debug::SetLogFile(name);
+}
+
 void RoukaVici::RegisterDebugCallback(DebugCallback callback)
 {
   Debug::RegisterCallback(callback);
 }
+
+#ifdef _WIN32
+void RoukaVici::RegisterUnityDebugCallback(UnityDebugCallback callback)
+{
+  Debug::RegisterUnityCallback(callback);
+}
+#endif
