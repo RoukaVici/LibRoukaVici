@@ -53,6 +53,10 @@ DeviceManager* ManagerFactory::get(const std::string& name)
   // Managers is a map containing the create() functions of the proper class
   if (managers.find(name) == managers.end())
     {
+      std::stringstream ss;
+      ss << "[LibRoukaVici] No Manager by the name of:" << name;
+      Debug::Log(ss.str());
+
       return nullptr;
     }
   // The functor exists, we return its value, which should be a pointer to the proper class

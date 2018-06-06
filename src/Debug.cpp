@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Debug.hh"
 
 DebugCallback cb = nullptr;
@@ -22,10 +23,13 @@ void Debug::Log(const std::string& msg, bool force)
 #endif
         cb(msg.c_str());
     }
-}
-
-// Prints on stdout
-void Debug::defaultLog(const char* msg)
-{
-  std::cout << msg << std::endl;
+    else
+    {
+#ifndef ROUKAVERBOSE
+      if (force)
+#else
+        (void)(force);
+#endif
+      std::cout << msg << std::endl;
+    }
 }
