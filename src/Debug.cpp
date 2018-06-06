@@ -43,6 +43,7 @@ void Debug::RegisterCallback(DebugCallback callback)
     }
 }
 
+
 void stdOut(const std::string& msg)
 {
   std::cout << msg << std::endl;
@@ -64,7 +65,15 @@ void callback(const std::string& msg)
 }
 
 #ifdef _WIN32
-void  unityCalllback(const std::string& msg)
+void Debug::RegisterUnityCallback(UnityDebugCallback callback)
+{
+  if (callback)
+    {
+      ucb = callback;
+    }
+}
+
+void  unityCallback(const std::string& msg)
 {
   if (ucb)
     {
