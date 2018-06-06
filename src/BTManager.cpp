@@ -42,7 +42,7 @@ int BTManager::FindDevice()
 
   // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
   // Maybe replace HasDevice() with Status(), returning a manager-specific int
-  std::vector<device> devices = inq->Inquire(3);
+  std::vector<device> devices = inq->Inquire(5);
   for (const auto& d: devices)
     {
 #ifdef ROUKAVERBOSE

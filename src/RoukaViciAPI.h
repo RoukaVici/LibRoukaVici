@@ -57,4 +57,5 @@ void VibrateGroup(const char* const name, char intensity);
 /// Changes device managers
 int ChangeDeviceManager(const char* const name);
 
+/// Register the debug function
 int  RegisterDebugCallback(DebugCallback cb);
