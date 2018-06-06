@@ -122,7 +122,7 @@ public:
    */
   static void RegisterUnityDebugCallback(UnityDebugCallback callback);
 #endif
-  
+
 private:
   ManagerFactory                *mf;
   DeviceManager                 *dm;
