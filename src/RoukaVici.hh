@@ -94,7 +94,7 @@ public:
   /// Changes the logging method
   /**
    * Logging methods:
-   * 0: Write to std::cout
+   * 0: Write to std::cout/std::cerr
    * 1: Write to file
    * 2: Use DebugCallback
    * 3: Use UnityDebugCallback (Windows only!)

@@ -40,7 +40,7 @@ int RawManager::Vibrate(char motor, char intensity) const
 {
   char msg[2] = {motor, intensity};
   return this->Write(msg, 2);
-} 
+}
 
 DeviceManager* RawManager::create()
 {

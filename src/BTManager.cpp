@@ -39,17 +39,25 @@ int BTManager::FindDevice()
       port = nullptr;
     }
 
-  std::stringstream ss;
-  ss << "[" << this << "] Looking for Bluetooth devices" << std::endl;
-  Debug::Log(ss.str());
-
+  {
+    std::stringstream ss;
+    ss << "[" << this << "] Looking for Bluetooth devices";
+    Debug::Log(ss.str());
+  }
   // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
   // Maybe replace HasDevice() with Status(), returning a manager-specific int
-  std::vector<device> devices = inq->Inquire(5);
+  std::vector<device> devices;
+    try {
+      devices = inq->Inquire(5);
+    } catch (BluetoothException& e) {
+    std::stringstream ss;
+    ss << "Unable to perform inquiry. Do you have a bluetooth device on? BluetoothSerialPort had this to say: " << e.what();
+    Debug::Err(ss.str());
+  }
   for (const auto& d: devices)
     {
       std::stringstream ss;
-      ss << "\tFound: " << d.name << "/" << d.address << std::endl;
+      ss << "\tFound: " << d.name << "(" << d.address << ")" << std::endl;
       Debug::Log(ss.str());
       if (d.name.compare("RoukaVici") == 0)
         {
@@ -57,7 +65,7 @@ int BTManager::FindDevice()
           int channelId = 1; // This somehow works better??
           if (channelId == -1)
             {
-              std::cerr << " Failed to get device channel ID" << std::endl;
+              Debug::Err("Failed to get device channel ID");
               return 2;
             }
           std::stringstream ss;
@@ -70,7 +78,7 @@ int BTManager::FindDevice()
           catch (BluetoothException& e)
             {
               std::stringstream ss;
-              ss << "Channel ID: " << channelId << std::endl;
+              ss << "Channel ID: " << channelId;
               Debug::Log(ss.str(), true);
               delete port;
               port = nullptr;

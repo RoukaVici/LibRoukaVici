@@ -4,7 +4,8 @@
 #include "Debug.hh"
 
 // const
-const std::string prefix = "[LibRoukaVici]";
+const std::string logPrefix = "[LibRV.LOG] ";
+const std::string errPrefix = "[LibRV.ERR] ";
 
 // Local variables
 int debugMethod = 0;
@@ -52,6 +53,11 @@ void stdOut(const std::string& msg)
   std::cout << msg << std::endl;
 }
 
+void stdErr(const std::string& msg)
+{
+  std::cerr << msg << std::endl;
+}
+
 void fileLog(const std::string& msg)
 {
   std::ofstream file;
@@ -79,7 +85,7 @@ void  unityCalllback(const std::string& msg)
 
 void Debug::Log(const std::string& msg, bool force)
 {
-  const std::string logMsg = (msg.length() > 0 && msg[0] == '[') ? prefix + msg : prefix + " " + msg;
+  const std::string logMsg = logPrefix + msg;
   // If we're not in Verbose mode, check if the message should be forced through, otherwise ignore it
   // If we're in verbose mode, it goes through either way
 #ifndef ROUKAVERBOSE
@@ -95,4 +101,19 @@ void Debug::Log(const std::string& msg, bool force)
     case 3: unityCallback(logMsg); break;
 #endif
     }
+}
+
+// Error messages are always shown, no need for 2nd param
+// Err writes to std::cerr, not std::cout
+void Debug::Err(const std::string& msg)
+{
+  const std::string errMsg = errPrefix + msg;
+  switch (debugMethod) {
+  case 0: stdErr(errMsg); break;
+  case 1: fileLog(errMsg); break;
+  case 2: callback(errMsg); break;
+#ifdef _WIN32
+  case 3: unityCallback(errMsg); break;
+#endif
+  }
 }

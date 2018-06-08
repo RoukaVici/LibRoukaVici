@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-SET (PROJECT_VERSION "0.1.1")
+SET (PROJECT_VERSION "0.2")
 SET (PROJ_NAME "roukavici")
 
 # Define project name & version
@@ -29,15 +29,15 @@ endif()
 
 # Setting sources, more files will be added depending on options
 set(LIBSRCS
-${PROJECT_SRC}/Debug.cpp
-${PROJECT_SRC}/RoukaViciAPI.cpp
-${PROJECT_SRC}/RoukaVici.cpp
-${PROJECT_SRC}/GroupManager.cpp
-${PROJECT_SRC}/ManagerFactory.cpp
-${PROJECT_SRC}/TextManager.cpp
-${PROJECT_SRC}/RawManager.cpp
-${PROJECT_SRC}/VibrationGroup.cpp
-)
+  ${PROJECT_SRC}/Debug.cpp
+  ${PROJECT_SRC}/RoukaViciAPI.cpp
+  ${PROJECT_SRC}/RoukaVici.cpp
+  ${PROJECT_SRC}/GroupManager.cpp
+  ${PROJECT_SRC}/ManagerFactory.cpp
+  ${PROJECT_SRC}/TextManager.cpp
+  ${PROJECT_SRC}/RawManager.cpp
+  ${PROJECT_SRC}/VibrationGroup.cpp
+  )
 
 ###
 # Options
