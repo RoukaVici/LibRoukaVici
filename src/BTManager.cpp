@@ -40,7 +40,7 @@ int BTManager::FindDevice()
     }
 
   std::stringstream ss;
-  ss << "[LibRoukaVici][" << this << "] Looking for Bluetooth devices" << std::endl;
+  ss << "[" << this << "] Looking for Bluetooth devices" << std::endl;
   Debug::Log(ss.str());
 
   // TODO: If this takes too long, just put it in a separate thread and have a mechanism to check
@@ -49,7 +49,7 @@ int BTManager::FindDevice()
   for (const auto& d: devices)
     {
       std::stringstream ss;
-      ss << "[LibRoukaVici]\tFound: " << d.name << "/" << d.address<< std::endl;
+      ss << "\tFound: " << d.name << "/" << d.address << std::endl;
       Debug::Log(ss.str());
       if (d.name.compare("RoukaVici") == 0)
         {
@@ -57,11 +57,11 @@ int BTManager::FindDevice()
           int channelId = 1; // This somehow works better??
           if (channelId == -1)
             {
-              std::cerr << "[LibRoukaVici] Failed to get device channel ID" << std::endl;
+              std::cerr << " Failed to get device channel ID" << std::endl;
               return 2;
             }
           std::stringstream ss;
-          ss << "[LibRoukaVici] Channel ID: " << channelId << std::endl;
+          ss << " Channel ID: " << channelId << std::endl;
           Debug::Log(ss.str());
           port = BTSerialPortBinding::Create(d.address, channelId);
           try {
@@ -70,7 +70,7 @@ int BTManager::FindDevice()
           catch (BluetoothException& e)
             {
               std::stringstream ss;
-              ss << "[LibRoukaVici] Channel ID: " << channelId << std::endl;
+              ss << "Channel ID: " << channelId << std::endl;
               Debug::Log(ss.str(), true);
               delete port;
               port = nullptr;

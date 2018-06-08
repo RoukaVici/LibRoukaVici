@@ -3,6 +3,9 @@
 #include <fstream>
 #include "Debug.hh"
 
+// const
+const std::string prefix = "[LibRoukaVici]";
+
 // Local variables
 int debugMethod = 0;
 std::string outputFileName = "./RoukaViciLog.txt";
@@ -19,15 +22,16 @@ int Debug::GetLogMode()
 
 void Debug::SetLogMode(const int method)
 {
-  switch (method) {
-  case 0: debugMethod = 0; break;
-  case 1: debugMethod = 1; break;
-  case 2: debugMethod = 2; break;
+  switch (method)
+    {
+    case 0: debugMethod = 0; break;
+    case 1: debugMethod = 1; break;
+    case 2: debugMethod = 2; break;
 #ifdef _WIN32
-  case 3: debugMethod = 3; break;
+    case 3: debugMethod = 3; break;
 #endif
-  default: debugMethod = 0; break;
-  }
+    default: debugMethod = 0; break;
+    }
 }
 
 void Debug::SetLogFile(const std::string& name)
@@ -75,6 +79,7 @@ void  unityCalllback(const std::string& msg)
 
 void Debug::Log(const std::string& msg, bool force)
 {
+  const std::string logMsg = (msg.length() > 0 && msg[0] == '[') ? prefix + msg : prefix + " " + msg;
   // If we're not in Verbose mode, check if the message should be forced through, otherwise ignore it
   // If we're in verbose mode, it goes through either way
 #ifndef ROUKAVERBOSE
@@ -83,11 +88,11 @@ void Debug::Log(const std::string& msg, bool force)
     (void)(force);
 #endif
     switch (debugMethod) {
-    case 0: stdOut(msg); break;
-    case 1: fileLog(msg); break;
-    case 2: callback(msg); break;
+    case 0: stdOut(logMsg); break;
+    case 1: fileLog(logMsg); break;
+    case 2: callback(logMsg); break;
 #ifdef _WIN32
-    case 3: unityCallback(msg); break;
+    case 3: unityCallback(logMsg); break;
 #endif
     }
 }

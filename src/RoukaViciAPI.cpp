@@ -9,9 +9,7 @@ extern "C"
 {
   EXPORTED int InitRVici()
   {
-#ifdef ROUKAVERBOSE
-    std::cout <<  "[LibRoukaVici] Starting library" << std::endl;
-#endif
+    Debug::Log("Starting library");
     rv = new RoukaVici();
     return rv->Status();
   }
@@ -32,14 +30,10 @@ extern "C"
 
   EXPORTED void StopRVici()
   {
-#ifdef ROUKAVERBOSE
-    std::cout <<  "[LibRoukaVici] Stopping library..." << std::endl;
-#endif
+    Debug::Log("Stopping library...");
     if (rv != 0)
       delete rv;
-#ifdef ROUKAVERBOSE
-    std::cout <<  "[LibRoukaVici] Library stopped" << std::endl;
-#endif
+    Debug::Log("Library stopped.");
   }
 
  EXPORTED int Write(const char * const msg)

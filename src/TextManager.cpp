@@ -40,7 +40,7 @@ bool TextManager::HasDevice() const
 int TextManager::Vibrate(char motor, char intensity) const
 {
   std::stringstream ss;
-  ss << "[LibRoukaVici] Motor " << static_cast<int>(motor) << " vibrating at " <<
+  ss << "Motor " << static_cast<int>(motor) << " vibrating at " <<
     static_cast<int>(static_cast<unsigned char>(intensity));
   Debug::Log(ss.str(), true);
   return 0;

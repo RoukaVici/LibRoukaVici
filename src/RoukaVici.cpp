@@ -11,14 +11,14 @@ RoukaVici::RoukaVici()
   dm = mf->get("TextManager");
   grps = new GroupManager();
   std::stringstream ss;
-  ss <<  "[LibRoukaVici][" << this << "] RoukaVici successfully initiated(dm=" << dm << ")";
+  ss <<  "[" << this << "] RoukaVici successfully initiated(dm=" << dm << ")";
   Debug::Log(ss.str());
 }
 
 RoukaVici::~RoukaVici()
 {
   std::stringstream ss;
-  ss << "[LibRoukaVici][" << this << "] Closing library. Obama out.";
+  ss << "[" << this << "] Closing library. Obama out.";
   Debug::Log(ss.str());
   delete grps;
   delete dm;
@@ -28,7 +28,7 @@ RoukaVici::~RoukaVici()
 int RoukaVici::Status()
 {
   std::stringstream ss;
-  ss << "[LibRoukaVici][" << this << "] Checking RoukaVici status";
+  ss << "[" << this << "] Checking RoukaVici status";
   Debug::Log(ss.str());
   if (!dm->HasDevice())
     return 1;
@@ -38,7 +38,7 @@ int RoukaVici::Status()
 int RoukaVici::FindDevice()
 {
   std::stringstream ss;
-  ss << "[LibRoukaVici][" << this << "] Finding device";
+  ss << "[" << this << "] Finding device";
   Debug::Log(ss.str());
   dm->FindDevice();
   return dm->HasDevice() ? 0 : 1;
@@ -52,7 +52,7 @@ int RoukaVici::Write(const std::string& msg) const
 int RoukaVici::Vibrate(char motor, char intensity) const
 {
   std::stringstream ss;
-  ss << "[LibRoukaVici][" << this << "] Vibration order received: " << static_cast<int>(motor) << ":" << static_cast<int>(static_cast<unsigned char>(intensity));
+  ss << "[" << this << "] Vibration order received: " << static_cast<int>(motor) << ":" << static_cast<int>(static_cast<unsigned char>(intensity));
   Debug::Log(ss.str());
   return dm->Vibrate(motor, intensity);
 }
@@ -81,7 +81,7 @@ int RoukaVici::ChangeDeviceManager(const std::string& name)
 {
   {
     std::stringstream ss;
-    ss << "[LibRoukaVici][" << this << "] Changing DeviceManager";
+    ss << "[" << this << "] Changing DeviceManager";
     Debug::Log(ss.str());
   }
   DeviceManager* temp = mf->get(name);
@@ -89,7 +89,7 @@ int RoukaVici::ChangeDeviceManager(const std::string& name)
     return 1;
   {
     std::stringstream ss;
-    ss << "[LibRoukaVici] Old dm=" << dm << "\tNew dm=" << temp;
+    ss << "Old dm=" << dm << "\tNew dm=" << temp;
     Debug::Log(ss.str());
   }
   delete dm;

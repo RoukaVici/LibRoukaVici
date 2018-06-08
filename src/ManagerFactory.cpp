@@ -21,7 +21,7 @@
 ManagerFactory::ManagerFactory()
 {
   std::stringstream ss;
-  ss << "[LibRoukaVici] Initializing with modules:";
+  ss << "Initializing with modules:";
   // Here we'll add every manager, including those in options
   managers["TextManager"] = TextManager::create;
   managers["RawManager"] = RawManager::create;
@@ -54,7 +54,7 @@ DeviceManager* ManagerFactory::get(const std::string& name)
   if (managers.find(name) == managers.end())
     {
       std::stringstream ss;
-      ss << "[LibRoukaVici] No Manager by the name of:" << name;
+      ss << "No Manager by the name of:" << name;
       Debug::Log(ss.str());
 
       return nullptr;
