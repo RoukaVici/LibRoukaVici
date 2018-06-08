@@ -25,9 +25,10 @@ This library provides an API between the computer and the RoukaVici glove. It ai
 - Output files: `build/Debug/roukavici.dll`, `build/Debug/roukavici.lib` and `build/Debug/lib/bluetooth-serial-port/bluetoothserialport.dll`.
 
 ## Build flags
-- `-DTEST`: Decides if the test binaries should be compiled. TRUE on Linux, FALSE otherwise by default.
-- `-DBT`: Decides if the lib should be compiled with Bluetooth support. TRUE by default
-- `-DVERB`: Decides if the lib should be compiled in verbose mode. If set to FALSE, the library will print no log messages to the standard output, only displaying errors on the error output. TRUE by default.
+- `-DTEST`: Combile test binaries, see Executables section for more info. TRUE on Linux, FALSE otherwise by default.
+- `-DINT`: Build the interactive command-line executable, see Executables section for more info. True by default.
+- `-DBT`: Compile with Bluetooth support. TRUE by default
+- `-DVERB`: Compile in verbose mode. If set to FALSE, the library will print no log messages to the standard output, only displaying errors on the error output. TRUE by default.
 
 Not currently maintained, but still in the CMake:
 - `-DUSB`: Decides if the lib is compiled with USB support. FALSE by default.
@@ -35,7 +36,7 @@ Not currently maintained, but still in the CMake:
 
 # How to use
 ## C++
-Link to the dynamic library and use the header `RoukaVici.hh`. From there, you can call all of the `RoukaVici` class' methods contained in the header:
+Link to the dynamic library and use the header `RoukaVici.hh`. You have to create the RoukaVici object, whose destruction *you* are responsible for. From there, you can call all of the `RoukaVici` class' methods contained in the header:
 ```cpp
 #include "RoukaVici.hh"
 #include <unistd.h>
@@ -63,14 +64,14 @@ int main() {
 }
 ```
 
-The file `test/maincpp.cpp` very similarly shows how to establish a connection to the device in Bluetooth using the CPP object directly.
+The file `test/maincpp.cpp` very similarly shows how to establish a connection to the device in Bluetooth using the CPP object directly. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici object.
 
 ## Other Languages
-If your language can import C functions through a dynamic library, then you can use RoukaVici through its C API. You want to use the `RoukaViciAPI.h` header for reference. It has all exposed library functions. From there, you can call these functions by name by using whatever dynamic library system your language and OS use.
+If your language can import C functions through a dynamic library, then you can use RoukaVici through its C API. You might want to use the `RoukaViciAPI.h` header for reference. It has all exposed library functions. From there, you can call these functions by name by using whatever dynamic library system your language and OS use.
 
-This method exposes no more or less functions than using the C++ one. The C API is a perfect mirror of every public method in the `RoukaVici` class, and is simply less convenient. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici lib, which you can import directly from the shared object.
+This method exposes no more or less functions than using the C++ one. The C API is a perfect mirror of every public method in the `RoukaVici` class, and is simply less convenient to use. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici lib, which you can import directly from the shared object.
 
-`test/main.cpp` has an example of how to do this __on Linux__ in C/C++, your mileage may vary.
+`test/main.cpp` has an example of how to do this __on Linux/Mac__ in C/C++. Your mileage may vary.
 
 # How does it work?
 ## Flow
@@ -113,3 +114,13 @@ void function(const char* message);
 
 ### Unity Callback (3)
 Unity declares its functions differently, so if you're in Unity, you'll have to use this mode. It's exactly the same as `2`, but you need to call `RoukaVici.SetUnityDebugCallback` instead.
+
+# Executables
+RoukaVici comes bundled with a few test suites as well as an interactive command-line utililty.
+
+## Interactive Command Line
+The interactive command line is a small program which provides a very barebones executable letting you interact with gloves easily. It lets you change Device Managers and lets you send vibration orders. This is particularly useful to debug issues with glove connection.
+Launch the binary for usage. It is very barebones, and has no guarantee of functioning in every edge case. There is no guarantee that this binary will ever be backwards-compatible or even remain as is in the library, do not use it programatically to communicate with RoukaVici.
+
+## Tests
+Test binaries are mostly useful for RoukaVici Library maintainers, to check features very easily.

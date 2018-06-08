@@ -47,7 +47,7 @@ int main()
 {
   void (*initrvici)();
   void (*stoprvici)();
-  int (*changeManager)(const char* const);
+  int (*changeManager)(const char*);
   int (*findDevice)();
   #if __linux
     void* handle = dlopen("libroukavici.so", RTLD_LAZY);

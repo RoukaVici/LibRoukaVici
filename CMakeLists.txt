@@ -145,7 +145,7 @@ if (${TESTOPT})
 endif (${TESTOPT})
 
 ###
-# Interactive commands
+# Interactive command line
 ###
 SET (INTERACT interactive)
 
