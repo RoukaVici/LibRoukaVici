@@ -12,17 +12,16 @@ This library provides an API between the computer and the RoukaVici glove. It ai
 - `Visual Studio` with `C++ Build Tools` installed (in other words, you need to have MSVC++ installed)
 
 # Building
-## Linux & MacOS
-- `mkdir build && cd build/ && cmake .. [flags]`
-- `cmake --build .`
-- Output files: `build/libroukavici.so` and `build/lib/bluetooth-serial-port/bluetoothserialport.so`
+## Build instructions
+These instructions are valid on all platforms, including Windows (using Powershell)
+
+- `git submodule update --init`: Start by making sure you have all submodules
+- `mkdir build && cd build/ && cmake .. [flags]`: Generate the build files
+- `cmake --build .`: Build libraries and binaries
+- Output files for Linux & MacOS: `build/libroukavici.so` and `build/lib/bluetooth-serial-port/bluetoothserialport.so`
+- Output files for Windows: `build/Debug/roukavici.dll`, `build/Debug/roukavici.lib` and `build/Debug/lib/bluetooth-serial-port/bluetoothserialport.dll`.
 
 **Note**: As of this writing, MacOS cannot compile the Bluetooth library. Run cmake with `-DBT=FALSE` option if build fails.
-
-## Windows (Powershell)
-- `mkdir build && cd build/ && cmake .. [flags]`
-- `cmake --build .`
-- Output files: `build/Debug/roukavici.dll`, `build/Debug/roukavici.lib` and `build/Debug/lib/bluetooth-serial-port/bluetoothserialport.dll`.
 
 ## Build flags
 - `-DTEST`: Combile test binaries, see Executables section for more info. TRUE on Linux, FALSE otherwise by default.
