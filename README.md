@@ -16,12 +16,19 @@ This library provides an API between the computer and the RoukaVici glove. It ai
 These instructions are valid on all platforms, including Windows (using Powershell)
 
 - `git submodule update --init`: Start by making sure you have all submodules
-- `mkdir build && cd build/ && cmake .. [flags]`: Generate the build files
+- `mkdir build && cd build/`
+- `cmake [-G "<Generator>"] [flags] ..`: Generate build files. See Flags and Generators sections for build options, default should be fine for most uses.
 - `cmake --build .`: Build libraries and binaries
 - Output files for Linux & MacOS: `build/libroukavici.so` and `build/lib/bluetooth-serial-port/bluetoothserialport.so`
 - Output files for Windows: `build/Debug/roukavici.dll`, `build/Debug/roukavici.lib` and `build/Debug/lib/bluetooth-serial-port/bluetoothserialport.dll`.
 
 **Note**: As of this writing, MacOS cannot compile the Bluetooth library. Run cmake with `-DBT=FALSE` option if build fails.
+
+## Generators
+Your platform has a default generator (compiler) they're using, but you may want to use a different one. For example, Windows builds binaries in 32bit by default. If you want them in 64bit, you have to use the 64bit version of your compiler. `cmake --help` will give you a list of all available generators on your platform, here are some common ones you might want to use:
+- `cmake -G "Unix Makefiles"`: Default on unix systems, generates a standard Makefile.
+- `cmake -G "Visual Studio 15 2017"`: Default on Windows, builds using MSVC++ in 32bit.
+- `cmake -G "Visual Studio 15 2017 Win64"`: MSVC++ in 64bit.
 
 ## Build flags
 - `-DTEST`: Combile test binaries, see Executables section for more info. TRUE on Linux, FALSE otherwise by default.
