@@ -115,13 +115,11 @@ public:
    */
   static void RegisterDebugCallback(DebugCallback callback);
 
-#ifdef _WIN32
   /// Lets you register a debug callback with an Unity function
   /**
    * callback: void (*function)(const char * message);
    */
   static void RegisterUnityDebugCallback(UnityDebugCallback callback);
-#endif
 
 private:
   ManagerFactory                *mf;

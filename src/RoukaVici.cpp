@@ -117,9 +117,7 @@ void RoukaVici::RegisterDebugCallback(DebugCallback callback)
   Debug::RegisterCallback(callback);
 }
 
-#ifdef _WIN32
 void RoukaVici::RegisterUnityDebugCallback(UnityDebugCallback callback)
 {
   Debug::RegisterUnityCallback(callback);
 }
-#endif

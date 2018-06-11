@@ -128,10 +128,10 @@ extern "C"
   {
     RoukaVici::RegisterDebugCallback(cb);
   }
-#ifdef _WIN32
+
   EXPORTED void RegisterUnityDebugCallback(UnityDebugCallback cb)
   {
     RoukaVici::RegisterUnityDebugCallback(cb);
   }
-#endif
+
 }

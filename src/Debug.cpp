@@ -11,9 +11,7 @@ const std::string errPrefix = "[LibRV.ERR] ";
 int debugMethod = 0;
 std::string outputFileName = "./RoukaViciLog.txt";
 
-#ifdef _WIN32
 UnityDebugCallback ucb = nullptr;
-#endif
 DebugCallback cb = nullptr;
 
 int Debug::GetLogMode()
@@ -28,9 +26,9 @@ void Debug::SetLogMode(const int method)
     case 0: debugMethod = 0; break;
     case 1: debugMethod = 1; break;
     case 2: debugMethod = 2; break;
-#ifdef _WIN32
+
     case 3: debugMethod = 3; break;
-#endif
+
     default: debugMethod = 0; break;
     }
 }
@@ -74,7 +72,6 @@ void callback(const std::string& msg)
     }
 }
 
-#ifdef _WIN32
 void Debug::RegisterUnityCallback(UnityDebugCallback callback)
 {
   if (callback)
@@ -90,7 +87,6 @@ void  unityCallback(const std::string& msg)
       ucb(msg.c_str());
     }
 }
-#endif
 
 void Debug::Log(const std::string& msg, bool force)
 {
@@ -106,9 +102,7 @@ void Debug::Log(const std::string& msg, bool force)
     case 0: stdOut(logMsg); break;
     case 1: fileLog(logMsg); break;
     case 2: callback(logMsg); break;
-#ifdef _WIN32
     case 3: unityCallback(logMsg); break;
-#endif
     }
 }
 
@@ -121,8 +115,6 @@ void Debug::Err(const std::string& msg)
   case 0: stdErr(errMsg); break;
   case 1: fileLog(errMsg); break;
   case 2: callback(errMsg); break;
-#ifdef _WIN32
   case 3: unityCallback(errMsg); break;
-#endif
   }
 }

@@ -102,7 +102,7 @@ RoukaVici has multiple modes of logging available. You can change these by calli
 - 0: Standard output
 - 1: File
 - 2: Callback
-- 3: Unity callback (WINDOWS ONLY)
+- 3: Unity callback
 
 **Note**: RoukaVici will be silent if it is compiled without the VERBOSE flag, see compilation flags section!
 
@@ -119,7 +119,10 @@ void function(const char* message);
 ```
 
 ### Unity Callback (3)
-Unity declares its functions differently, so if you're in Unity, you'll have to use this mode. It's exactly the same as `2`, but you need to call `RoukaVici.SetUnityDebugCallback` instead.
+Unity declares its functions differently, so if you're in Unity, you'll have to use this mode. It's exactly the same as `2`, but you need to call `RoukaVici.SetUnityDebugCallback` instead to set the callback function. The typedef you use for the parameter should be:
+```CS
+private delegate void DebugCallback(string message);
+```
 
 # Executables
 RoukaVici comes bundled with a few test suites as well as an interactive command-line utililty.

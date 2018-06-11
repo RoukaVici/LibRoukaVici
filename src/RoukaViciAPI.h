@@ -69,7 +69,5 @@ int SetLogFile(const char* name);
 /// Register the debug function callback.
 void RegisterDebugCallback(DebugCallback cb);
 
-#ifdef _WIN32
 /// Register the Unity debug function.
 void RegisterUnityDebugCallback(UnityDebugCallback cb);
-#endif

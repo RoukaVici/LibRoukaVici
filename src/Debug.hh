@@ -35,14 +35,12 @@ namespace Debug {
    * Used when logging in callback mode
    */
   void  RegisterCallback(DebugCallback callback);
-#ifdef _WIN32
   /// Sets the Unity callback function
   /**
    * function should return void and take const char* as parameter
    * Used when logging in unity callback mode
    */
   void  RegisterUnityCallback(UnityDebugCallback callback);
-#endif
 
   /// Use this function to write a log-level message
   void  Log(const std::string& msg, bool force = false);
