@@ -97,7 +97,7 @@ public:
    * 0: Write to std::cout/std::cerr
    * 1: Write to file
    * 2: Use DebugCallback
-   * 3: Use UnityDebugCallback (Windows only!)
+   * 3: Use UnityDebugCallback
    */
   static void SetLogMode(const int mode);
   /// Get the current logging method

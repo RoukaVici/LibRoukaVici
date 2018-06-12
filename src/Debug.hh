@@ -12,7 +12,7 @@ namespace Debug {
    * 0: Write to std::cout
    * 1: Write to file
    * 2: Use DebugCallback
-   * 3: Use UnityDebugCallback (Windows only!)
+   * 3: Use UnityDebugCallback
    */
   int   GetLogMode();
   /// Sets the log mode
@@ -20,7 +20,7 @@ namespace Debug {
    * 0: Write to std::cout/std::cerr
    * 1: Write to file
    * 2: Use DebugCallback
-   * 3: Use UnityDebugCallback (Windows only!)
+   * 3: Use UnityDebugCallback
    * Note: if value is invalid, mode 0 is set instead
    */
   void  SetLogMode(const int method);
