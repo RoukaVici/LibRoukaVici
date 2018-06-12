@@ -28,6 +28,7 @@ void Debug::SetLogMode(const int method)
     case 2: debugMethod = 2; break;
 
     case 3: debugMethod = 3; break;
+    case 4: debugMethod = 4; break;
 
     default: debugMethod = 0; break;
     }
@@ -98,12 +99,13 @@ void Debug::Log(const std::string& msg, bool force)
 #else
     (void)(force);
 #endif
-    switch (debugMethod) {
-    case 0: stdOut(logMsg); break;
-    case 1: fileLog(logMsg); break;
-    case 2: callback(logMsg); break;
-    case 3: unityCallback(logMsg); break;
-    }
+  switch (debugMethod) {
+  case 0: stdOut(logMsg); break;
+  case 1: fileLog(logMsg); break;
+  case 2: callback(logMsg); break;
+  case 3: unityCallback(logMsg); break;
+  case 4: return;
+  }
 }
 
 // Error messages are always shown, no need for 2nd param
@@ -116,5 +118,6 @@ void Debug::Err(const std::string& msg)
   case 1: fileLog(errMsg); break;
   case 2: callback(errMsg); break;
   case 3: unityCallback(errMsg); break;
+  case 4: return;
   }
 }

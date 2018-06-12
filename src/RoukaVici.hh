@@ -98,6 +98,7 @@ public:
    * 1: Write to file
    * 2: Use DebugCallback
    * 3: Use UnityDebugCallback
+   * 4: No logging
    */
   static void SetLogMode(const int mode);
   /// Get the current logging method

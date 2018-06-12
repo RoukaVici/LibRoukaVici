@@ -13,6 +13,7 @@ namespace Debug {
    * 1: Write to file
    * 2: Use DebugCallback
    * 3: Use UnityDebugCallback
+   * 4: No logging. Keep in mind this also hides error messages!
    */
   int   GetLogMode();
   /// Sets the log mode
@@ -21,6 +22,7 @@ namespace Debug {
    * 1: Write to file
    * 2: Use DebugCallback
    * 3: Use UnityDebugCallback
+   * 4: No logging. Keep in mind this also hides error messages!
    * Note: if value is invalid, mode 0 is set instead
    */
   void  SetLogMode(const int method);
