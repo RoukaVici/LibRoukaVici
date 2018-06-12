@@ -83,10 +83,11 @@ This method exposes no more or less functions than using the C++ one. The C API 
 ## Flow
 - Before initialization, *you can call RoukaVici methods related to logging*, so that you can get accurate logging during initialization. More information in the "Logging" section.
 - Initialize the library, either by creating a new `RoukaVici` object (in C++) or by calling `RoukaVici.InitRVici` (if you're using the C API).
-- Change to the device manager of your choice using `RoukaVici.ChangeDeviceManager`. If you'd like to use the text (debug) mode, skip this step. More info about device managers in the next subsection.
-- You can now call `Roukavici.FindDevice` to allow the manager to find and connect to the device. This could take a while depending on which manager you're using.
+- Change to the device manager of your choice using `RoukaVici.ChangeDeviceManager`. If you'd like to use the text (debug) mode, skip this step. More info about device managers in the Device Managers subsection.
+- You can now call `RoukaVici.FindDevice` to allow the manager to find and connect to the device. This could take a while depending on which manager you're using.
 - Check that the device was found using `RoukaVici.HasDevice`, which returns a boolean.
 - You can now call the `RoukaVici.Vibrate` function. Congratulations, you can now communicate with RoukaVici. You can also set groups, every function you have access to is in whichever `RoukaVici` header file you're using.
+- When you're done, delete the `RoukaVici` object (if you're in C++) or call `Roukavici.StopRVici` (if you're using the C API).
 
 ## Device Managers
 The RoukaVici library uses different DeviceManagers to connect to the glove. This is useful for debugging, as the lib provides you with multiple means of communicating between yourself and the glove. The supported ones as of this writing are:
@@ -103,11 +104,12 @@ RoukaVici has multiple modes of logging available. You can change these by calli
 - 1: File
 - 2: Callback
 - 3: Unity callback
+- 4: Silent
 
-**Note**: RoukaVici will be silent if it is compiled without the VERBOSE flag, see compilation flags section!
+**Note**: RoukaVici will be silent (except for errors) if it is compiled without the VERBOSE flag, see compilation flags section!
 
 ### Standard Output (0, default)
-By default, RoukaVici will output its messages to the standard output.
+By default, RoukaVici will output its messages to the standard output. Error messages will be printed to the standard error channel.
 
 ### File (1)
 You can ask RoukaVici to log to file instead. By default, RoukaVici will log to the current directory in a file called `RoukaViciLog.txt`. You can change this by calling `RoukaVici.SetLogFile`.
@@ -123,6 +125,9 @@ Unity declares its functions differently, so if you're in Unity, you'll have to 
 ```CS
 private delegate void DebugCallback(string message);
 ```
+
+### Silent (4)
+Silent mode tells the library not to output logging and error messages.
 
 # Executables
 RoukaVici comes bundled with a few test suites as well as an interactive command-line utililty.

@@ -126,4 +126,4 @@ private:
   ManagerFactory                *mf;
   DeviceManager                 *dm;
   GroupManager                  *grps;
-};
+}
