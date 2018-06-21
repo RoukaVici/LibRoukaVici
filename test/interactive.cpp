@@ -6,6 +6,7 @@ void PrintHelp()
   std::cout << "Commands:" << std::endl;
   std::cout << "v: Send a vibration" << std::endl;
   std::cout << "c: Change Device Manager" << std::endl;
+  std::cout << "l: Change Log Method" << std::endl;
   std::cout << "h: Print this help message" << std::endl;
   std::cout << "q: Quit this program" << std::endl;
 }
@@ -27,28 +28,40 @@ int main() {
   GetInput(input);
   while (input != "q")
     {
-      if (input.length() > 0 && input[0] == 'v')
+      if (input.length() > 0)
         {
-          std::cout << "Enter motor number M and intensity I (0-255):" << std::endl;
-          int motor = 0, intensity = 0;
-          std::cout << std::endl << "[M I] ";
-          std::cin >> motor >> intensity;
-          rv->Vibrate(motor, intensity);
-        }
-      else if (input.length() > 0 && input[0] == 'h')
-        {
-          PrintHelp();
-        }
-      else if (input.length() > 0 && input[0] == 'c')
-        {
-          std::cout << "Enter the device manager you'd like to use:" << std::endl;
-          std::cout << "[DM] ";
-          std::getline(std::cin, input);
-          rv->ChangeDeviceManager(input);
-          if (rv->FindDevice()) {
-            std::cout << "Bluetooth lookup failed, defaulting to TextManager" << std::endl;
-            rv->ChangeDeviceManager("TextManager");
-          }
+          if (input[0] == 'v')
+            {
+              std::cout << "Enter motor number M and intensity I (0-255):" << std::endl;
+              int motor = 0, intensity = 0;
+              std::cout << std::endl << "[M I] ";
+              std::cin >> motor >> intensity;
+              rv->Vibrate(motor, intensity);
+            }
+          else if (input[0] == 'h')
+            {
+              PrintHelp();
+            }
+          else if (input[0] == 'c')
+            {
+              std::cout << "Enter the device manager you'd like to use:" << std::endl;
+              std::cout << "[DM] ";
+              std::getline(std::cin, input);
+              rv->ChangeDeviceManager(input);
+              if (rv->FindDevice())
+                {
+                  std::cout << "Bluetooth lookup failed, defaulting to TextManager" << std::endl;
+                  rv->ChangeDeviceManager("TextManager");
+                }
+            }
+          else if (input[0] == 'l')
+            {
+              std::cout << "Enter the integer corresponding to the log mode you want (0-4):" << std::endl;
+              int log = 0;
+              std::cout << std::endl << "[L] ";
+              std::cin >> log;
+              rv->SetLogMode(log);
+            }
         }
       GetInput(input);
     }
