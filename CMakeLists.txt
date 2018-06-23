@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-SET (PROJECT_VERSION "0.2")
+SET (PROJECT_VERSION "0.3")
 SET (PROJ_NAME "roukavici")
 
 # Define project name & version
@@ -9,12 +9,12 @@ project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-SET (PROJECT_ROOT ".")
+
+SET (PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 SET (PROJECT_SRC "${PROJECT_ROOT}/src")
-
-SET (LIB_DIR "lib")
+SET (LIB_DIR "${PROJECT_ROOT}/lib")
 
 # Platform-specific compile flags
 if (UNIX)
@@ -38,6 +38,14 @@ set(LIBSRCS
   ${PROJECT_SRC}/RawManager.cpp
   ${PROJECT_SRC}/VibrationGroup.cpp
   )
+
+# Set output directory for the library & binary files
+SET(OUTPUT_DIR "${PROJECT_ROOT}/output")
+
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+
 
 ###
 # Options
@@ -124,7 +132,10 @@ if (${BTOPT})
   target_link_libraries(${PROJ_NAME} ${BTLIB})
 endif (${BTOPT})
 
-set_target_properties(${PROJ_NAME} PROPERTIES VERSION ${PROJECT_VERSION} VERSION 0)
+set_target_properties(${PROJ_NAME}
+  PROPERTIES
+  VERSION ${PROJECT_VERSION}
+  SOVERSION ${PROJECT_VERSION})
 ## If the testing option is true
 SET (TEST_FOLDER "${PROJECT_ROOT}/test")
 
