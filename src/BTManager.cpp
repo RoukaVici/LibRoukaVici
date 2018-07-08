@@ -21,8 +21,6 @@ BTManager::~BTManager()
   delete inq;
 }
 
-
-
 /// Search for bluetooth devices, if we find the glove connect to it
 /**
  * Return codes:
@@ -53,7 +51,7 @@ int BTManager::FindDevice()
     std::stringstream ss;
     ss << "Unable to perform inquiry. Do you have a bluetooth device on? BluetoothSerialPort had this to say: " << e.what();
     Debug::Err(ss.str());
-  }
+  }  
   for (const auto& d: devices)
     {
       std::stringstream ss;
