@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 set(PROJECT_VERSION "0.5")
 # Define project name & version
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
@@ -14,6 +14,7 @@ target_include_directories(roukavici
 PUBLIC
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/
 )
@@ -36,16 +37,23 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VibrationGroup.cpp
   )
 
+include(GenerateExportHeader)
+# Generate our EXPORT and NO_EXPORT macros in roukavici_exported.h
+generate_export_header(roukavici)
+
 # Platform-specific compile flags
-if (UNIX)
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    message(STATUS "Setting G++ flags")
     # G++
     target_compile_options(roukavici PRIVATE -Wall -Wextra)
-else()
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+    message(STATUS "Setting MSVC flags")
     # MSVC
     target_compile_options(roukavici PRIVATE /EHsc /MTd /W2 /c)
     # Set the DLLEXPORT variable to export symbols
     target_compile_definitions(roukavici PRIVATE WIN_EXPORT)
-endif(UNIX)
+endif()
+
 ##
 # Options
 ##

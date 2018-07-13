@@ -2,7 +2,7 @@
 
 #include <string>
 #include <map>
-#include "exported.hh"
+#include "roukavici_export.h"
 #include "DebugCallback.h"
 
 class ManagerFactory;
@@ -14,7 +14,7 @@ class GroupManager;
  * In a C++ project, it can be created directly, without using the exposed C functions,
  * and without losing any of the API methods.
  */
-class EXPORTED RoukaVici {
+class ROUKAVICI_EXPORT RoukaVici {
 public:
   // Public constructor, to check
   RoukaVici();
