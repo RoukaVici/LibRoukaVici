@@ -41,6 +41,7 @@ include(GenerateExportHeader)
 # Generate our EXPORT and NO_EXPORT macros in roukavici_exported.h
 generate_export_header(roukavici)
 
+message("ID: " ${CMAKE_CXX_COMPILER_ID})
 
 # Platform-specific compile flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
