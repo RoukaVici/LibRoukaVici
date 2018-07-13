@@ -1,0 +1,18 @@
+language: cpp
+os: linux
+addons:
+  apt:
+    packages:
+      - cmake
+      - cmake-data
+      - g++
+      - git
+before_script:
+  - git submodule update --init
+  - mkdir build
+script:
+  - cd build
+  - cmake -DTEST=TRUE ..
+  - cmake --build .
+after_success:
+  - print OK
