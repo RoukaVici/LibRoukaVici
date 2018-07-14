@@ -72,8 +72,38 @@ int main() {
 
 The file `test/maincpp.cpp` very similarly shows how to establish a connection to the device in Bluetooth using the CPP object directly. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici object.
 
-## Other Languages
-If your language can import C functions through a dynamic library, then you can use RoukaVici through its C API. You might want to use the `RoukaViciAPI.h` header for reference. It has all exposed library functions. From there, you can call these functions by name by using whatever dynamic library system your language and OS use.
+## Other Languages: The C API
+If your language can import C functions through a dynamic library, then you can use RoukaVici through its C API. You might want to use the `RoukaViciAPI.h` header for reference. It has all exposed library functions. From there, you can call these functions by name by using whatever dynamic library system your language and OS use. Here's a snippet of how to do this on Linux, in C:
+
+```c
+  #include <dlfcn.h>
+  #include <unistd.h>
+
+int main()
+{
+  // This function returns the opaque handler to the library
+  void* (*initrvici)();
+  // Pass the handler to this function to stop the library
+  void (*stoprvici)(void*);
+  // Vibrate motor x with intensity n
+  void (*vibrate)(void*, char x, char n);
+
+
+  // Open the library  
+  void* lib = dlopen("libroukavici.so", RTLD_LAZY);
+
+  // Import functions from the library
+  *(void**)(&initrvici) = dlsym(lib, "InitRVici");
+  *(void**)(&stoprvici) = dlsym(lib, "StopRVici");
+  *(void**)(&vibrate) = dlsym(lib, "Vibrate");
+
+  void* handle = initrvici();
+  vibrate(handle, 0, 255);
+  vibrate(handle, 0, 0);
+  stoprvici(handle);
+  return 0;
+}
+```
 
 This method exposes no more or less functions than using the C++ one. The C API is a perfect mirror of every public method in the `RoukaVici` class, and is simply less convenient to use. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici lib, which you can import directly from the shared object.
 
@@ -82,7 +112,7 @@ This method exposes no more or less functions than using the C++ one. The C API 
 # How does it work?
 ## Flow
 - Before initialization, *you can call RoukaVici methods related to logging*, so that you can get accurate logging during initialization. More information in the "Logging" section.
-- Initialize the library, either by creating a new `RoukaVici` object (in C++) or by calling `RoukaVici.InitRVici` (if you're using the C API).
+- Initialize the library, either by creating a new `RoukaVici` object (in C++) or by calling `RoukaVici.InitRVici` (if you're using the C API). In the latter case, `InitRVici` returns an opaque handler which you have to use to interact with the library (it's always the first argument).
 - Change to the device manager of your choice using `RoukaVici.ChangeDeviceManager`. If you'd like to use the text (debug) mode, skip this step. More info about device managers in the Device Managers subsection.
 - You can now call `RoukaVici.FindDevice` to allow the manager to find and connect to the device. This could take a while depending on which manager you're using.
 - Check that the device was found using `RoukaVici.HasDevice`, which returns a boolean.
