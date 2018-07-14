@@ -20,13 +20,16 @@ addons:
       - git
       - libbluetooth-dev
 before_script:
+  - pwd
   - git submodule update --init
   - mkdir build
 script:
+  - pwd
   - cd build
   - cmake -DTEST=TRUE ..
   - cmake --build .
 after_success:
+  - pwd
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - git config --global user.email "$GIT_EMAIL"
   - git config --global user.email "$GIT_USER"
