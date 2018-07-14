@@ -8,6 +8,13 @@ project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+# Set output directory for the library & binary files
+# This is directory-wide on purpose
+set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+
 add_library(roukavici SHARED)
 
 target_include_directories(roukavici

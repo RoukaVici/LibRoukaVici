@@ -15,7 +15,10 @@ void  GetInput(std::string& input)
 {
   std::cout << "<RV> ";
   std::getline(std::cin, input);
-  std::cout << static_cast<int>(input[0]) << std::endl;
+  while (input[0] == 0)
+  {
+    std::getline(std::cin, input);
+  }
 }
 
 int main() {
