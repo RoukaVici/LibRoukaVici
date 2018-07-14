@@ -19,6 +19,7 @@ addons:
       - g++
       - git
       - libbluetooth-dev
+      - tree
 script:
   - pwd
   - tree
