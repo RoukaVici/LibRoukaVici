@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-set(PROJECT_VERSION "0.5")
+set(PROJECT_VERSION "1.0")
 # Define project name & version
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
@@ -89,9 +89,9 @@ endif(VERB)
 option (TEST "Verbose output for the library. Library is silent otherwise" OFF)
 ## Options if true
 if (TEST)
-    MESSAGE( STATUS "Building testt binaries")
-    add_executable(dlopentest ./test/dlopen.cpp)
-    target_link_libraries(dlopentest ${CMAKE_DL_LIBS} roukavici)
+    MESSAGE( STATUS "Building test binaries")
+    add_executable(unittests ./test/unit.cpp)
+    target_link_libraries(unittests ${CMAKE_DL_LIBS} roukavici)
 endif(TEST)
 
 # Always build the interactive command line
