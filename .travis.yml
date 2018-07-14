@@ -11,6 +11,8 @@ env:
     - REPO_UNITY="github.com/RoukaVici/Asset-Unity"
     - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
     - BRANCH="travis"
+    - CC=gcc-8
+    - GCC=g++-8
 addons:
   apt:
     sources:
