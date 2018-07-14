@@ -3,7 +3,7 @@
 
 #include <sstream>
 #include "Debug.hh"
-
+#include "Packet.hh"
 #include "BTManager.hh"
 #include "DeviceINQ.h"
 #include "BTSerialPortBinding.h"
@@ -100,8 +100,7 @@ DeviceManager* BTManager::create()
 
 int BTManager::Vibrate(char motor, char intensity) const
 {
-  char msg[2] = {motor, intensity};
-  return this->Write(msg, 2);
+  return this->Write(Packet::v1(motor, intensity));
 }
 
 int BTManager::Write(const char* msg, int length) const
@@ -116,7 +115,6 @@ int BTManager::Write(const char* msg, int length) const
   }
   return 0;
 }
-
 
 int BTManager::Write(const std::string& msg) const
 {

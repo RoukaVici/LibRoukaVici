@@ -1,6 +1,7 @@
 #include <iostream>
 #include "TextManager.hh"
 #include "Debug.hh"
+#include "Packet.hh"
 #include <sstream>
 
 TextManager::TextManager()
@@ -41,7 +42,7 @@ int TextManager::Vibrate(char motor, char intensity) const
 {
   std::stringstream ss;
   ss << "Motor " << static_cast<int>(motor) << " vibrating at " <<
-    static_cast<int>(static_cast<unsigned char>(intensity));
+    static_cast<int>(static_cast<unsigned char>(intensity)) << ". Packet sent: " << Packet::v1(motor, intensity);
   Debug::Log(ss.str(), true);
   return 0;
 }

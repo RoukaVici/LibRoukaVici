@@ -42,6 +42,7 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/TextManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RawManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VibrationGroup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Packet.cpp
   )
 
 include(GenerateExportHeader)
