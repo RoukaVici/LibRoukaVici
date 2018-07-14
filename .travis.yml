@@ -1,11 +1,15 @@
 language: cpp
 os: linux
+branches:
+  only:
+    - master
 env:
   global:
     - GIT_USER="dasfranck"
     - GIT_EMAIL="dasfranck@gmx.com"
     - REPO_UNITY="github.com/RoukaVici/Asset-Unity"
     - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
+    - BRANCH="travis"
 addons:
   apt:
     packages:
