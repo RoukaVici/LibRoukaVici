@@ -3,6 +3,7 @@ os: linux
 branches:
   only:
     - master
+    - travis
 env:
   global:
     - GIT_USER="dasfranck"
