@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-set(PROJECT_VERSION "0.5")
+set(PROJECT_VERSION "1.0")
 # Define project name & version
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
@@ -42,13 +42,12 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/TextManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RawManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VibrationGroup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Packet.cpp
   )
 
 include(GenerateExportHeader)
 # Generate our EXPORT and NO_EXPORT macros in roukavici_exported.h
 generate_export_header(roukavici)
-
-message("ID: " ${CMAKE_CXX_COMPILER_ID})
 
 # Platform-specific compile flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
@@ -86,13 +85,15 @@ if (VERB)
 endif(VERB)
 
 
-option (TEST "Verbose output for the library. Library is silent otherwise" OFF)
+option (TESTS "Build test binaries" OFF)
 ## Options if true
-if (TEST)
-    MESSAGE( STATUS "Building testt binaries")
-    add_executable(dlopentest ./test/dlopen.cpp)
-    target_link_libraries(dlopentest ${CMAKE_DL_LIBS} roukavici)
-endif(TEST)
+if (TESTS)
+#    enable_testing()
+    add_executable(unittests ./test/tests.cpp)
+    target_link_libraries(unittests ${CMAKE_DL_LIBS} roukavici)
+#    add_test(vibrationTest unittests "vibration")
+#    add_test(vibrationTest unittests "groups")
+endif(TESTS)
 
 # Always build the interactive command line
 add_executable(interactive ${CMAKE_CURRENT_SOURCE_DIR}/test/interactive.cpp)

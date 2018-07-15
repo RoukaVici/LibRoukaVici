@@ -110,5 +110,4 @@ extern "C"
   {
     RoukaVici::RegisterUnityDebugCallback(cb);
   }
-
 }
