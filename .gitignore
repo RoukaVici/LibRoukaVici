@@ -2,4 +2,3 @@ build/
 docs/
 output/*
 .vscode/
-lib/*
