@@ -27,3 +27,8 @@ const std::string Packet::Handshake(char min, char max)
       const char buff[3] = {'H', min, max};
       return std::string(buff);
 }
+
+char Packet::HandshakeResult(char buffer[], char minApi, char maxApi)
+{
+      return buffer[0] == 'H' && buffer[1] >= minApi && buffer[1] <= maxApi ? buffer[1] : 0;
+}

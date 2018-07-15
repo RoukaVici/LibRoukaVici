@@ -44,11 +44,18 @@ int TextManager::Write(const std::string& msg) const
 
 int TextManager::Write(const char* msg, int length) const
 {
-
   std::stringstream ss;
   ss << "Wrote: '" << msg << "' with length " << length;
   Debug::Log(ss.str());
   return 0;
+}
+
+int TextManager::Read(char* buffer, int length) const
+{
+  std::stringstream ss;
+  ss << "Reading " << length << " bytes";
+  Debug::Log(ss.str());
+  return length;
 }
 
 
