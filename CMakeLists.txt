@@ -49,8 +49,6 @@ include(GenerateExportHeader)
 # Generate our EXPORT and NO_EXPORT macros in roukavici_exported.h
 generate_export_header(roukavici)
 
-message("ID: " ${CMAKE_CXX_COMPILER_ID})
-
 # Platform-specific compile flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     message(STATUS "Setting G++ flags")
@@ -87,15 +85,15 @@ if (VERB)
 endif(VERB)
 
 
-option (TEST "Verbose output for the library. Library is silent otherwise" OFF)
+option (TESTS "Build test binaries" OFF)
 ## Options if true
-if (TEST)
-    enable_testing()
+if (TESTS)
+#    enable_testing()
     add_executable(unittests ./test/tests.cpp)
     target_link_libraries(unittests ${CMAKE_DL_LIBS} roukavici)
-    add_test(vibrationTest unittests "vibration")
-    add_test(vibrationTest unittests "groups")
-endif(TEST)
+#    add_test(vibrationTest unittests "vibration")
+#    add_test(vibrationTest unittests "groups")
+endif(TESTS)
 
 # Always build the interactive command line
 add_executable(interactive ${CMAKE_CURRENT_SOURCE_DIR}/test/interactive.cpp)
