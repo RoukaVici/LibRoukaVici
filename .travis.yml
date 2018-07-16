@@ -39,8 +39,8 @@ after_success:
   - git config --global user.email "$GIT_EMAIL"
   - git config --global user.email "$GIT_USER"
   - cd
-  - git clone git://$REPO_UNREAL
-  - git clone git://$REPO_UNITY
+  - git clone --depth=1 git://$REPO_UNREAL
+  - git clone --depth=1 git://$REPO_UNITY
 
   # Unity
   - cd Asset-Unity
