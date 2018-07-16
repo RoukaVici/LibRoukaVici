@@ -26,21 +26,15 @@ addons:
       - g++-8
       - git
       - libbluetooth-dev
-      - tree
 
 before_install:
-  - env
   - eval "${GCC}"
 script:
-  - env
-  - pwd
-  - tree
   - mkdir build
   - cd build
   - cmake -DTEST=TRUE ..
   - cmake --build .
 after_success:
-  - pwd
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - git config --global user.email "$GIT_EMAIL"
   - git config --global user.email "$GIT_USER"
