@@ -23,6 +23,7 @@ addons:
       - cmake
       - cmake-data
       - gcc-8
+      - g++-8
       - git
       - libbluetooth-dev
       - tree
