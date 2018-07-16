@@ -12,7 +12,7 @@ env:
     - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
     - BRANCH="travis"
     - CC=gcc-8
-    - GCC=g++-8
+    - CXX=g++-8
 addons:
   apt:
     sources:
@@ -25,7 +25,8 @@ addons:
       - git
       - libbluetooth-dev
       - tree
-    
+before_install:
+  - eval "${MATRIX_EVAL}"
 script:
   - pwd
   - tree
