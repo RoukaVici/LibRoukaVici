@@ -26,8 +26,11 @@ addons:
       - libbluetooth-dev
       - tree
 before_install:
-  - eval "${MATRIX_EVAL}"
+  - env
+  - eval "${CC}"
+  - eval "${CXX}"
 script:
+  - env
   - pwd
   - tree
   - mkdir build
