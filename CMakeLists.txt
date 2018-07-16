@@ -1,19 +1,12 @@
 cmake_minimum_required(VERSION 3.1)
-set(PROJECT_VERSION "1.0")
 # Define project name & version
+set(PROJECT_VERSION "1.0")
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
-# Set output directory for the library & binary files
-# This is directory-wide on purpose
-set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 
 add_library(roukavici SHARED)
 
@@ -88,13 +81,28 @@ endif(VERB)
 option (TESTS "Build test binaries" OFF)
 ## Options if true
 if (TESTS)
-#    enable_testing()
-    add_executable(unittests ./test/tests.cpp)
-    target_link_libraries(unittests ${CMAKE_DL_LIBS} roukavici)
-#    add_test(vibrationTest unittests "vibration")
-#    add_test(vibrationTest unittests "groups")
+    enable_testing()
+    if (UNIX)
+        add_executable(cAPITest ./test/cAPI.cpp)
+        target_link_libraries(cAPITest ${CMAKE_DL_LIBS} roukavici)
+        add_test(NAME "C_API" COMMAND cAPITest)
+    endif(UNIX)
+    if (BT)
+        add_executable(btTest ./test/BT.cpp)
+        target_link_libraries(btTest ${CMAKE_DL_LIBS} roukavici)
+        add_test(NAME "Bluetooth" COMMAND btTest)
+    endif(BT)
 endif(TESTS)
 
-# Always build the interactive command line
+# Always build the interactive command line, if it doesn't build something's wrong anyway
 add_executable(interactive ${CMAKE_CURRENT_SOURCE_DIR}/test/interactive.cpp)
 target_link_libraries(interactive roukavici ${CMAKE_DL_LIBS})
+
+# Set output directory for the libraries & interactive binary. Tests go in build directory
+set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
+set_target_properties(roukavici bluetoothserialport interactive
+PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+)
