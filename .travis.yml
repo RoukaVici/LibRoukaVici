@@ -4,6 +4,7 @@ branches:
   only:
     - master
     - travis
+
 env:
   global:
     - GIT_USER="dasfranck"
@@ -11,8 +12,8 @@ env:
     - REPO_UNITY="github.com/RoukaVici/Asset-Unity"
     - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
     - BRANCH="travis"
-    - CC=gcc-8
-    - CXX=g++-8
+    - GCC="CC=gcc-8 && CXX=g++-8"
+
 addons:
   apt:
     sources:
@@ -25,10 +26,10 @@ addons:
       - git
       - libbluetooth-dev
       - tree
+
 before_install:
   - env
-  - eval "${CC}"
-  - eval "${CXX}"
+  - eval "${GCC}"
 script:
   - env
   - pwd
