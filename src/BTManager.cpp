@@ -3,7 +3,7 @@
 
 #include <sstream>
 #include "Debug.hh"
-
+#include "Packet.hh"
 #include "BTManager.hh"
 #include "DeviceINQ.h"
 #include "BTSerialPortBinding.h"
@@ -24,10 +24,11 @@ BTManager::~BTManager()
 /// Search for bluetooth devices, if we find the glove connect to it
 /**
  * Return codes:
- * 0: OK, device found
+ * 0: Everything OK
  * 1: No device found
  * 2: Device found, could not get channel Id
  * 3: Device found, connection failed (Wrong PIN most likely cause)
+ * 4: Handshake failed
  */
 int BTManager::FindDevice()
 {
@@ -72,6 +73,16 @@ int BTManager::FindDevice()
           port = BTSerialPortBinding::Create(d.address, channelId);
           try {
             port->Connect();
+            this->Write(Packet::Handshake(1, 1));
+            char buffer[2];
+            if (this->Read(buffer, 2) < 2 || Packet::HandshakeResult(buffer, 1, 1) != 1)
+            {
+              Debug::Err("Not enough bytes read");
+              delete port;
+              port = nullptr;
+              return 4;
+            }
+            return 0;
           }
           catch (BluetoothException& e)
             {
@@ -100,8 +111,7 @@ DeviceManager* BTManager::create()
 
 int BTManager::Vibrate(char motor, char intensity) const
 {
-  char msg[2] = {motor, intensity};
-  return this->Write(msg, 2);
+  return this->Write(Packet::v1(motor, intensity));
 }
 
 int BTManager::Write(const char* msg, int length) const
@@ -117,8 +127,20 @@ int BTManager::Write(const char* msg, int length) const
   return 0;
 }
 
-
 int BTManager::Write(const std::string& msg) const
 {
   return this->Write(msg.c_str(), msg.length());
+}
+
+int BTManager::Read(char buffer[], int len) const
+{
+  if (port == nullptr)
+    return -1;
+  try {
+    return port->Read(buffer, len);
+  }
+  catch (BluetoothException& e) {
+    Debug::Err("Failed to read from arduino");
+    return -1;
+  }
 }

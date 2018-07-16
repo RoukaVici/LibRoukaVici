@@ -36,6 +36,7 @@ public:
    * 1: Not connected to device
    * 2: Error while writing
    */
-
   virtual int Vibrate(char motor, char intensity) const = 0;
+  virtual int Read(char buffer[], int len) const = 0;
+
 };

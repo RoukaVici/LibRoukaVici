@@ -18,5 +18,6 @@ public:
   virtual bool HasDevice() const;
   virtual int Write(const std::string& msg) const;
   virtual int Write(const char* msg, int length) const;
+  virtual int Read(char* buffer, int length) const;
   virtual int Vibrate(char motor, char intensity) const;
 };

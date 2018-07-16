@@ -2,19 +2,24 @@
 #include <unistd.h>
 #include <iostream>
 
-void testVibrate(void* rv, void* lib)
+int testVibrate(void* handle, void* lib)
 {
-  // std::cout << "## TEST 1" << std::endl;
-  void (*vibrate)(void*, char, char);
+  std::cout << "[TESTS] Testing vibrations..." << std::endl;
+  int (*vibrate)(void*, char, char);
   *(void**)(&vibrate) = dlsym(lib, "Vibrate");
-  std::cerr << "Turning on motor 0" << std::endl;
-  vibrate(rv, 0, 255);
-  std::cerr << "Turning off motor 0" << std::endl;
-  vibrate(rv, 0, 0);
-  std::cerr << "Turning on motor 1" << std::endl;
-  vibrate(rv, 1, 255);
-  std::cerr << "Turning off motor 1" << std::endl;
-  vibrate(rv, 1, 0);
+  std::cout << "[TESTS] Turning on motor 0" << std::endl;
+  if (vibrate(handle, 0, 255)) goto error;
+  std::cout << "[TESTS] Turning off motor 0" << std::endl;
+  if (vibrate(handle, 0, 0)) goto error;
+  std::cout << "[TESTS] Turning on motor 1" << std::endl;
+  if (vibrate(handle, 1, 255)) goto error;
+  std::cout << "[TESTS] Turning off motor 1" << std::endl;
+  if (vibrate(handle, 1, 0)) goto error;
+  std::cout << "[TESTS] Vibrations OK" << std::endl;
+  return 0;
+error:
+  std::cout << "[TESTS] KO: Vibration tests failed!" << std::endl;
+  return 1;
 }
 
 void  testGroups(void* lib)
@@ -62,9 +67,9 @@ int main()
   *(void**)(&findDevice) = dlsym(lib, "FindDevice");
 
   // Init the lib
-  void* rv = initrvici();
+  void* handle = initrvici();
   std::cout << "Testing text manager" << std::endl;
-  testVibrate(rv, lib);
+  if (testVibrate(handle, lib)) goto endtest;
 /*   std::cout << "Switching to BT Manager..." << std::endl;
   // Put in Bluetooth mode
   if (changeManager("BTManager") != 0)
@@ -81,6 +86,6 @@ int main()
   testVibrate(lib);
   testGroups(lib);
  */ endtest:
-  stoprvici(rv);
+  stoprvici(handle);
   return 0;
 }
