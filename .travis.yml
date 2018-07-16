@@ -50,7 +50,7 @@ after_success:
 
   # Unity
   - cd Asset-Unity
-  - git checkout -b dev
+  - git checkout -b $BRANCH
   # COPY HERE FILES FROM BUILD
   # ADD FILES IN COMMIT
   - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
@@ -58,7 +58,7 @@ after_success:
 
   # UNREAL
   - cd ../Asset-Unreal
-  - git checkout -b dev
+  - git checkout -b $BRANCH
   # COPY HERE FILES FROM BUILD
   # ADD FILES IN COMMIT
   - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
