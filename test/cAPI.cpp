@@ -1,12 +1,6 @@
-#ifdef _WIN32
-# include <windows.h>
-# define GETFUNC(funchandle, lib, funcName) (funchandle = GetProcAddress(lib, funcName))
-#else
 # include <dlfcn.h>
 # include <unistd.h>
 # define GETFUNC(funchandle, lib, funcName) (*(void**)(&funchandle) = dlsym(lib, funcName))
-#endif
-
 
 int testVibrate(void* handle, void* lib)
 {
@@ -29,8 +23,6 @@ int main(int argc, const char** argv)
     void* lib = dlopen("libroukavici.so", RTLD_LAZY);
   #elif __APPLE__
     void* lib = dlopen("libroukavici.dylib", RTLD_LAZY);
-  #elif _WIN32
-    HINSTANCE lib = LoadLibrary("roukavici.dll");
   #endif
 
   if (!lib)
