@@ -15,7 +15,6 @@ This library provides an API between the computer and the RoukaVici glove. It ai
 # Building
 ## Build instructions
 These instructions are valid on all platforms, including Windows (using Powershell)
-
 - `git submodule update --init`: Start by making sure you have all submodules
 - `mkdir build && cd build/`
 - `cmake [-G "<Generator>"] [flags] ..`: Generate build files. See Flags and Generators sections for build options, default should be fine for most uses.
@@ -23,6 +22,7 @@ These instructions are valid on all platforms, including Windows (using Powershe
 - Output files for Linux & MacOS: `build/libroukavici.so` and `build/lib/bluetooth-serial-port/bluetoothserialport.so`
 - Output files for Windows: `build/Debug/roukavici.dll`, `build/Debug/roukavici.lib` and `build/Debug/lib/bluetooth-serial-port/bluetoothserialport.dll`.
 - If you've built test binaries, running `ctest` in the `build/` directory will run a suite of unit tests. See Executables - Unit Tests section.
+- The interactive command shell, `interactive`, provides you with a quick way to send signals to the glove without building an application yourself. Run it and follow the instructions on screen.
 
 **Note**: As of this writing, MacOS cannot compile the Bluetooth library. Run cmake with `-DBT=FALSE` option if build fails.
 
@@ -36,6 +36,14 @@ Your platform has a default generator (compiler) they're using, but you may want
 - `-DTESTS`: Combile test binaries, see Executables section for more info. TRUE on Linux, FALSE otherwise by default.
 - `-DBT`: Compile with Bluetooth support. TRUE by default
 - `-DVERB`: Compile in verbose mode. If set to FALSE, the library will print no log messages to the standard output, only displaying errors on the error output. TRUE by default.
+
+# Project Folders Overview
+- `include/` contains all the public header you might need to interact with the library. Just copy them wherever you want AFTER compiling. Note that you need to compile using `cmake` in order to generate one of the headers for your platform, `roukavici_export.h`.
+- `lib/` contains RoukaVici's dependencies' sources. They're submodules, so if there's nothing there you forgot to initialize the gut submodules.
+- `output/` will contain the compiled libraries and executables. Note that test binaries won't be put there since there's a lot of them - they go in the build directory.
+- `src/` contains RoukaVici's source files as well as private headers. This is where you'll go if you want to learn more about RoukaVici internals.
+- `test/` contains source files for test files and for the interactive command line.
+- `toolchain/` contains files for cross-platform build (for example, building for Windows on Linux)
 
 # How to use
 ## C++
