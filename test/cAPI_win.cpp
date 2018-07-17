@@ -16,8 +16,14 @@ int main() {
     if (!init || !end)
     {
         std::cout << "Couldn't find function" << std::endl;
+        return 1;
     }
     void* handle = init();
+    if (!handle)
+    {
+        std::cout << "Initialization failed" << std::endl;
+        return 1;
+    }
     end(handle);
     return 0;
 }
