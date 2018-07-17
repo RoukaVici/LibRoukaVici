@@ -52,6 +52,7 @@ int TextManager::Write(const char* msg, int length) const
 
 int TextManager::Read(char* buffer, int length) const
 {
+  (void)buffer;
   std::stringstream ss;
   ss << "Reading " << length << " bytes";
   Debug::Log(ss.str());

@@ -92,6 +92,12 @@ if (TESTS)
         target_link_libraries(btTest ${CMAKE_DL_LIBS} roukavici)
         add_test(NAME "Bluetooth" COMMAND btTest)
     endif(BT)
+    add_executable(callbackTest ./test/Callback.cpp)
+    target_link_libraries(callbackTest ${CMAKE_DL_LIBS} roukavici)
+    add_test(NAME "Callbacks" COMMAND callbackTest)
+    add_executable(groupTest ./test/Groups.cpp)
+    target_link_libraries(groupTest ${CMAKE_DL_LIBS} roukavici)
+    add_test(NAME "Groups" COMMAND groupTest)
 endif(TESTS)
 
 # Always build the interactive command line, if it doesn't build something's wrong anyway
