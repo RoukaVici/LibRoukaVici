@@ -56,4 +56,4 @@ after_success:
   # COPY HERE FILES FROM BUILD
   # ADD FILES IN COMMIT
   - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
-  - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@REPO_UNREAL dev &2>/dev/null
+  - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNREAL dev &2>/dev/null
