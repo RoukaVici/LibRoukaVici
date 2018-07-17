@@ -1,10 +1,17 @@
-#include <dlfcn.h>
-#include <unistd.h>
+#ifdef _WIN32
+# include <windows.h>
+# define GETFUNC(funchandle, lib, funcName) (funchandle = GetProcAddress(lib, funcName))
+#else
+# include <dlfcn.h>
+# include <unistd.h>
+# define GETFUNC(funchandle, lib, funcName) (*(void**)(&funchandle) = dlsym(lib, funcName))
+#endif
+
 
 int testVibrate(void* handle, void* lib)
 {
   int (*vibrate)(void*, char, char);
-  *(void**)(&vibrate) = dlsym(lib, "Vibrate");
+  GETFUNC(vibrate, lib, "Vibrate");
   if (vibrate(handle, 0, 255)) goto error;
   if (vibrate(handle, 0, 0)) goto error;
   return 0;
@@ -22,18 +29,20 @@ int main(int argc, const char** argv)
     void* lib = dlopen("libroukavici.so", RTLD_LAZY);
   #elif __APPLE__
     void* lib = dlopen("libroukavici.dylib", RTLD_LAZY);
+  #elif _WIN32
+    HINSTANCE lib = LoadLibrary("roukavici.dll");
   #endif
 
   if (!lib)
     {
-      return 1;
+      return 2;
     }
-  *(void**)(&initrvici) = dlsym(lib, "InitRVici");
-  *(void**)(&stoprvici) = dlsym(lib, "StopRVici");
+  GETFUNC(initrvici, lib, "InitRVici");
+  GETFUNC(stoprvici, lib, "StopRVici");
 
   // Init the lib
   void* handle = initrvici();
-  if (testVibrate(handle, lib)){
+  if (testVibrate(handle, lib)) {
     ret = 1;
   }
   stoprvici(handle);
