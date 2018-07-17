@@ -1,0 +1,50 @@
+language: cpp
+os: linux
+branches:
+  only:
+    - master
+env:
+  global:
+    - GIT_USER="dasfranck"
+    - GIT_EMAIL="dasfranck@gmx.com"
+    - REPO_UNITY="github.com/RoukaVici/Asset-Unity"
+    - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
+    - BRANCH="travis"
+addons:
+  apt:
+    packages:
+      - cmake
+      - cmake-data
+      - g++
+      - git
+      - libbluetooth-dev
+before_script:
+  - git submodule update --init
+  - mkdir build
+script:
+  - cd build
+  - cmake -DTEST=TRUE ..
+  - cmake --build .
+after_success:
+  - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
+  - git config --global user.email "$GIT_EMAIL"
+  - git config --global user.email "$GIT_USER"
+  - cd
+  - git clone git://$REPO_UNREAL
+  - git clone git://$REPO_UNITY
+
+  # Unity
+  - cd Asset-Unity
+  - git checkout -b dev
+  # COPY HERE FILES FROM BUILD
+  # ADD FILES IN COMMIT
+  - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
+  - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNITY dev &2>/dev/null
+
+  # UNREAL
+  - cd ../Asset-Unreal
+  - git checkout -b dev
+  # COPY HERE FILES FROM BUILD
+  # ADD FILES IN COMMIT
+  - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
+  - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@REPO_UNREAL dev &2>/dev/null

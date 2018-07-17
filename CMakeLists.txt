@@ -1,164 +1,112 @@
-cmake_minimum_required(VERSION 3.9)
-
-SET (PROJECT_VERSION "0.3")
-SET (PROJ_NAME "roukavici")
-
+cmake_minimum_required(VERSION 3.1)
 # Define project name & version
-project(${PROJ_NAME} VERSION ${PROJECT_VERSION})
+set(PROJECT_VERSION "1.0.0")
+project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
-SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+add_library(roukavici SHARED)
 
-SET (PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-SET (PROJECT_SRC "${PROJECT_ROOT}/src")
-SET (LIB_DIR "${PROJECT_ROOT}/lib")
+target_include_directories(roukavici
+PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
 
-# Platform-specific compile flags
-if (UNIX)
-  # G++
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-else()
-  # MSVC
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /MTd /W2 /c")
-  # Set the DLLEXPORT variable to export symbols
-  add_definitions(-DWIN_EXPORT)
-endif()
+set_target_properties(roukavici
+PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION}
+)
 
-# Setting sources, more files will be added depending on options
-set(LIBSRCS
-  ${PROJECT_SRC}/Debug.cpp
-  ${PROJECT_SRC}/RoukaViciAPI.cpp
-  ${PROJECT_SRC}/RoukaVici.cpp
-  ${PROJECT_SRC}/GroupManager.cpp
-  ${PROJECT_SRC}/ManagerFactory.cpp
-  ${PROJECT_SRC}/TextManager.cpp
-  ${PROJECT_SRC}/RawManager.cpp
-  ${PROJECT_SRC}/VibrationGroup.cpp
+target_sources(roukavici
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Debug.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaViciAPI.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaVici.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GroupManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ManagerFactory.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/TextManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RawManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/VibrationGroup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Packet.cpp
   )
 
-# Set output directory for the library & binary files
-SET(OUTPUT_DIR "${PROJECT_ROOT}/output")
+include(GenerateExportHeader)
+# Generate our EXPORT and NO_EXPORT macros in roukavici_exported.h
+generate_export_header(roukavici)
 
-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR})
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
-
-
-###
-# Options
-###
-## USB option is deprecated
-## Setting the name of the libusb option
-set (LUSBOPT "USB")
-## Define it
-option(${LUSBOPT} "Compile with LibUSB support" OFF)
-## Conditions if true
-if (${LUSBOPT})
-  MESSAGE( STATUS "Building with USB support!")
-  ## Find the right package
-  find_package(LibUSB)
-  ## Add the proper source file
-  set(LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/USBManager.cpp)
-  ## Set the proper preprocessor defs
-  add_definitions(-DLIBUSB_COMPILE)
-  include_directories(${LIBUSB_INCLUDE_DIR})
-endif (${LUSBOPT})
-
-
-## Setting the name of the test option
-set (TESTOPT "TEST")
-## Define it. True by default on unix, false on windows
-if (UNIX)
-  option (${TESTOPT} "Build test executables" ON)
-else()
-  option (${TESTOPT} "Build test executables" OFF)
+# Platform-specific compile flags
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    message(STATUS "Setting G++ flags")
+    # G++
+    target_compile_options(roukavici PRIVATE -Wall -Wextra)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+    message(STATUS "Setting MSVC flags")
+    # MSVC
+    target_compile_options(roukavici PRIVATE /EHsc /MTd /W2 /c)
+    # Set the DLLEXPORT variable to export symbols
+    target_compile_definitions(roukavici PRIVATE WIN_EXPORT)
 endif()
 
-
-## Setting the name of the TCP option
-set (TCPOPT "TCP")
-## Define it. False by default
-option (${TESTOPT} "Build with TCP support" OFF)
-
-if (${TCPOPT})
-  MESSAGE( STATUS "Building with TCP Support")
-  # Set the compile flag
-  add_definitions(-DTCP_COMPILE)
-  # Add the source file
-  set(LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/TCPManager.cpp)
-endif(${TCPOPT})
-
-## Setting the name of the bluetooth option
-set (BTOPT "BT")
-## Define it. True by default
-option (${BTOPT} "Build with Bluetooth support" ON)
+##
+# Options
+##
+# Bluetooth support. True by default
+option (BT "Build with Bluetooth support" ON)
 ## Conditions if true
-if (${BTOPT})
-  MESSAGE( STATUS "Building with Bluetooth Support")
-  set (LIBSRCS ${LIBSRCS} ${PROJECT_SRC}/BTManager.cpp)
-  set (BTLIB "bluetoothserialport")
-  set (BTDIRNAME "bluetooth-serial-port")
-  add_definitions(-DBT_COMPILE)
-  include_directories(${LIB_DIR}/${BTDIRNAME}/src)
+if (BT)
+    message( STATUS "Building with Bluetooth Support")
+    target_sources(roukavici PRIVATE src/BTManager.cpp)
+    target_include_directories(roukavici PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/bluetooth-serial-port/src)
+    target_compile_definitions(roukavici PRIVATE DBT_COMPILE)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/bluetooth-serial-port) # Add bluetoothserialport cmake
+    target_link_libraries(roukavici bluetoothserialport)
+endif (BT)
 
-  add_subdirectory(${LIB_DIR}/${BTDIRNAME}) # Add bluetoothserialport cmake
-endif (${BTOPT})
-
-## Verbose output for the lib
-set (VERBOPT "VERB")
-option (${VERBOPT} "Verbose output for the library. Library is silent otherwise" ON)
+option (VERB "Verbose output for the library. Library is silent otherwise" ON)
 ## Options if true
-if (${VERBOPT})
+if (VERB)
   MESSAGE( STATUS "Building in verbose mode, get used to me talking")
-  add_definitions(-DROUKAVERBOSE)
-endif(${VERBOPT})
+  target_compile_definitions(roukavici PRIVATE ROUKAVERBOSE)
+endif(VERB)
 
 
-include_directories(${PROJECT_SRC})
+option (TESTS "Build test binaries" OFF)
+## Options if true
+if (TESTS)
+    enable_testing()
+    add_executable(cAPITest ./test/cAPI.cpp)
+    target_link_libraries(cAPITest ${CMAKE_DL_LIBS} roukavici)
+    add_test(NAME "C_API" COMMAND cAPITest)
+    if (BT)
+        add_executable(btTest ./test/BT.cpp)
+        target_link_libraries(btTest ${CMAKE_DL_LIBS} roukavici)
+        add_test(NAME "Bluetooth" COMMAND btTest)
+    endif(BT)
+    add_executable(callbackTest ./test/Callback.cpp)
+    target_link_libraries(callbackTest ${CMAKE_DL_LIBS} roukavici)
+    add_test(NAME "Callbacks" COMMAND callbackTest)
+    add_executable(groupTest ./test/Groups.cpp)
+    target_link_libraries(groupTest ${CMAKE_DL_LIBS} roukavici)
+    add_test(NAME "Groups" COMMAND groupTest)
+endif(TESTS)
 
-###
-# libroukavici
-###
-add_library(${PROJ_NAME} SHARED ${LIBSRCS})
+# Always build the interactive command line, if it doesn't build something's wrong anyway
+add_executable(interactive ${CMAKE_CURRENT_SOURCE_DIR}/test/interactive.cpp)
+target_link_libraries(interactive roukavici ${CMAKE_DL_LIBS})
 
-if (${LUSBOPT})
-  target_link_libraries(${PROJ_NAME} ${LIBUSB_LIBRARY})
-endif (${LUSBOPT})
-
-if (${BTOPT})
-  target_link_libraries(${PROJ_NAME} ${BTLIB})
-endif (${BTOPT})
-
-set_target_properties(${PROJ_NAME}
-  PROPERTIES
-  VERSION ${PROJECT_VERSION}
-  SOVERSION ${PROJECT_VERSION})
-## If the testing option is true
-SET (TEST_FOLDER "${PROJECT_ROOT}/test")
-
-if (${TESTOPT})
-  MESSAGE( STATUS "Building test executables")
-   ###
-   # test executable
-   ###
-   SET (CTEST c_test)
-   SET (CPPTEST cpp_test)
-
-   ## Necessary for testing
-   add_executable(${CTEST} ${TEST_FOLDER}/main.cpp)
-   add_executable(${CPPTEST} ${TEST_FOLDER}/maincpp.cpp)
-
-   target_link_libraries(${CTEST} ${PROJ_NAME} ${CMAKE_DL_LIBS})
-   target_link_libraries(${CPPTEST} ${PROJ_NAME} ${CMAKE_DL_LIBS})
-endif (${TESTOPT})
-
-###
-# Interactive command line
-###
-SET (INTERACT interactive)
-
-add_executable(${INTERACT} ${TEST_FOLDER}/interactive.cpp)
-target_link_libraries(${INTERACT} ${PROJ_NAME} ${CMAKE_DL_LIBS})
+# Set output directory for the libraries & interactive binary. Tests go in build directory
+set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
+set_target_properties(roukavici bluetoothserialport interactive
+PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+)

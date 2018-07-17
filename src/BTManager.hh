@@ -21,6 +21,7 @@ public:
    * 1: No device found
    * 2: Device found, could not get channel Id
    * 3: Device found, connection failed (Wrong PIN most likely cause)
+   * 4: Handshake failed
    */
   virtual int FindDevice();
   /// Returns true if the device was found
@@ -42,6 +43,13 @@ public:
    * 2: Error while writing
    */
   virtual int Vibrate(char motor, char intensity) const;
+
+  /// Read from the device
+  /**
+   * -1: Read failed
+   * Otherwise, number of bytes read
+   */
+  virtual int Read(char buffer[], int len) const;
 
 private:
   // Inquire object, handles queries to the bluetooth api

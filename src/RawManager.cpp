@@ -19,6 +19,12 @@ int RawManager::Write(const std::string& msg) const
 {
   return this->Write(msg.c_str(), msg.length());
 }
+int RawManager::Read(char* buffer, int length) const
+{
+  (void)buffer;
+  (void)length;
+  return 0; // Can't read in this mode for now
+}
 
 int RawManager::Write(const char* msg, int length) const
 {

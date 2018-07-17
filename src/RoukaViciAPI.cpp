@@ -1,95 +1,72 @@
 #include <iostream>
-#include "exported.hh"
+#include "roukavici_export.h"
 #include "RoukaVici.hh"
 #include "Debug.hh"
 
-RoukaVici *rv = 0;
+#define RV(x) static_cast<RoukaVici*>(x)
 
 extern "C"
 {
-  EXPORTED int InitRVici()
+  ROUKAVICI_EXPORT void* InitRVici()
   {
     Debug::Log("Starting library");
-    rv = new RoukaVici();
-    return rv->Status();
+    return static_cast<void*>(new RoukaVici());
   }
 
-  EXPORTED int FindDevice()
+  ROUKAVICI_EXPORT int FindDevice(void* handle)
   {
-    if (rv == 0)
-      return -1;
-    return rv->FindDevice();
+    return RV(handle)->FindDevice();
   }
 
-  EXPORTED int Status()
+  ROUKAVICI_EXPORT int Status(void* handle)
   {
-    if (rv == 0)
-      return -1;
-    return rv->Status();
+    return RV(handle)->Status();
   }
 
-  EXPORTED void StopRVici()
+  ROUKAVICI_EXPORT void StopRVici(void* handle)
   {
     Debug::Log("Stopping library...");
-    if (rv != 0)
-      delete rv;
+    delete RV(handle);
     Debug::Log("Library stopped.");
   }
 
- EXPORTED int Write(const char * const msg)
+ ROUKAVICI_EXPORT int Write(void* handle, const char * const msg)
   {
-    if (rv == 0)
-      return -1;
     const std::string cppmsg(msg);
-    return rv->Write(cppmsg);
+    return RV(handle)->Write(cppmsg);
   }
 
-  EXPORTED int Vibrate(char motor, char intensity)
+  ROUKAVICI_EXPORT int Vibrate(void* handle, char motor, char intensity)
   {
-    if (rv == 0)
-      return -1;
-
-    return rv->Vibrate(motor, intensity);
+    return RV(handle)->Vibrate(motor, intensity);
   }
 
-  EXPORTED int NewGroup(const char * const name)
+  ROUKAVICI_EXPORT int NewGroup(void* handle, const char * const name)
   {
-    if (rv == 0)
-      return -1;
-
     const std::string cppname(name);
-    return rv->NewGroup(cppname);
+    return RV(handle)->NewGroup(cppname);
   }
 
-  EXPORTED int AddToGroup(const char * const name, char motor)
+  ROUKAVICI_EXPORT int AddToGroup(void* handle, const char * const name, char motor)
   {
-    if (rv == 0)
-      return -1;
-
     const std::string cppname(name);
-    return rv->AddToGroup(cppname, motor);
+    return RV(handle)->AddToGroup(cppname, motor);
   }
 
-  EXPORTED int RmFromGroup(const char * const name, char motor)
+  ROUKAVICI_EXPORT int RmFromGroup(void* handle, const char * const name, char motor)
   {
-    if (rv == 0)
-      return -1;
     const std::string cppname(name);
-    return rv->RmFromGroup(cppname, motor);
+    return RV(handle)->RmFromGroup(cppname, motor);
   }
 
-  EXPORTED int VibrateGroup(const char* const name, char intensity)
+  ROUKAVICI_EXPORT int VibrateGroup(void* handle, const char* const name, char intensity)
   {
-    if (rv == 0)
-      return -1;
     const std::string cppname(name);
-    return rv->VibrateGroup(cppname, intensity);
+    return RV(handle)->VibrateGroup(cppname, intensity);
   }
 
-  EXPORTED int ChangeDeviceManager(const int idx)
+  ROUKAVICI_EXPORT int ChangeDeviceManager(void* handle, const int idx)
   {
-    if (rv == 0)
-      return -1;
     std::string name;
     switch (idx) {
       case 0:
@@ -104,34 +81,33 @@ extern "C"
       default:
         return -2;
     }
-    return rv->ChangeDeviceManager(name);
+    return RV(handle)->ChangeDeviceManager(name);
   }
 
-  EXPORTED void SetLogMode(const int mode)
+  ROUKAVICI_EXPORT void SetLogMode(const int mode)
   {
     RoukaVici::SetLogMode(mode);
   }
 
-  EXPORTED int GetLogMode()
+  ROUKAVICI_EXPORT int GetLogMode()
   {
     return RoukaVici::GetLogMode();
   }
 
-  EXPORTED void SetLogFile(const char* const name)
+  ROUKAVICI_EXPORT void SetLogFile(const char* const name)
   {
     const std::string cppname(name);
     RoukaVici::SetLogFile(cppname);
   }
 
 
-  EXPORTED void RegisterDebugCallback(DebugCallback cb)
+  ROUKAVICI_EXPORT void RegisterDebugCallback(DebugCallback cb)
   {
     RoukaVici::RegisterDebugCallback(cb);
   }
 
-  EXPORTED void RegisterUnityDebugCallback(UnityDebugCallback cb)
+  ROUKAVICI_EXPORT void RegisterUnityDebugCallback(UnityDebugCallback cb)
   {
     RoukaVici::RegisterUnityDebugCallback(cb);
   }
-
 }
