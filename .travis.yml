@@ -32,7 +32,7 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - cmake -DTEST=TRUE ..
+  - cmake -DTESTS=TRUE ..
   - cmake --build .
 after_success:
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
