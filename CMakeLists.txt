@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 # Define project name & version
-set(PROJECT_VERSION "1.0")
+set(PROJECT_VERSION "1.0.0")
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
