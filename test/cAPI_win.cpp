@@ -2,7 +2,7 @@
 #include <iostream>
 
 typedef void* (__stdcall *INIT)();
-typedef void (__stdcall *END)(void*);
+typedef void (__stdcall *END)();
 
 int main() {
     HINSTANCE lib = LoadLibrary("roukavici.dll");
@@ -18,12 +18,7 @@ int main() {
         std::cout << "Couldn't find function" << std::endl;
         return 1;
     }
-    void* handle = init();
-    if (!handle)
-    {
-        std::cout << "Initialization failed" << std::endl;
-        return 1;
-    }
-    end(handle);
+    init();
+    end();
     return 0;
 }
