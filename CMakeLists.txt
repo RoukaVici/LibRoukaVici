@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.1)
 # Define project name & version
-set(PROJECT_VERSION "1.0")
+set(PROJECT_VERSION "1.0.2")
+set (CMAKE_CXX_STANDARD 11)
+
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+# set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(roukavici SHARED)
 
@@ -23,6 +25,8 @@ set_target_properties(roukavici
 PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION}
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN 1
 )
 
 target_sources(roukavici
@@ -50,7 +54,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     message(STATUS "Setting MSVC flags")
     # MSVC
-    target_compile_options(roukavici PRIVATE /EHsc /MTd /W2 /c)
+    target_compile_options(roukavici PRIVATE /EHsc /W2 /c)
     # Set the DLLEXPORT variable to export symbols
     target_compile_definitions(roukavici PRIVATE WIN_EXPORT)
 endif()
@@ -82,31 +86,45 @@ option (TESTS "Build test binaries" OFF)
 ## Options if true
 if (TESTS)
     enable_testing()
-    add_executable(cAPITest ./test/cAPI.cpp)
+    if (UNIX)
+        add_executable(cAPITest EXCLUDE_FROM_ALL ./test/cAPI.cpp)
+    else()
+        add_executable(cAPITest EXCLUDE_FROM_ALL ./test/cAPI_win.cpp)
+    endif()
     target_link_libraries(cAPITest ${CMAKE_DL_LIBS} roukavici)
     add_test(NAME "C_API" COMMAND cAPITest)
-    if (BT)
-        add_executable(btTest ./test/BT.cpp)
-        target_link_libraries(btTest ${CMAKE_DL_LIBS} roukavici)
-        add_test(NAME "Bluetooth" COMMAND btTest)
-    endif(BT)
-    add_executable(callbackTest ./test/Callback.cpp)
+#    if (BT)
+#        add_executable(btTest ./test/BT.cpp)
+#        target_link_libraries(btTest ${CMAKE_DL_LIBS} roukavici)
+#        add_test(NAME "Bluetooth" COMMAND btTest)
+#    endif(BT)
+    add_executable(callbackTest EXCLUDE_FROM_ALL ./test/Callback.cpp)
     target_link_libraries(callbackTest ${CMAKE_DL_LIBS} roukavici)
     add_test(NAME "Callbacks" COMMAND callbackTest)
-    add_executable(groupTest ./test/Groups.cpp)
+    add_executable(groupTest EXCLUDE_FROM_ALL ./test/Groups.cpp)
     target_link_libraries(groupTest ${CMAKE_DL_LIBS} roukavici)
     add_test(NAME "Groups" COMMAND groupTest)
 endif(TESTS)
 
 # Always build the interactive command line, if it doesn't build something's wrong anyway
-add_executable(interactive ${CMAKE_CURRENT_SOURCE_DIR}/test/interactive.cpp)
+add_executable(interactive EXCLUDE_FROM_ALL ${CMAKE_CURRENT_SOURCE_DIR}/test/interactive.cpp)
 target_link_libraries(interactive roukavici ${CMAKE_DL_LIBS})
 
-# Set output directory for the libraries & interactive binary. Tests go in build directory
+# Set output directory for the libraries & interactive binary. Tests go in build directory, except on windows because windows sucks my balls
 set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
 set_target_properties(roukavici bluetoothserialport interactive
 PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+
 )
+
+if (WIN32 AND TESTS)
+    set_target_properties(cAPITest callbackTest groupTest
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+)
+endif()
