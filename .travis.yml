@@ -7,7 +7,7 @@ branches:
 
 env:
   global:
-    - GIT_USER="dasfranck"
+    - GIT_USER="TRAVIS (dasfranck)"
     - GIT_EMAIL="dasfranck@gmx.com"
     - REPO_UNITY="github.com/RoukaVici/Asset-Unity"
     - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
@@ -34,19 +34,20 @@ script:
   - cd build
   - cmake -DTESTS=TRUE ..
   - cmake --build .
+  - cd ..
 after_success:
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - git config --global user.email "$GIT_EMAIL"
   - git config --global user.email "$GIT_USER"
-  - cd
+  - cd ..
   - git clone --depth=1 git://$REPO_UNREAL
   - git clone --depth=1 git://$REPO_UNITY
 
   # Unity
   - cd Asset-Unity
   - git checkout -b $BRANCH
-  # COPY HERE FILES FROM BUILD
-  # ADD FILES IN COMMIT
+  - cp ../LibRoukaVici/output/libroukavici.so Assets/Plugins/x64/libroukavici.so
+  - git add Assets/Plugins/x64/libroukavici.so
   - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
   - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNITY dev &2>/dev/null
 
