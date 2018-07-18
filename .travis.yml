@@ -7,7 +7,8 @@ branches:
 
 env:
   global:
-    - GIT_USER="TRAVIS (dasfranck)"
+    - GIT_USER="dasfranck"
+    - GIT_DISPLAY_NAME="TRAVIS (dasfranck)"
     - GIT_EMAIL="dasfranck@gmx.com"
     - REPO_UNITY="github.com/RoukaVici/Asset-Unity"
     - REPO_UNREAL="github.com/RoukaVici/Asset-Unreal-Engine"
@@ -38,7 +39,7 @@ script:
 after_success:
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - git config --global user.email "$GIT_EMAIL"
-  - git config --global user.email "$GIT_USER"
+  - git config --global user.email "$GIT_DISPLAY_NAME"
   - cd ..
   - git clone --depth=1 git://$REPO_UNREAL
   - git clone --depth=1 git://$REPO_UNITY
