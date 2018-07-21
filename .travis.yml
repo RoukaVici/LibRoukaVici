@@ -25,15 +25,26 @@ addons:
       - cmake-data
       - gcc-8
       - g++-8
+      - gcc-mingw-w64-base
+      - binutils-mingw-w64-x86-64
+      - gcc-mingw-w64-x86-64
+      - gcc-mingw-w64
+      - g++-mingw-w64-x86-64
       - git
       - libbluetooth-dev
 
 before_install:
   - eval "${GCC}"
 script:
-  - mkdir build
-  - cd build
+  - mkdir build-linux64
+  - cd build-linux64
   - cmake -DTESTS=TRUE ..
+  - cmake --build .
+  - cd ..
+
+  - mkdir build-windows
+  - cd build-windows
+  - cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain/mingw64.cmake ..
   - cmake --build .
   - cd ..
 after_success:
@@ -47,7 +58,9 @@ after_success:
   - git checkout -b $BRANCH
   - git pull origin $BRANCH
   - cp ../LibRoukaVici/output/libroukavici.so Assets/Plugins/x64/libroukavici.so
+  - cp ../LibRoukaVici/output/libroukavici.dll Assets/Plugins/x64/roukavici.dll
   - git add Assets/Plugins/x64/libroukavici.so
+  - git add Assets/Plugins/x64/roukavici.dll
   - git commit -m "TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT"
   - git push https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNITY $BRANCH &2>/dev/null
   - cd ..
