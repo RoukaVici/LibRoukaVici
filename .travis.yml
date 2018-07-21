@@ -46,6 +46,7 @@ after_success:
   # Unity
   - cd Asset-Unity
   - git checkout -b $BRANCH
+  - git pull
   - cp ../LibRoukaVici/output/libroukavici.so Assets/Plugins/x64/libroukavici.so
   - git add Assets/Plugins/x64/libroukavici.so
   - git commit -m "TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT"
