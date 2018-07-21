@@ -50,7 +50,7 @@ after_success:
   - cp ../LibRoukaVici/output/libroukavici.so Assets/Plugins/x64/libroukavici.so
   - git add Assets/Plugins/x64/libroukavici.so
   - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
-  - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNITY origin/$BRANCH &2>/dev/null
+  - git push -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNITY $BRANCH &2>/dev/null
 
   # UNREAL
   - cd ../Asset-Unreal
@@ -58,4 +58,4 @@ after_success:
   # COPY HERE FILES FROM BUILD
   # ADD FILES IN COMMIT
   - git commit -m 'TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT'
-  - git push -f -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNREAL origin/$BRANCH &2>/dev/null
+  - git push -q https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNREAL $BRANCH &2>/dev/null
