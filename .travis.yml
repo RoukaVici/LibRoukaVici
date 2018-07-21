@@ -37,23 +37,24 @@ script:
   - cmake --build .
   - cd ..
 after_success:
+  - cd ..
   - git config --global user.email "$GIT_EMAIL"
   - git config --global user.name "$GIT_DISPLAY_NAME"
-  - cd ..
-  - git clone git://$REPO_UNREAL
-  - git clone git://$REPO_UNITY
 
   # Unity
+  - git clone git://$REPO_UNITY
   - cd Asset-Unity
   - git checkout -b $BRANCH
-  - git pull origin/travis
+  - git pull origin $BRANCH
   - cp ../LibRoukaVici/output/libroukavici.so Assets/Plugins/x64/libroukavici.so
   - git add Assets/Plugins/x64/libroukavici.so
   - git commit -m "TRAVIS Pushing LibRoukaVici version $TRAVIS_COMMIT"
   - git push https://$GIT_USER:$GITHUB_API_KEY@$REPO_UNITY $BRANCH &2>/dev/null
+  - cd ..
 
   # UNREAL
-  - cd ../Asset-Unreal
+  - git clone git://$REPO_UNREAL
+  - cd Asset-Unreal
   - git checkout -b $BRANCH
   - git pull origin/travis
   # COPY HERE FILES FROM BUILD
