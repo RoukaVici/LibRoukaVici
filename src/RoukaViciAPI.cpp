@@ -2,8 +2,9 @@
 #include "roukavici_export.h"
 #include "RoukaVici.hh"
 #include "Debug.hh"
+#include "RoukaViciAPI.h"
 
-RoukaVici *rv = 0;
+static RoukaVici *rv = nullptr;
 
 extern "C"
 {
@@ -16,14 +17,14 @@ extern "C"
 
   ROUKAVICI_EXPORT int FindDevice()
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
     return rv->FindDevice();
   }
 
   ROUKAVICI_EXPORT int Status()
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
     return rv->Status();
   }
@@ -31,14 +32,14 @@ extern "C"
   ROUKAVICI_EXPORT void StopRVici()
   {
     Debug::Log("Stopping library...");
-    if (rv != 0)
+    if (rv != nullptr)
       delete rv;
     Debug::Log("Library stopped.");
   }
 
  ROUKAVICI_EXPORT int Write(const char * const msg)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
     const std::string cppmsg(msg);
     return rv->Write(cppmsg);
@@ -46,7 +47,7 @@ extern "C"
 
   ROUKAVICI_EXPORT int Vibrate(char motor, char intensity)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
 
     return rv->Vibrate(motor, intensity);
@@ -54,7 +55,7 @@ extern "C"
 
   ROUKAVICI_EXPORT int NewGroup(const char * const name)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
 
     const std::string cppname(name);
@@ -63,7 +64,7 @@ extern "C"
 
   ROUKAVICI_EXPORT int AddToGroup(const char * const name, char motor)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
 
     const std::string cppname(name);
@@ -72,7 +73,7 @@ extern "C"
 
   ROUKAVICI_EXPORT int RmFromGroup(const char * const name, char motor)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
     const std::string cppname(name);
     return rv->RmFromGroup(cppname, motor);
@@ -80,7 +81,7 @@ extern "C"
 
   ROUKAVICI_EXPORT int VibrateGroup(const char* const name, char intensity)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
     const std::string cppname(name);
     return rv->VibrateGroup(cppname, intensity);
@@ -88,7 +89,7 @@ extern "C"
 
   ROUKAVICI_EXPORT int ChangeDeviceManager(const int idx)
   {
-    if (rv == 0)
+    if (rv == nullptr)
       return -1;
     std::string name;
     switch (idx) {

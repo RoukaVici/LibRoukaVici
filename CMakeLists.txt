@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.2)
 # Define project name & version
 set(PROJECT_VERSION "1.0.2")
 set (CMAKE_CXX_STANDARD 11)
@@ -40,13 +40,14 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RawManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VibrationGroup.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Packet.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/deviceManagerDestructors.cpp
   )
 
 include(GenerateExportHeader)
 # Generate our EXPORT and NO_EXPORT macros in roukavici_exported.h
 generate_export_header(roukavici)
 
-# Platform-specific compile flags
+# Compiler-specific compile flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     message(STATUS "Setting G++ flags")
     # G++
@@ -57,6 +58,10 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     target_compile_options(roukavici PRIVATE /EHsc /W2 /c)
     # Set the DLLEXPORT variable to export symbols
     target_compile_definitions(roukavici PRIVATE WIN_EXPORT)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    message(STATUS "Setting Clang flags")
+    # Activate all clang warnings except those that don't really affect much
+    target_compile_options(roukavici PRIVATE -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-newline-eof -Wno-padded)
 endif()
 
 ##

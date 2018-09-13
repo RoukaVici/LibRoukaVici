@@ -6,10 +6,6 @@ RawManager::RawManager()
   std::cout.setf( std::ios_base::unitbuf );
 }
 
-RawManager::~RawManager()
-{
-}
-
 int RawManager::FindDevice()
 {
   return 0; // Always succeed
@@ -17,7 +13,7 @@ int RawManager::FindDevice()
 
 int RawManager::Write(const std::string& msg) const
 {
-  return this->Write(msg.c_str(), msg.length());
+  return this->Write(msg.c_str(), static_cast<int32_t>(msg.length()));
 }
 int RawManager::Read(char* buffer, int length) const
 {

@@ -1,7 +1,7 @@
 #include "Packet.hh"
 
 /// This function adds the header to a data packet
-const std::string vibrationHeader(char apiNumber, const std::string& data)
+static const std::string vibrationHeader(char apiNumber, const std::string& data)
 {
       const char buff[3] = {'R', apiNumber, static_cast<char>(data.length())};
       return std::string(buff) + data;

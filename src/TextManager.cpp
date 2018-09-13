@@ -9,9 +9,6 @@ TextManager::TextManager()
   // std::cout.setf( std::ios_base::unitbuf );
 }
 
-TextManager::~TextManager()
-{
-}
 
 static std::string string_to_hex(const std::string& input)
 {
@@ -22,7 +19,7 @@ static std::string string_to_hex(const std::string& input)
     output.reserve(4 * len);
     for (size_t i = 0; i < len; ++i)
     {
-        const unsigned char c = input[i];
+        const char c = input[i];
         output.push_back('\\');
         output.push_back('x');
         output.push_back(lut[c >> 4]);
@@ -39,14 +36,14 @@ int TextManager::FindDevice()
 
 int TextManager::Write(const std::string& msg) const
 {
-  return this->Write(msg.c_str(), msg.length());
+  return this->Write(msg.c_str(), static_cast<int32_t>(msg.length()));
 }
 
 int TextManager::Write(const char* msg, int length) const
 {
   std::stringstream ss;
   ss << "Wrote: '" << msg << "' with length " << length;
-  Debug::Log(ss.str());
+  Debug::Log(ss.str(), true);
   return 0;
 }
 
@@ -55,7 +52,7 @@ int TextManager::Read(char* buffer, int length) const
   (void)buffer;
   std::stringstream ss;
   ss << "Reading " << length << " bytes";
-  Debug::Log(ss.str());
+  Debug::Log(ss.str(), true);
   return length;
 }
 

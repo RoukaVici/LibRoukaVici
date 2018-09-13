@@ -5,12 +5,14 @@
 /// Device Manager is a device communication interface
 /**
  * Each child class is a different way of communicating
- * with the device
+ * with the device. The destructors of this class & all its
+ * child classes are declared out-of-line in deviceManagerDestructors.cpp
+ * so the vtable is only emitted once.
  */
 class DeviceManager
 {
 public:
-  virtual ~DeviceManager() {}
+  virtual ~DeviceManager();
 
   /// Finds the device
   /**

@@ -2,7 +2,7 @@
 #include "VibrationGroup.hh"
 #include "DeviceManager.hh"
 
-VibrationGroup::VibrationGroup(const std::string& name) : name(name)
+VibrationGroup::VibrationGroup(const std::string& n) : name(n)
 {
 }
 

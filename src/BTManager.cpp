@@ -12,15 +12,6 @@
 BTManager::BTManager() : inq(DeviceINQ::Create()), port(nullptr) {
 }
 
-BTManager::~BTManager()
-{
-  if (port != nullptr)
-    {
-      delete port;
-    }
-  delete inq;
-}
-
 /// Search for bluetooth devices, if we find the glove connect to it
 /**
  * Return codes:
@@ -55,9 +46,11 @@ int BTManager::FindDevice()
   }  
   for (const auto& d: devices)
     {
-      std::stringstream ss;
-      ss << "\tFound: " << d.name << "(" << d.address << ")" << std::endl;
-      Debug::Log(ss.str());
+      {
+        std::stringstream ss;
+        ss << "\tFound: " << d.name << "(" << d.address << ")" << std::endl;
+        Debug::Log(ss.str());
+      }
       if (d.name.compare("RoukaVici") == 0)
         {
           // int channelId = inq->SdpSearch(d.address);
@@ -67,9 +60,11 @@ int BTManager::FindDevice()
               Debug::Err("Failed to get device channel ID");
               return 2;
             }
-          std::stringstream ss;
-          ss << " Channel ID: " << channelId << std::endl;
-          Debug::Log(ss.str());
+          {
+            std::stringstream ss;
+            ss << " Channel ID: " << channelId << std::endl;
+            Debug::Log(ss.str());
+          }
           port = BTSerialPortBinding::Create(d.address, channelId);
           try {
             port->Connect();
@@ -84,7 +79,7 @@ int BTManager::FindDevice()
             }
             return 0;
           }
-          catch (BluetoothException& e)
+          catch (BluetoothException&)
             {
               std::stringstream ss;
               ss << "Channel ID: " << channelId;
@@ -93,7 +88,6 @@ int BTManager::FindDevice()
               port = nullptr;
               return 3;
             }
-          return 0;
         }
     }
   return 1;
@@ -121,7 +115,7 @@ int BTManager::Write(const char* msg, int length) const
   try {
     port->Write(msg, length);
   }
-  catch (BluetoothException& e) {
+  catch (BluetoothException&) {
       return 2;
   }
   return 0;
@@ -129,7 +123,7 @@ int BTManager::Write(const char* msg, int length) const
 
 int BTManager::Write(const std::string& msg) const
 {
-  return this->Write(msg.c_str(), msg.length());
+  return this->Write(msg.c_str(), static_cast<int32_t>(msg.length()));
 }
 
 int BTManager::Read(char buffer[], int len) const
@@ -139,7 +133,7 @@ int BTManager::Read(char buffer[], int len) const
   try {
     return port->Read(buffer, len);
   }
-  catch (BluetoothException& e) {
+  catch (BluetoothException&) {
     Debug::Err("Failed to read from arduino");
     return -1;
   }

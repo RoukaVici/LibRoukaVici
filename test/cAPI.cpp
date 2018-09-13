@@ -1,5 +1,7 @@
+#include <iostream>
 # include <dlfcn.h>
 # include <unistd.h>
+
 # define GETFUNC(funchandle, lib, funcName) (*(void**)(&funchandle) = dlsym(lib, funcName))
 
 int testVibrate(void* lib)
@@ -27,6 +29,7 @@ int main(int argc, const char** argv)
 
   if (!lib)
     {
+      std::cerr << "Could not open library" << std::endl;
       return 2;
     }
   GETFUNC(initrvici, lib, "InitRVici");
@@ -35,6 +38,7 @@ int main(int argc, const char** argv)
   // Init the lib
   initrvici();
   if (testVibrate(lib)) {
+      std::cerr << "Vibration order failed" << std::endl;
     ret = 1;
   }
   stoprvici();
