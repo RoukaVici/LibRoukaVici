@@ -34,7 +34,6 @@ int RawManager::Write(const char* msg, int length) const
   return 0;
 }
 
-
 bool RawManager::HasDevice() const
 {
   return true; // No actuall device to connect to, this is always true
@@ -42,7 +41,7 @@ bool RawManager::HasDevice() const
 
 int RawManager::Vibrate(char motor, char intensity) const
 {
-  this->Write(Packet::v1(motor, intensity));
+  return this->Write(Packet::v1(motor, intensity));
 }
 
 DeviceManager* RawManager::create()

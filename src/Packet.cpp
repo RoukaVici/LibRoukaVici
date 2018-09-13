@@ -1,10 +1,11 @@
 #include "Packet.hh"
+#include <iostream>
 
 /// This function adds the header to a data packet
 static const std::string vibrationHeader(char apiNumber, const std::string& data)
 {
       const char buff[3] = {'R', apiNumber, static_cast<char>(data.length())};
-      return std::string(buff) + data;
+      return std::string(buff, 3) + data;
 }
 
 const std::string Packet::v0(const char motor, const char intensity)
@@ -25,7 +26,7 @@ const std::string Packet::v1(const char motor, const char intensity)
 const std::string Packet::Handshake(char min, char max)
 {
       const char buff[3] = {'H', min, max};
-      return std::string(buff);
+      return std::string(buff, 3);
 }
 
 char Packet::HandshakeResult(char buffer[], char minApi, char maxApi)

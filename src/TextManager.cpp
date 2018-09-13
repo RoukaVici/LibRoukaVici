@@ -19,7 +19,7 @@ static std::string string_to_hex(const std::string& input)
     output.reserve(4 * len);
     for (size_t i = 0; i < len; ++i)
     {
-        const char c = input[i];
+        const unsigned char c = input[i];
         output.push_back('\\');
         output.push_back('x');
         output.push_back(lut[c >> 4]);
