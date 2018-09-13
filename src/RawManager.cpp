@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Packet.hh"
 #include "RawManager.hh"
 
 RawManager::RawManager()
@@ -8,7 +9,8 @@ RawManager::RawManager()
 
 int RawManager::FindDevice()
 {
-  return 0; // Always succeed
+  this->Write(Packet::Handshake(1, 1));
+  return 0; // Always succeed, we can't read the result
 }
 
 int RawManager::Write(const std::string& msg) const
@@ -40,8 +42,7 @@ bool RawManager::HasDevice() const
 
 int RawManager::Vibrate(char motor, char intensity) const
 {
-  char msg[2] = {motor, intensity};
-  return this->Write(msg, 2);
+  this->Write(Packet::v1(motor, intensity));
 }
 
 DeviceManager* RawManager::create()

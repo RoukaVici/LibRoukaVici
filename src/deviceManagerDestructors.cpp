@@ -20,11 +20,6 @@ BTManager::~BTManager()
   delete inq;
 }
 
-RawManager::~RawManager()
-{
-}
+RawManager::~RawManager() {}
 
-TextManager::~TextManager()
-{
-}
-
+TextManager::~TextManager(){}
