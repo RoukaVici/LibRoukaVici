@@ -3,7 +3,6 @@
 #include <fstream>
 #include "Debug.hh"
 
-
 static int debugMethod = 0;
 static UnityDebugCallback ucb = nullptr;
 static DebugCallback cb = nullptr;

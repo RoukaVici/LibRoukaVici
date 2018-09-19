@@ -9,8 +9,7 @@ TextManager::TextManager()
   // std::cout.setf( std::ios_base::unitbuf );
 }
 
-
-static std::string string_to_hex(const std::string& input)
+std::string string_to_hex(const std::string& input)
 {
     static const char* const lut = "0123456789ABCDEF";
     size_t len = input.length();

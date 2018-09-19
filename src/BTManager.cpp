@@ -60,23 +60,26 @@ int BTManager::FindDevice()
               Debug::Err("Failed to get device channel ID");
               return 2;
             }
-          {
-            std::stringstream ss;
-            ss << " Channel ID: " << channelId << std::endl;
-            Debug::Log(ss.str());
-          }
           port = BTSerialPortBinding::Create(d.address, channelId);
           try {
             port->Connect();
             this->Write(Packet::Handshake(1, 1));
-            char buffer[2];
-            if (this->Read(buffer, 2) < 2 || Packet::HandshakeResult(buffer, 1, 1) != 1)
-            {
-              Debug::Err("Not enough bytes read");
-              delete port;
-              port = nullptr;
-              return 4;
-            }
+            // TODO: Reading doesn't work for now... for some reason
+            // char buffer[2];
+            // if (this->Read(buffer, 2) < 2)
+            // {
+            //   Debug::Err("Not enough bytes read.");
+            //   delete port;
+            //   port = nullptr;
+            //   return 4;
+            // }
+            // if (Packet::HandshakeResult(buffer, 1, 1) != 1)
+            // {
+            //   Debug::Err("Handshake failed");
+            //   delete port;
+            //   port = nullptr;
+            //   return 4;
+            // }
             return 0;
           }
           catch (BluetoothException&)

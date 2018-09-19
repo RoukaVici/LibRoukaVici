@@ -61,7 +61,7 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     message(STATUS "Setting Clang flags")
     # Activate all clang warnings except those that don't really affect much
-    target_compile_options(roukavici PRIVATE -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-newline-eof -Wno-padded)
+    target_compile_options(roukavici PRIVATE -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-newline-eof -Wno-padded -Wno-exit-time-destructors -Wno-global-constructors -Wno-constant-conversion)
 endif()
 
 ##
@@ -74,7 +74,7 @@ if (BT)
     message( STATUS "Building with Bluetooth Support")
     target_sources(roukavici PRIVATE src/BTManager.cpp)
     target_include_directories(roukavici PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/bluetooth-serial-port/src)
-    target_compile_definitions(roukavici PRIVATE DBT_COMPILE)
+    target_compile_definitions(roukavici PRIVATE BT_COMPILE)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/bluetooth-serial-port) # Add bluetoothserialport cmake
     target_link_libraries(roukavici bluetoothserialport)
 endif (BT)
@@ -85,7 +85,6 @@ if (VERB)
   MESSAGE( STATUS "Building in verbose mode, get used to me talking")
   target_compile_definitions(roukavici PRIVATE ROUKAVERBOSE)
 endif(VERB)
-
 
 option (TESTS "Build test binaries" OFF)
 ## Options if true

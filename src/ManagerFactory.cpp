@@ -55,7 +55,7 @@ DeviceManager* ManagerFactory::get(const std::string& name)
     {
       std::stringstream ss;
       ss << "No Manager by the name of:" << name;
-      Debug::Log(ss.str());
+      Debug::Err(ss.str());
 
       return nullptr;
     }

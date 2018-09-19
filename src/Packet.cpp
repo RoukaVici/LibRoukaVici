@@ -1,5 +1,6 @@
+#include <sstream>
 #include "Packet.hh"
-#include <iostream>
+#include "Debug.hh"
 
 /// This function adds the header to a data packet
 static const std::string vibrationHeader(char apiNumber, const std::string& data)
