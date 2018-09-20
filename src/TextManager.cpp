@@ -9,7 +9,7 @@ TextManager::TextManager()
   // std::cout.setf( std::ios_base::unitbuf );
 }
 
-std::string string_to_hex(const std::string& input)
+static std::string string_to_hex(const std::string& input)
 {
     static const char* const lut = "0123456789ABCDEF";
     size_t len = input.length();
@@ -18,7 +18,7 @@ std::string string_to_hex(const std::string& input)
     output.reserve(4 * len);
     for (size_t i = 0; i < len; ++i)
     {
-        const unsigned char c = input[i];
+        const unsigned char c = static_cast<unsigned char>(input[i]);
         output.push_back('\\');
         output.push_back('x');
         output.push_back(lut[c >> 4]);
