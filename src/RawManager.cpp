@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Packet.hh"
 #include "RawManager.hh"
 
 RawManager::RawManager()
@@ -6,18 +7,15 @@ RawManager::RawManager()
   std::cout.setf( std::ios_base::unitbuf );
 }
 
-RawManager::~RawManager()
-{
-}
-
 int RawManager::FindDevice()
 {
-  return 0; // Always succeed
+  this->Write(Packet::Handshake(1, 1));
+  return 0; // Always succeed, we can't read the result
 }
 
 int RawManager::Write(const std::string& msg) const
 {
-  return this->Write(msg.c_str(), msg.length());
+  return this->Write(msg.c_str(), static_cast<int32_t>(msg.length()));
 }
 int RawManager::Read(char* buffer, int length) const
 {
@@ -36,7 +34,6 @@ int RawManager::Write(const char* msg, int length) const
   return 0;
 }
 
-
 bool RawManager::HasDevice() const
 {
   return true; // No actuall device to connect to, this is always true
@@ -44,8 +41,7 @@ bool RawManager::HasDevice() const
 
 int RawManager::Vibrate(char motor, char intensity) const
 {
-  char msg[2] = {motor, intensity};
-  return this->Write(msg, 2);
+  return this->Write(Packet::v1(motor, intensity));
 }
 
 DeviceManager* RawManager::create()

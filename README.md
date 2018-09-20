@@ -75,7 +75,7 @@ int main() {
 }
 ```
 
-The file `test/maincpp.cpp` very similarly shows how to establish a connection to the device in Bluetooth using the CPP object directly. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici object.
+The file `test/Groups.cpp` very similarly shows how to establish a connection to the device in Bluetooth using the CPP object directly. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici object.
 
 ## Other Languages: The C API
 If your language can import C functions through a dynamic library, then you can use RoukaVici through its C API. You might want to use the `RoukaViciAPI.h` header for reference. It has all exposed library functions. From there, you can call these functions by name by using whatever dynamic library system your language and OS use. Here's a snippet of how to do this on Linux, in C:
@@ -112,7 +112,7 @@ int main()
 
 This method exposes no more or less functions than using the C++ one. The C API is a perfect mirror of every public method in the `RoukaVici` class, and is simply less convenient to use. In the rest of this document, the `RoukaVici.X` method will simply refer to the method named `X` of the RoukaVici lib, which you can import directly from the shared object.
 
-`test/cAPI.cpp` has a working example of how to do this __on Linux/Mac__ in C/C++.
+`test/cAPI.cpp` has a working example of how to do this __on Linux/Mac__ in C/C++. The windows version is `test/cAPI_win.cpp`.
 
 # How does it work?
 ## Flow

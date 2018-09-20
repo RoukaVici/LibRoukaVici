@@ -2,71 +2,97 @@
 #include "roukavici_export.h"
 #include "RoukaVici.hh"
 #include "Debug.hh"
+#ifndef _WIN32
+# include "RoukaViciAPI.h"
+#endif
 
-#define RV(x) static_cast<RoukaVici*>(x)
+static RoukaVici *rv = nullptr;
 
 extern "C"
 {
-  ROUKAVICI_EXPORT void* InitRVici()
+  ROUKAVICI_EXPORT int InitRVici()
   {
     Debug::Log("Starting library");
-    return static_cast<void*>(new RoukaVici());
+    rv = new RoukaVici();
+    return rv->Status();
   }
 
-  ROUKAVICI_EXPORT int FindDevice(void* handle)
+  ROUKAVICI_EXPORT int FindDevice()
   {
-    return RV(handle)->FindDevice();
+    if (rv == nullptr)
+      return -1;
+    return rv->FindDevice();
   }
 
-  ROUKAVICI_EXPORT int Status(void* handle)
+  ROUKAVICI_EXPORT int Status()
   {
-    return RV(handle)->Status();
+    if (rv == nullptr)
+      return -1;
+    return rv->Status();
   }
 
-  ROUKAVICI_EXPORT void StopRVici(void* handle)
+  ROUKAVICI_EXPORT void StopRVici()
   {
     Debug::Log("Stopping library...");
-    delete RV(handle);
+    if (rv != nullptr)
+      delete rv;
     Debug::Log("Library stopped.");
   }
 
- ROUKAVICI_EXPORT int Write(void* handle, const char * const msg)
+ ROUKAVICI_EXPORT int Write(const char * const msg)
   {
+    if (rv == nullptr)
+      return -1;
     const std::string cppmsg(msg);
-    return RV(handle)->Write(cppmsg);
+    return rv->Write(cppmsg);
   }
 
-  ROUKAVICI_EXPORT int Vibrate(void* handle, char motor, char intensity)
+  ROUKAVICI_EXPORT int Vibrate(char motor, char intensity)
   {
-    return RV(handle)->Vibrate(motor, intensity);
+    if (rv == nullptr)
+      return -1;
+
+    return rv->Vibrate(motor, intensity);
   }
 
-  ROUKAVICI_EXPORT int NewGroup(void* handle, const char * const name)
+  ROUKAVICI_EXPORT int NewGroup(const char * const name)
   {
+    if (rv == nullptr)
+      return -1;
+
     const std::string cppname(name);
-    return RV(handle)->NewGroup(cppname);
+    return rv->NewGroup(cppname);
   }
 
-  ROUKAVICI_EXPORT int AddToGroup(void* handle, const char * const name, char motor)
+  ROUKAVICI_EXPORT int AddToGroup(const char * const name, char motor)
   {
+    if (rv == nullptr)
+      return -1;
+
     const std::string cppname(name);
-    return RV(handle)->AddToGroup(cppname, motor);
+    return rv->AddToGroup(cppname, motor);
   }
 
-  ROUKAVICI_EXPORT int RmFromGroup(void* handle, const char * const name, char motor)
+  ROUKAVICI_EXPORT int RmFromGroup(const char * const name, char motor)
   {
+    if (rv == nullptr)
+      return -1;
     const std::string cppname(name);
-    return RV(handle)->RmFromGroup(cppname, motor);
+    return rv->RmFromGroup(cppname, motor);
   }
 
-  ROUKAVICI_EXPORT int VibrateGroup(void* handle, const char* const name, char intensity)
+  ROUKAVICI_EXPORT int VibrateGroup(const char* const name, char intensity)
   {
+    if (rv == nullptr)
+      return -1;
     const std::string cppname(name);
-    return RV(handle)->VibrateGroup(cppname, intensity);
+    return rv->VibrateGroup(cppname, intensity);
   }
 
-  ROUKAVICI_EXPORT int ChangeDeviceManager(void* handle, const int idx)
+  ROUKAVICI_EXPORT int ChangeDeviceManager(const int idx)
   {
+    if (rv == nullptr)
+      return -1;
     std::string name;
     switch (idx) {
       case 0:
@@ -81,7 +107,7 @@ extern "C"
       default:
         return -2;
     }
-    return RV(handle)->ChangeDeviceManager(name);
+    return rv->ChangeDeviceManager(name);
   }
 
   ROUKAVICI_EXPORT void SetLogMode(const int mode)
@@ -110,4 +136,5 @@ extern "C"
   {
     RoukaVici::RegisterUnityDebugCallback(cb);
   }
+
 }

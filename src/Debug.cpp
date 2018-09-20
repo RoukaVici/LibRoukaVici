@@ -3,16 +3,10 @@
 #include <fstream>
 #include "Debug.hh"
 
-// const
-const std::string logPrefix = "[LibRV.LOG] ";
-const std::string errPrefix = "[LibRV.ERR] ";
-
-// Local variables
-int debugMethod = 0;
-std::string outputFileName = "./RoukaViciLog.txt";
-
-UnityDebugCallback ucb = nullptr;
-DebugCallback cb = nullptr;
+static int debugMethod = 0;
+static UnityDebugCallback ucb = nullptr;
+static DebugCallback cb = nullptr;
+static std::string outputFileName = "./RoukaViciLog.txt";
 
 int Debug::GetLogMode()
 {
@@ -47,25 +41,24 @@ void Debug::RegisterCallback(DebugCallback callback)
     }
 }
 
-
-void stdOut(const std::string& msg)
+static void stdOut(const std::string& msg)
 {
   std::cout << msg << std::endl;
 }
 
-void stdErr(const std::string& msg)
+static void stdErr(const std::string& msg)
 {
   std::cerr << msg << std::endl;
 }
 
-void fileLog(const std::string& msg)
+static void fileLog(const std::string& msg)
 {
   std::ofstream file;
   file.open(outputFileName, std::ios_base::app);
   file << msg << std::endl;
 }
 
-void callback(const std::string& msg)
+static void callback(const std::string& msg)
 {
   if (cb)
     {
@@ -81,7 +74,7 @@ void Debug::RegisterUnityCallback(UnityDebugCallback callback)
     }
 }
 
-void  unityCallback(const std::string& msg)
+static void  unityCallback(const std::string& msg)
 {
   if (ucb)
     {
@@ -91,7 +84,7 @@ void  unityCallback(const std::string& msg)
 
 void Debug::Log(const std::string& msg, bool force)
 {
-  const std::string logMsg = logPrefix + msg;
+  const std::string logMsg = "[LibRV.LOG] " + msg;
   // If we're not in Verbose mode, check if the message should be forced through, otherwise ignore it
   // If we're in verbose mode, it goes through either way
 #ifndef ROUKAVERBOSE
@@ -112,7 +105,7 @@ void Debug::Log(const std::string& msg, bool force)
 // Err writes to std::cerr, not std::cout
 void Debug::Err(const std::string& msg)
 {
-  const std::string errMsg = errPrefix + msg;
+  const std::string errMsg = "[LibRV.ERR] " + msg;
   switch (debugMethod) {
   case 0: stdErr(errMsg); break;
   case 1: fileLog(errMsg); break;
