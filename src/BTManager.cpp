@@ -82,11 +82,12 @@ int BTManager::FindDevice()
             // }
             return 0;
           }
-          catch (BluetoothException&)
+          catch (BluetoothException& e)
             {
               std::stringstream ss;
-              ss << "Channel ID: " << channelId;
-              Debug::Log(ss.str(), true);
+              ss << "Bluetooth exception, channel ID: " << channelId;
+              ss << " || " << e.what();
+              Debug::Err(ss.str());
               delete port;
               port = nullptr;
               return 3;
