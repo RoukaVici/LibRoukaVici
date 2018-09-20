@@ -67,7 +67,7 @@ after_success:
 
   # UNREAL
   - git clone git://$REPO_UNREAL
-  - cd Asset-Unreal
+  - cd Asset-Unreal-Engine
   - git checkout -b $BRANCH
   - git pull origin/travis
   # COPY HERE FILES FROM BUILD
