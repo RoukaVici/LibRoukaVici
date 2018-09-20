@@ -2,7 +2,9 @@
 #include "roukavici_export.h"
 #include "RoukaVici.hh"
 #include "Debug.hh"
-#include "RoukaViciAPI.h"
+#ifndef _WIN32
+# include "RoukaViciAPI.h"
+#endif
 
 static RoukaVici *rv = nullptr;
 
