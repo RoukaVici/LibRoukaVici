@@ -1,7 +1,8 @@
-// Tests calllback capability
+// Tests a C++ thread with C++ api, with data started & deleted in the same thread
 
-#include <string.h>
+#include <thread>
 #include "RoukaVici.hh"
+#include <string.h>
 
 int result = 1;
 const char* err = "[LibRV.ERR]";
@@ -18,19 +19,18 @@ void callbackFunc(const char* str)
         result = 0;
 }
 
-int main()
+void   test1()
 {
+    RoukaVici* rv = new RoukaVici();
+    if (rv->Vibrate(0, 255))
+        result = -1;
+    delete rv;
+}
+
+int main() {
     RoukaVici::SetLogMode(2);
     RoukaVici::RegisterDebugCallback(&callbackFunc);
-    RoukaVici *rv = new RoukaVici();
-    if (result < 0)
-    {
-        result = -2;
-    }
-    else if (rv->Vibrate(0, 255))
-    {
-        result = -3;
-    }
-    delete rv;
+    std::thread first(test1);
+    first.join();
     return result;
 }
