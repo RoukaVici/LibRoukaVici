@@ -119,5 +119,6 @@ void RoukaVici::RegisterDebugCallback(DebugCallback callback)
 
 void RoukaVici::RegisterUnityDebugCallback(DebugCallback callback)
 {
+  Debug::Log("UnityDebugCallback is deprecated and will be removed in later versions. Please use RegisterCallback instead", true);
   Debug::RegisterCallback(callback);
 }
