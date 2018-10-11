@@ -120,7 +120,7 @@ public:
   /**
    * callback: void (*function)(const char * message);
    */
-  static void RegisterUnityDebugCallback(UnityDebugCallback callback);
+  static void RegisterUnityDebugCallback(DebugCallback callback);
 
 private:
   ManagerFactory                *mf;

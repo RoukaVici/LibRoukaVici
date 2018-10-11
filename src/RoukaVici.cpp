@@ -117,7 +117,7 @@ void RoukaVici::RegisterDebugCallback(DebugCallback callback)
   Debug::RegisterCallback(callback);
 }
 
-void RoukaVici::RegisterUnityDebugCallback(UnityDebugCallback callback)
+void RoukaVici::RegisterUnityDebugCallback(DebugCallback callback)
 {
-  Debug::RegisterUnityCallback(callback);
+  Debug::RegisterCallback(callback);
 }
