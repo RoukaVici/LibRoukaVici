@@ -34,6 +34,7 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Debug.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaViciAPI.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaVici.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaLock.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GroupManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ManagerFactory.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/TextManager.cpp

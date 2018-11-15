@@ -20,14 +20,15 @@ void Debug::SetLogMode(const int method)
     case 1: debugMethod = 1; break;
     case 2: debugMethod = 2; break;
 
-    case 3: debugMethod = 3; break;
+    case 3: debugMethod = 2; break;
     case 4: debugMethod = 4; break;
 
     default: debugMethod = 0; break;
     }
   if (method == 3)
   {
-    Debug::Log("UnityDebug mode is deprecated and will be removed in later versions. Please use debugMethod=2 (regular callback) instead", true);
+    Debug::Log("UnityDebug mode is deprecated and will be removed in later versions. "
+    "Please use debugMethod=2 (regular callback) instead", true);
   }
 }
 
@@ -83,7 +84,6 @@ void Debug::Log(const std::string& msg, bool force)
   case 0: stdOut(logMsg); break;
   case 1: fileLog(logMsg); break;
   case 2: callback(logMsg); break;
-  case 3: callback(logMsg); break;
   case 4: return;
   }
 }
@@ -97,7 +97,6 @@ void Debug::Err(const std::string& msg)
   case 0: stdErr(errMsg); break;
   case 1: fileLog(errMsg); break;
   case 2: callback(errMsg); break;
-  case 3: callback(errMsg); break;
   case 4: return;
   }
 }
