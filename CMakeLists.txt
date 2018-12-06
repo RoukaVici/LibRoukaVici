@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 # Define project name & version
-set(PROJECT_VERSION "1.1.0")
+set(PROJECT_VERSION "1.2.0")
 set (CMAKE_CXX_STANDARD 11)
 
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
@@ -34,6 +34,7 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Debug.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaViciAPI.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaVici.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RoukaLock.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GroupManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ManagerFactory.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/TextManager.cpp
@@ -109,9 +110,9 @@ if (TESTS)
         add_executable(threadTest_1 ./test/Thread1.cpp)
         target_link_libraries(threadTest_1 ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} roukavici)
         add_test(NAME "Thread_1" COMMAND threadTest_1)
-        add_executable(threadTest_3 ./test/Thread3.cpp)
-        target_link_libraries(threadTest_3 ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} roukavici)
-        add_test(NAME "Thread_3" COMMAND threadTest_3)
+        add_executable(threadTest_2 ./test/Thread2.cpp)
+        target_link_libraries(threadTest_2 ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} roukavici)
+        add_test(NAME "Thread_2" COMMAND threadTest_2)
     endif()
 endif(TESTS)
 

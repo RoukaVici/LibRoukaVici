@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
-#include <map>
 #include "roukavici_export.h"
 #include "DebugCallback.h"
 
 class ManagerFactory;
 class DeviceManager;
 class GroupManager;
+class RoukaLock;
 
 /// This class contains all the exposed public API methods
 /**
@@ -120,10 +120,11 @@ public:
   /**
    * callback: void (*function)(const char * message);
    */
-  static void RegisterUnityDebugCallback(UnityDebugCallback callback);
+  static void RegisterUnityDebugCallback(DebugCallback callback);
 
 private:
   ManagerFactory                *mf;
   DeviceManager                 *dm;
   GroupManager                  *grps;
+  RoukaLock                     *lock;
 };

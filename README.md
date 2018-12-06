@@ -140,7 +140,6 @@ RoukaVici has multiple modes of logging available. You can change these by calli
 - 0: Standard output
 - 1: File
 - 2: Callback
-- 3: Unity callback
 - 4: Silent
 
 **Note**: RoukaVici will be silent (except for errors) if it is compiled without the VERBOSE flag, see compilation flags section!
@@ -155,12 +154,6 @@ You can ask RoukaVici to log to file instead. By default, RoukaVici will log to 
 If you enable this, RoukaVici will log its messages to a callback function of your choice. You pass the function to RoukaVici by using the `RoukaVici.SetDebugCallback` function. The function should be of the form:
 ```C
 void function(const char* message);
-```
-
-### Unity Callback (3)
-Unity declares its functions differently, so if you're in Unity, you'll have to use this mode. It's exactly the same as `Callback`, but you need to call `RoukaVici.SetUnityDebugCallback` instead to set the callback function. The typedef you use for the parameter should be:
-```CS
-private delegate void DebugCallback(string message);
 ```
 
 ### Silent (4)

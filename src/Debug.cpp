@@ -4,7 +4,6 @@
 #include "Debug.hh"
 
 static int debugMethod = 0;
-static UnityDebugCallback ucb = nullptr;
 static DebugCallback cb = nullptr;
 static std::string outputFileName = "./RoukaViciLog.txt";
 
@@ -21,11 +20,16 @@ void Debug::SetLogMode(const int method)
     case 1: debugMethod = 1; break;
     case 2: debugMethod = 2; break;
 
-    case 3: debugMethod = 3; break;
+    case 3: debugMethod = 2; break;
     case 4: debugMethod = 4; break;
 
     default: debugMethod = 0; break;
     }
+  if (method == 3)
+  {
+    Debug::Log("UnityDebug mode is deprecated and will be removed in later versions. "
+    "Please use debugMethod=2 (regular callback) instead", true);
+  }
 }
 
 void Debug::SetLogFile(const std::string& name)
@@ -66,22 +70,6 @@ static void callback(const std::string& msg)
     }
 }
 
-void Debug::RegisterUnityCallback(UnityDebugCallback callback)
-{
-  if (callback)
-    {
-      ucb = callback;
-    }
-}
-
-static void  unityCallback(const std::string& msg)
-{
-  if (ucb)
-    {
-      ucb(msg.c_str());
-    }
-}
-
 void Debug::Log(const std::string& msg, bool force)
 {
   const std::string logMsg = "[LibRV.LOG] " + msg;
@@ -96,7 +84,6 @@ void Debug::Log(const std::string& msg, bool force)
   case 0: stdOut(logMsg); break;
   case 1: fileLog(logMsg); break;
   case 2: callback(logMsg); break;
-  case 3: unityCallback(logMsg); break;
   case 4: return;
   }
 }
@@ -110,7 +97,6 @@ void Debug::Err(const std::string& msg)
   case 0: stdErr(errMsg); break;
   case 1: fileLog(errMsg); break;
   case 2: callback(errMsg); break;
-  case 3: unityCallback(errMsg); break;
   case 4: return;
   }
 }

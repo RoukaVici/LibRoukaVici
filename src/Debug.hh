@@ -38,11 +38,6 @@ namespace Debug {
    */
   void  RegisterCallback(DebugCallback callback);
   /// Sets the Unity callback function
-  /**
-   * function should return void and take const char* as parameter
-   * Used when logging in unity callback mode
-   */
-  void  RegisterUnityCallback(UnityDebugCallback callback);
 
   /// Use this function to write a log-level message
   void  Log(const std::string& msg, bool force = false);

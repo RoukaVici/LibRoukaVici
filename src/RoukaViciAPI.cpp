@@ -132,9 +132,8 @@ extern "C"
     RoukaVici::RegisterDebugCallback(cb);
   }
 
-  ROUKAVICI_EXPORT void RegisterUnityDebugCallback(UnityDebugCallback cb)
+  ROUKAVICI_EXPORT void RegisterUnityDebugCallback(DebugCallback cb)
   {
     RoukaVici::RegisterUnityDebugCallback(cb);
   }
-
 }

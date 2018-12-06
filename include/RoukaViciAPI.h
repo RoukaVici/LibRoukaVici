@@ -73,5 +73,5 @@ extern "C"
     void RegisterDebugCallback(DebugCallback cb);
 
     /// Register the Unity debug function.
-    void RegisterUnityDebugCallback(UnityDebugCallback cb);
+    void RegisterUnityDebugCallback(DebugCallback cb);
 }
