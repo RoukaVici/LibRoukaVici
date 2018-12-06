@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 # Define project name & version
-set(PROJECT_VERSION "1.2.0")
+set(PROJECT_VERSION "1.3.0")
 set (CMAKE_CXX_STANDARD 11)
 
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
