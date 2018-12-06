@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 # Define project name & version
-set(PROJECT_VERSION "1.2.0")
+set(PROJECT_VERSION "1.3.0")
 set (CMAKE_CXX_STANDARD 11)
 
 project(roukavici VERSION ${PROJECT_VERSION} LANGUAGES CXX)
@@ -113,6 +113,9 @@ if (TESTS)
         add_executable(threadTest_2 ./test/Thread2.cpp)
         target_link_libraries(threadTest_2 ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} roukavici)
         add_test(NAME "Thread_2" COMMAND threadTest_2)
+        add_executable(threadTest_3 ./test/Thread3.cpp)
+        target_link_libraries(threadTest_3 ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} roukavici)
+        add_test(NAME "Thread_3" COMMAND threadTest_3)
     endif()
 endif(TESTS)
 

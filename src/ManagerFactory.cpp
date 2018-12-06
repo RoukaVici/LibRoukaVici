@@ -5,17 +5,10 @@
 #include "TextManager.hh"
 #include "RawManager.hh"
 // If the user wants to use libusb
-#ifdef LIBUSB_COMPILE
-# include "USBManager.hh"
-#endif
 
 // If the user wants to use bluetooth
 #ifdef BT_COMPILE
 # include "BTManager.hh"
-#endif
-
-#ifdef TCP_COMPILE
-# include "TCPManager.hh"
 #endif
 
 ManagerFactory::ManagerFactory()
@@ -26,20 +19,12 @@ ManagerFactory::ManagerFactory()
   managers["TextManager"] = TextManager::create;
   managers["RawManager"] = RawManager::create;
   // If the user asked to compile with an option, we add this option to the factory
-#ifdef LIBUSB_COMPILE
-  managers["USBManager"] = USBManager::create;
-  ss << " USBManager";
-#endif
 
 #ifdef BT_COMPILE
   managers["BTManager"] = BTManager::create;
   ss << " BTManager";
 #endif
 
-#ifdef TCP_COMPILE
-  managers["TCPManager"] = TCPManager::create;
-  ss << " TCPManager";
-#endif
   Debug::Log(ss.str());
 }
 
