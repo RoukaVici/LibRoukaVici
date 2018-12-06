@@ -24,7 +24,7 @@ int main()
     delete rv;
     return 0;
 error:
-    std::cerr << "Test #" << testNbr << " failed" << std::endl;
+    // std::cerr << "Test #" << testNbr << " failed" << std::endl;
     delete rv;
     return 1;
 }

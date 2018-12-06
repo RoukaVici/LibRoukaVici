@@ -29,7 +29,6 @@ static std::string string_to_hex(const std::string& input)
 
 int TextManager::FindDevice()
 {
-  std::cout << "Handshake in APIv1: " + string_to_hex(Packet::Handshake(1, 1)) << std::endl;
   return 0; // Always succeed
 }
 
